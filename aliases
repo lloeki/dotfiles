@@ -1,0 +1,13 @@
+## .aliases
+
+case "$(uname)" in
+    "Darwin")
+        alias top="top -o cpu -s 5"
+        ;;
+    "Linux")
+        alias ls="ls --color"
+        ;;
+esac
+
+alias ll="ls -l"
+

@@ -15,7 +15,5 @@ shopt -s cdspell
 # turn off bells
 set bell-style none
 
-#alias ls="ls --color"
-alias ll="ls -l"
-alias top="top -o cpu -s 5"
+source ~/.aliases
 
