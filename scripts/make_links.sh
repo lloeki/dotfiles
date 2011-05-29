@@ -2,7 +2,7 @@
 
 for dotfile in *; do
     case "${dotfile}" in
-        scripts|Makefile)
+        scripts|Makefile|*.md)
             # NOOP
             ;;
         *)
