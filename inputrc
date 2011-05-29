@@ -1,0 +1,28 @@
+# unicode input
+#set meta-flag on
+#set input-meta on
+#set output-meta on
+#set convert-meta off
+
+# useful with XDG/MacOSX folders
+set completion-ignore-case on
+#set show-all-if-ambiguous
+
+# Delete
+#"\e[3~": delete-char
+# Home
+#"\e[1~": beginning-of-line
+# End
+#"\e[4~": end-of-line
+
+# option+left/right
+#"\e[1;3D":backward-word
+#"\e[1;3C":forward-word
+
+# control+left/right
+#"\e[1;5D":beginning-of-line
+#"\e[1;5C":end-of-line
+
+# control+left/right
+"\e[1;5D":backward-word
+"\e[1;5C":forward-word

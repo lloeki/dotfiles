@@ -1,0 +1,11 @@
+startup_message off
+
+hardstatus on
+hardstatus alwayslastline
+#hardstatus string "%3n %t%? @%u%?%? [%h]%?%=%c"
+hardstatus string '%{= kW}%-Lw%{= kY}%50>%n%f* %t%{= kW}%+Lw%< %{= kG}%-=%D %d %M %Y %c:%s%{-}' 
+
+defscrollback 1024
+
+vbell off
+
