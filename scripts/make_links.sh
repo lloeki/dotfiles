@@ -2,7 +2,8 @@
 
 for dotfile in *; do
     if [ "${dotfile}" != "scripts" ]; then
-        echo ln -sf "$(pwd)/${dotfile}" "~/.${dotfile}"
+        echo "linking ${dotfile}"
+        ln -sf "$(pwd)/${dotfile}" "$HOME/.${dotfile}"
     fi
 done
 
