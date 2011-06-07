@@ -8,19 +8,26 @@ export LC_ALL="en_US.UTF-8"
 #export PKG_CONFIG_PATH=/Library/Frameworks/Mono.framework/Versions/Current/lib/pkgconfig:$PKG_CONFIG_PATH
 
 # user path
-export PATH=~/.local/bin:$PATH
+PATH=~/.local/bin:$PATH
 
 # local path
-export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # node.js path
-export NODE_PATH=/usr/local/lib/node
+NODE_PATH=/usr/local/lib/node
+export NODE_PATH
+
+# Ruby Gems
+test -d /var/lib/gems/1.8/bin && PATH="$PATH:/var/lib/gems/1.8/bin"
+export PATH
 
 # default editor
-export EDITOR=vim
-export VISUAL=vim
+EDITOR=vim
+VISUAL=vim
+export EDITOR VISUAL
 
 # add some color
-export GREP_OPTIONS='--color=auto'
-export CLICOLOR=1;
+GREP_OPTIONS='--color=auto'
+CLICOLOR=1;
+export GREP_OPTIONS CLICOLOR
 
