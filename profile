@@ -18,8 +18,8 @@ NODE_PATH=/usr/local/lib/node
 export NODE_PATH
 
 # Ruby Gems
-test -d /var/lib/gems/1.8/bin && PATH="$PATH:/var/lib/gems/1.8/bin"
-export PATH
+test -d /var/lib/gems/1.8/bin && PATH="$PATH:/var/lib/gems/1.8/bin" RUBYOPT="-rubygems"
+export PATH RUBYOPT
 
 # default editor
 EDITOR=vim
