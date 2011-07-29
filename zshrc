@@ -4,6 +4,24 @@ autoload -Uz promptinit
 promptinit
 prompt walters
 
+# Set up working dir change event
+chpwd() {
+    [[ -o interactive ]] || return
+    # Bubble information up to the terminal
+    case $TERM_PROGRAM in
+        Apple_Terminal)
+            local SEARCH=' '
+            local REPLACE='%20'
+            local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
+            printf '\e]7;%s\a' "$PWD_URL"
+            ;;
+        *)
+            # NOOP
+            ;;
+    esac
+}
+chpwd # call in right now
+
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
 
