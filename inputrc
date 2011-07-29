@@ -38,3 +38,10 @@ set completion-ignore-case on
 "\e[1;5D": beginning-of-line
 "\e[1;5C": end-of-line
 
+# Control+left/right on Terminal.app
+"\e[5D": beginning-of-line
+"\e[5C": end-of-line
+
+# Option+left/right on Terminal.app
+"\ef":forward-word
+"\eb":backward-word
