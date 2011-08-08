@@ -8,19 +8,23 @@ set convert-meta off
 set completion-ignore-case on
 #set show-all-if-ambiguous
 
+# home/end, pageup/dn, ins/del
 "\e[1~": beginning-of-line
 "\e[4~": end-of-line
 "\e[5~": beginning-of-history
 "\e[6~": end-of-history
 "\e[2~": quoted-insert
 "\e[3~": delete-char
-"\e[5C": forward-word
-"\eOC": forward-word
-"\e[5D": backward-word
-"\eOD": backward-word
-"\e\e[C": forward-word
-"\e\e[D": backward-word
-# for rxvt
+
+# arrow combos
+#"\e[5C": forward-word
+#"\eOC": forward-word
+#"\e[5D": backward-word
+#"\eOD": backward-word
+#"\e\e[C": forward-word
+#"\e\e[D": backward-word
+
+# for rxvt, home/end
 "\e[7~": beginning-of-line
 "\e[8~": end-of-line
 # for non RH/Debian xterm, can't hurt for RH/Debian xterm
@@ -30,13 +34,13 @@ set completion-ignore-case on
 "\e[H": beginning-of-line
 "\e[F": end-of-line
 
-# Option+left/right on iTerm2
-"\e[[C":forward-word
-"\e[[D":backward-word
+# Control+left/right
+"\e[1;5D": backward-word
+"\e[1;5C": forward-word
 
-# Control+left/right on iTerm2
-"\e[1;5D": beginning-of-line
-"\e[1;5C": end-of-line
+# Option+left/right
+"\e[1;3D": backward-word
+"\e[1;3C": forward-word
 
 # Control+left/right on Terminal.app
 "\e[5D": beginning-of-line
