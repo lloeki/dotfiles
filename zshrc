@@ -26,22 +26,10 @@ chpwd # call in right now
 bindkey -e
 
 # bind special keys according to readline configuration
-eval "$(sed -n 's/^/bindkey /; s/: / /p' ~/.inputrc)"
+eval "$(sed -n 's/#.*//; s/^/bindkey /; s/: / /p' ~/.inputrc)"
 
-# fix some keys
-#bindkey "\e[1~" beginning-of-line       # Home
-#bindkey "\e[4~" end-of-line             # End
-#bindkey "\e[5~" beginning-of-history    # PageUp
-#bindkey "\e[6~" end-of-history          # PageDown
-#bindkey "\e[2~" quoted-insert           # Ins
-#bindkey "\e[3~" delete-char             # Del
-#bindkey "\e[5C" forward-word            #
-#bindkey "\eOc" emacs-forward-word       # ^Right
-#bindkey "\e[5D" backward-word           #
-#bindkey "\eOd" emacs-backward-word      # ^Left
-#bindkey "\e\e[C" forward-word           #
-#bindkey "\e\e[D" backward-word          #
-#bindkey "\e[Z" reverse-menu-complete    # Shift+Tab
+# bind some more keys, zsh only
+bindkey "\e[Z" reverse-menu-complete    # Shift+Tab
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
