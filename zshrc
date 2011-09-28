@@ -19,6 +19,14 @@ chpwd() {
             # NOOP
             ;;
     esac
+    case $TERM in
+        xterm*)
+            print -Pn "\e]0;%n@%m: %~\a"
+            ;;
+        *)
+            # NOOP
+            ;;
+    esac
 }
 chpwd # call in right now
 
