@@ -24,6 +24,9 @@ export PATH RUBYOPT
 test -d /usr/local/Cellar/ruby/1.9.2-p290/bin && PATH="/usr/local/Cellar/ruby/1.9.2-p290/bin:$PATH"
 export PATH
 
+test -d /usr/local/share/python && PATH="/usr/local/share/python:$PATH"
+
+
 # default editor
 EDITOR=vim
 VISUAL=vim
