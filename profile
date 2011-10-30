@@ -1,7 +1,7 @@
 ## .profile
 
 # set locale
-export LC_ALL="en_US.UTF-8"
+#export LC_ALL="en_US.UTF-8"
 
 # mono paths
 #export MANPATH=/Library/Frameworks/Mono.framework/Versions/Current/share/man:$MANPATH
