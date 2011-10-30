@@ -10,6 +10,9 @@ export LC_ALL="en_US.UTF-8"
 # user path
 PATH=~/.local/bin:$PATH
 
+# python user path
+PATH=~/Library/Python/2.7/bin:$PATH
+
 # local path
 PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
