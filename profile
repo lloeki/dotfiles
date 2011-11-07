@@ -20,15 +20,14 @@ PATH=/usr/local/bin:/usr/local/sbin:$PATH
 NODE_PATH=/usr/local/lib/node
 export NODE_PATH
 
-# Ruby Gems
-test -d /var/lib/gems/1.8/bin && PATH="$PATH:/var/lib/gems/1.8/bin" RUBYOPT="-rubygems"
-export PATH RUBYOPT
-# Gems on OSX homebrew
-test -d /usr/local/Cellar/ruby/1.9.2-p290/bin && PATH="/usr/local/Cellar/ruby/1.9.2-p290/bin:$PATH"
-export PATH
+# rbenv
+eval "$(rbenv init -)"
 
+# homebrew python
 test -d /usr/local/share/python && PATH="/usr/local/share/python:$PATH"
+test -d /usr/local/share/python3 && PATH="/usr/local/share/python3:$PATH"
 
+export PATH
 
 # default editor
 EDITOR=vim
