@@ -48,6 +48,11 @@ HISTFILE=~/.zsh_history
 autoload -Uz compinit
 compinit
 
+# git completion speed boost
+__git_files () { 
+    _wanted files expl 'local files' _files
+}
+
 zstyle ':completion:*' auto-description 'specify: %d'
 zstyle ':completion:*' completer _expand _complete _correct _approximate
 zstyle ':completion:*' format 'Completing %d'
