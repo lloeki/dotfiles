@@ -21,7 +21,7 @@ NODE_PATH=/usr/local/lib/node
 export NODE_PATH
 
 # rbenv
-eval "$(rbenv init -)"
+which rbenv 2>&1 >/dev/null && eval "$(rbenv init -)"
 
 # homebrew python
 test -d /usr/local/share/python && PATH="/usr/local/share/python:$PATH"
