@@ -21,6 +21,7 @@ NODE_PATH=/usr/local/lib/node
 export NODE_PATH
 
 # rbenv
+test -d "$HOME/.rbenv/bin" && PATH="$HOME/.rbenv/bin:$PATH"
 which rbenv 2>&1 >/dev/null && eval "$(rbenv init -)"
 
 # homebrew python
