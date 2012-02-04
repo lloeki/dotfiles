@@ -2,7 +2,6 @@
 
 autoload -Uz promptinit
 promptinit
-prompt walters
 
 # Set up working dir change event
 chpwd() {
@@ -104,6 +103,21 @@ zstyle ':completion:*' verbose true
 
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+autoload -Uz vcs_info
+zstyle ':vcs_info:*' enable git hg
+zstyle ':vcs_info:*' formats "%F{green}%S%f:%F{blue}%b%f:%F{green}%r%f"
+
+precmd() {
+    psvar=()
+  
+    vcs_info
+    RPROMPT="%F{green}%~%f"
+    [[ -n $vcs_info_msg_0_ ]] && RPROMPT="$vcs_info_msg_0_"
+}
+
+PS1="%B%(?..[%?] )%b%n@%m> "
+prompt_opts=(cr percent)
 
 source ~/.aliases
 
