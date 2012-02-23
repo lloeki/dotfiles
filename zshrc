@@ -3,8 +3,8 @@
 autoload -Uz promptinit
 promptinit
 
-# Set up working dir change event
-chpwd() {
+# Set terminal title
+set_term_title() {
     [[ -o interactive ]] || return
     # Bubble information up to the terminal
     case $TERM_PROGRAM in
@@ -19,15 +19,20 @@ chpwd() {
             ;;
     esac
     case $TERM in
-        xterm*)
-            print -Pn "\e]0;%n@%m: %~\a"
+        screen*)
+            #print -Pn "\ek%n@%m: %~\e\\"
+            print -Pn "\e]2;%n@%m: %~\a"
+            ;;
+        xterm*|*rxvt*)
+            print -Pn "\e]2;%n@%m: %~\a"
             ;;
         *)
             # NOOP
             ;;
     esac
 }
-chpwd # call in right now
+
+set_term_title # call in right now
 
 # Use emacs keybindings even if our EDITOR is set to vi
 bindkey -e
@@ -111,13 +116,22 @@ zstyle ':vcs_info:*' formats "%F{green}%S%f:%F{blue}%b%f:%F{green}%r%f"
 precmd() {
     psvar=()
   
+    set_term_title
     vcs_info
     RPROMPT="%F{green}%~%f"
     [[ -n $vcs_info_msg_0_ ]] && RPROMPT="$vcs_info_msg_0_"
 }
 
+preexec() {
+    set_term_title
+}
+
 PS1="%B%(?..[%?] )%b%n@%m> "
 prompt_opts=(cr percent)
+
+chpwd() {
+    set_term_title
+}
 
 source ~/.aliases
 
