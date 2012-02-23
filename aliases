@@ -3,6 +3,10 @@
 case "$(uname)" in
     "Darwin")
         alias top="top -o cpu -s 5"
+        if which gls >/dev/null; then
+            #brew list coreutils | grep '/usr/local/Cellar/coreutils/[^/]*/bin/g' | sed 's/.*\///'
+            alias ls="gls --color=auto"
+        fi
         ;;
     "Linux")
         alias ls="ls --color"
