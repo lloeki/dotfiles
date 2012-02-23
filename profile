@@ -40,3 +40,10 @@ GREP_OPTIONS='--color=auto'
 CLICOLOR=1;
 export GREP_OPTIONS CLICOLOR
 
+# ssh keychain, if no agent set
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    if which keychain 2>&1 >/dev/null; then
+        eval $(keychain --eval --agents ssh -Q --quiet id_rsa)
+    fi
+fi
+
