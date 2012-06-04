@@ -25,8 +25,8 @@ test -d "$HOME/.rbenv/bin" && PATH="$HOME/.rbenv/bin:$PATH"
 which rbenv 2>&1 >/dev/null && eval "$(rbenv init -)"
 
 # homebrew python
-test -d /usr/local/share/python && PATH="/usr/local/share/python:$PATH"
 test -d /usr/local/share/python3 && PATH="/usr/local/share/python3:$PATH"
+test -d /usr/local/share/python && PATH="/usr/local/share/python:$PATH"
 
 export PATH
 
