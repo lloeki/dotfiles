@@ -20,7 +20,7 @@ set_term_title() {
     esac
     case $TERM in
         screen*)
-            #print -Pn "\ek%n@%m: %~\e\\"
+            #print -Pn "\ek%n@%m: %~\e\\" #breaks tmux
             print -Pn "\e]2;%n@%m: %~\a"
             ;;
         xterm*|*rxvt*)
