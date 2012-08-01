@@ -109,22 +109,30 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git hg
-zstyle ':vcs_info:*' formats "%F{green}%S%f:%F{blue}%b%f:%F{green}%r%f"
+zstyle ':vcs_info:*' stagedstr "%F{red}±%f"
+zstyle ':vcs_info:*' unstagedstr "%F{yellow}≠%f"
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' formats "%c%u %F{green}%S%f‹%F{blue}%b%f‹%F{yellow}%r%f"
+zstyle ':vcs_info:*' actionformats "%F{red}%a%f %c%u %F{green}%S%f‹%F{blue}%b%f‹%F{yellow}%r%f"
 
 precmd() {
     psvar=()
-  
+
     set_term_title
     vcs_info
-    RPROMPT="%F{green}%~%f"
-    [[ -n $vcs_info_msg_0_ ]] && RPROMPT="$vcs_info_msg_0_"
+    if [[ -n $vcs_info_msg_0_ ]]; then
+       RPROMPT="$vcs_info_msg_0_"
+    else
+       RPROMPT="%F{green}%~%f"
+    fi
+    RPROMPT="%(?..%B[%?]%b ) $RPROMPT"
 }
 
 preexec() {
     set_term_title
 }
 
-PS1="%B%(?..[%?] )%b%n@%m> "
+PROMPT="%(?.%F{blue}›.%F{red}?)%f%n@%m%F{blue}>%f "
 prompt_opts=(cr percent)
 
 chpwd() {
