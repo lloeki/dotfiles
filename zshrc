@@ -1,7 +1,5 @@
 # Set up the prompt
 
-autoload -Uz promptinit
-promptinit
 
 # Set terminal title
 set_term_title() {
