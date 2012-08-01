@@ -1,4 +1,6 @@
 --type-set
 coffee=.coffee
+--type-set
+less=.less
 --type-add
 ruby=.builder
