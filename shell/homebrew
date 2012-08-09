@@ -1,0 +1,12 @@
+# local path
+PATH=/usr/local/bin:/usr/local/sbin:$PATH
+
+# node.js path
+NODE_PATH=/usr/local/lib/node
+export NODE_PATH
+
+# python
+test -d /usr/local/share/python3 && PATH="/usr/local/share/python3:$PATH"
+test -d /usr/local/share/python && PATH="/usr/local/share/python:$PATH"
+
+export PATH

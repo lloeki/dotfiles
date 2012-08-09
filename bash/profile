@@ -1,8 +1,7 @@
 ## bash_profile
 
 # handle .profile too
-. .profile
-
+. ~/.profile
 
 # homebrew bash autocompletion
 if [ -f `brew --prefix`/etc/bash_completion ]; then

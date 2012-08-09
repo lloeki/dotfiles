@@ -139,5 +139,3 @@ chpwd() {
     set_term_title
 }
 
-source ~/.aliases
-

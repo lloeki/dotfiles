@@ -1,0 +1,4 @@
+# add some color
+GREP_OPTIONS='--color=auto'
+CLICOLOR=1;
+export GREP_OPTIONS CLICOLOR

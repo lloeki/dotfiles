@@ -1,7 +1,7 @@
 ## bashrc
 
 # set a nice prompt
-source ~/.bash_prompt
+source ~/.dotfiles/bash/prompt
 
 # ignore repeated, space-started, and casual commands
 export HISTIGNORE="&:[ ]*:l[sl]:[bf]g:exit"
@@ -15,5 +15,5 @@ shopt -s cdspell
 # turn off bells
 set bell-style none
 
-source ~/.aliases
+#source ~/.aliases
 

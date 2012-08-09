@@ -1,6 +1,7 @@
 #!/bin/sh
 
-for dotfile in *; do
+for file in home/*; do
+    dotfile="$(basename "$file")"
     case "${dotfile}" in
         Makefile|*.md|LICENSE|setup.sh)
             # NOOP
@@ -8,7 +9,7 @@ for dotfile in *; do
         *)
             # link the file with a leading dot
             echo "linking ${dotfile}"
-            ln -sf "$(pwd)/${dotfile}" "$HOME/.${dotfile}"
+            ln -sf "$(pwd)/${file}" "$HOME/.${dotfile}"
             ;;
     esac
 done

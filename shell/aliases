@@ -10,4 +10,5 @@ case "$(uname)" in
 esac
 
 alias ll="ls -l"
+alias tree="tree -C"
 

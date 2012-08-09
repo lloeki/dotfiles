@@ -1,0 +1,4 @@
+# rbenv
+test -d "$HOME/.rbenv/bin" && PATH="$HOME/.rbenv/bin:$PATH"
+which rbenv 2>&1 >/dev/null && eval "$(rbenv init -)"
+export PATH
