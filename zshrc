@@ -51,7 +51,7 @@ autoload -Uz compinit
 compinit
 
 # bundler
-bundled_commands=(annotate cap capify cucumber foreman guard heroku nanoc rackup rainbows rake rspec ruby shotgun spec spork thin unicorn unicorn_rails irb rails)
+bundled_commands=(annotate cap capify cucumber foreman guard heroku nanoc rackup rainbows rake rspec ruby shotgun spec spork thin unicorn unicorn_rails irb rails pry)
 
 _bundler-installed() {
   which bundle > /dev/null 2>&1
