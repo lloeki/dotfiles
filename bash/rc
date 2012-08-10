@@ -2,6 +2,7 @@
 
 source $DOTFILES_BASH_DIR/prompt
 source $DOTFILES_BASH_DIR/history
+source $DOTFILES_BASH_DIR/completion
 
 # easy on spelling mistakes
 shopt -s cdspell
@@ -9,9 +10,5 @@ shopt -s cdspell
 # turn off distractive bells
 set bell-style none
 
-# homebrew bash autocompletion
-if [ -f `brew --prefix`/etc/bash_completion ]; then
-  source `brew --prefix`/etc/bash_completion
-fi
 
 # vim: ft=sh
