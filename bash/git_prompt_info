@@ -1,0 +1,93 @@
+# finds .git folder
+__git_ps1_repo_path() {
+    if [ -d .git ]; then
+        echo "$(pwd)/.git"
+    else
+        git rev-parse --git-dir 2>/dev/null
+    fi
+}
+
+# repo name
+__git_ps1_repo_name() {
+    basename $(basename $(__git_ps1_repo_path))
+}
+
+# head being merged
+__git_ps1_rebase_merge_head() {
+    cat "$1/rebase-merge/head-name"
+}
+
+# branch name
+__git_ps1_branch() {
+    git symbolic-ref HEAD 2>/dev/null || {
+    case "${GIT_PS1_DESCRIBE_STYLE-}" in
+        (contains)
+            git describe --contains HEAD ;;
+        (branch)
+            git describe --contains --all HEAD ;;
+        (describe)
+            git describe HEAD ;;
+        (* | default)
+            git describe --exact-match HEAD ;;
+    esac 2>/dev/null ||
+
+        cut -c1-7 "$g/HEAD" 2>/dev/null || # TODO: this had dots ...
+        echo "unknown"
+    }
+    # TODO: strip refs/heads
+}
+
+__git_ps1_vars() {
+    #local g="$(__gitdir)"
+    local g=".git"
+    [[ -z "$g" ]] && return
+
+    local rebase=0
+    local interactive=0
+    local apply=0
+    local merge=0
+    local bisect=0
+    local subject=""
+    local branch=""
+    local gitdir=0
+    local bare=0
+    local work=1
+
+    if [[ -d "$g/rebase-merge" ]]; then rebase=1 merge=1 subject=$(__git_ps1_rebase_merge_head); fi
+    if [[ $rebase -eq 1 && -f "$g/rebase-merge/interactive" ]]; then interactive=1 merge=0; fi
+    if [[ -d "$g/rebase-apply" ]]; then rebase=1 apply=1; fi
+    if [[ $apply  -eq 1 && -f "$g/rebase-apply/applying" ]]; then rebase=0; fi
+    if [[ $apply  -eq 1 && -f "$g/rebase-apply/rebasing" ]]; then apply=0; fi
+    if [[ $rebase -eq 0 && -f "$g/MERGE_HEAD" ]]; then merge=1; fi
+    if [[ $rebase -eq 0 && -f "$g/BISECT_LOG" ]]; then bisect=1; fi
+
+    #branch=$(__git_ps1_branch)
+
+    [[ "true" = "$(git rev-parse --is-inside-git-dir 2>/dev/null)" ]] && gitdir=1
+    [[ $gitdir -eq 1 && "true" = "$(git rev-parse --is-bare-repository 2>/dev/null)" ]] && bare=1
+    [[ $gitdir -eq 0 && "true" = "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]] && work=1
+
+    if [[ $work -eq 1 ]]; then
+        ##dirty
+        #if [ "$(git config --bool bash.showDirtyState)" != "false" ]; then
+        #    git diff --no-ext-diff --ignore-submodules \
+        #        --quiet --exit-code || w="*"
+        #    if git rev-parse --quiet --verify HEAD >/dev/null; then
+        #        git diff-index --cached --quiet \
+        #            --ignore-submodules HEAD -- || i="+"
+        #    else
+        #        i="#"
+        #    fi
+        #fi
+
+        ##stash
+        #git rev-parse --verify refs/stash >/dev/null 2>&1 && s="$"
+
+        ##untracked
+        #if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+        #    u="%"
+        #fi
+    fi
+}
+
+# vim: ft=sh
