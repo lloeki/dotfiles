@@ -1,5 +1,7 @@
 #!/bin/sh
 
+[ $(pwd) = "$HOME/.dotfiles" ] || ln -sfn "$(pwd)" "$HOME/.dotfiles"
+
 for file in home/*; do
     dotfile="$(basename "$file")"
     case "${dotfile}" in
