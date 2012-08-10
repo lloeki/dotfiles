@@ -32,35 +32,18 @@ __tpwd() {
     __truncate_dir "$PWD"
 }
 
-__bash_prompt_command() {
-    local pwdmaxlen=25
-    local trunc_symbol="…"
-
-    PROMPT_PWD=$(__tpwd)
-}
-
-
 __set_bash_ps1() {
-    case $TERM in
-     xterm*|rxvt*)
-         local TITLEBAR='\[\033]0;\u:${NEW_PWD}\007\]'
-          ;;
-     *)
-         local TITLEBAR=""
-          ;;
-    esac
 
     # load color vars
     source "$DOTFILES_BASH_DIR/ansi_colors"
 
     # colorized:
-    PS1="${TITLEBAR} ${B}[${UC}\u@\h ${G}\${PROMPT_PWD}${B}]${UC}\\$ ${NONE}"
+    PS1=" ${B}[${UC}\u@\h ${G}\$(__tpwd)${B}]${UC}\\$ ${NONE}"
     # without colors:
     #PS1="${TITLEBAR}[\u@\h \${NEW_PWD}]\\$ "
     # extra backslash in front of \$ to make bash colorize the prompt
 }
 
-PROMPT_COMMAND=__bash_prompt_command
 __set_bash_ps1
 unset __set_bash_ps1
 
