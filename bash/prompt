@@ -1,28 +1,42 @@
-
-##################################################
-# The home directory (HOME) is replaced with a ~
-# The last pwdmaxlen characters of the PWD are displayed
-# Leading partial directory names are striped off
-# /home/me/stuff          -> ~/stuff              if USER=me
-# /usr/share/big_dir_name -> …/share/big_dir_name if pwdmaxlen=20
-##################################################
-bash_prompt_command() {
-    # How many characters of the $PWD should be kept
-    local pwdmaxlen=25
-    # How to indicate that there has been dir truncation
-    local trunc_symbol="…"
+__truncate_left() {
+    local str="$1"
+    local maxlen="$2"
+    local trunc_symbol="$3"
+    local sep_symbol="$4"
 
     # get minimum length to not truncate a long name
-    local dir=${PWD##*/}                #'.' real name
-    pwdmaxlen=$(( ( pwdmaxlen < ${#dir} ) ? ${#dir} : pwdmaxlen ))
-
-    NEW_PWD=${PWD/#$HOME/\~}            #gain some place with '~'
-    local pwdoffset=$(( ${#NEW_PWD} - pwdmaxlen ))  #get truncation point
-    if [ ${pwdoffset} -gt "0" ]         #truncation is needed
+    if [ -n "$sep_symbol" ]
     then
-        NEW_PWD=${NEW_PWD:$pwdoffset:$pwdmaxlen}  #truncate
-        NEW_PWD=${trunc_symbol}/${NEW_PWD#*/}  #add symbol
+        local component=${1##*$sep_symbol}
+        maxlen=$(( ( maxlen < ${#component} ) ? ${#component} : maxlen ))
     fi
+
+    # truncation point
+    local offset=$(( ${#str} - maxlen ))
+
+    if [ ${offset} -gt "0" ]
+    then
+        #truncation is needed
+        str=${str:$offset:$maxlen}  #truncate
+        str=${trunc_symbol}/${str#*/}  #add symbol
+    fi
+    echo "$str"
+}
+
+__truncate_dir() {
+    dir=${1/#$HOME/\~}            #gain some place with '~'
+    __truncate_left "$dir" 25 '…' '/'
+}
+
+__tpwd() {
+    __truncate_dir "$PWD"
+}
+
+bash_prompt_command() {
+    local pwdmaxlen=25
+    local trunc_symbol="…"
+
+    NEW_PWD=$(__tpwd)
 }
 
 
