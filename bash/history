@@ -1,0 +1,13 @@
+# ignore repeated, space-started, and casual commands
+export HISTIGNORE="&:[ ]*:l[sl]:[bf]g:exit"
+
+# enable multiline historization as a single line
+shopt -s cmdhist
+
+# enable appending to histfile
+shopt -s histappend
+
+# ignore sequential duplicates
+export HISTCONTROL=ignoreboth
+
+# vim: ft=sh

@@ -1,16 +1,9 @@
 ## bashrc, called for interactive shells
 
-# set a nice prompt
 source $DOTFILES_BASH_DIR/prompt
+source $DOTFILES_BASH_DIR/history
 
-# ignore repeated, space-started, and casual commands
-export HISTIGNORE="&:[ ]*:l[sl]:[bf]g:exit"
-
-# enable multiline single command
-shopt -s cmdhist
-
-# enable appending to histfile
-shopt -s histappend
+# easy on spelling mistakes
 shopt -s cdspell
 
 # turn off distractive bells
