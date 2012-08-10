@@ -1,5 +1,6 @@
-# Set up the prompt
+# zshrc, called for interactive shells
 
+# Set up the prompt
 
 # Set terminal title
 set_term_title() {
@@ -139,3 +140,4 @@ chpwd() {
     set_term_title
 }
 
+# vim: ft=zsh

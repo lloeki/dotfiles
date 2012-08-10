@@ -1,19 +1,24 @@
-## bashrc
+## bashrc, called for interactive shells
 
 # set a nice prompt
-source ~/.dotfiles/bash/prompt
+source $DOTFILES_BASH_DIR/prompt
 
 # ignore repeated, space-started, and casual commands
 export HISTIGNORE="&:[ ]*:l[sl]:[bf]g:exit"
 
 # enable multiline single command
 shopt -s cmdhist
+
 # enable appending to histfile
 shopt -s histappend
 shopt -s cdspell
 
-# turn off bells
+# turn off distractive bells
 set bell-style none
 
-#source ~/.aliases
+# homebrew bash autocompletion
+if [ -f `brew --prefix`/etc/bash_completion ]; then
+  source `brew --prefix`/etc/bash_completion
+fi
 
+# vim: ft=sh

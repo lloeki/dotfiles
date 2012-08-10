@@ -1,4 +1,14 @@
+# zprofile, called for login shells
+
+# dotfiles locations
+DOTFILES_HOME_DIR="$(cd -P "$(dirname "$(readlink ~/.zprofile)")" && pwd)"
+DOTFILES_ROOT_DIR="$( dirname "$DOTFILES_HOME_DIR" )"
+DOTFILES_ZSH_DIR="$DOTFILES_ROOT_DIR/zsh"
+
 emulate sh
-. ~/.profile
+source ~/.profile
 emulate zsh
 
+# zshrc will be called automatically for interactive shells
+
+# vim: ft=zsh

@@ -1,13 +1,14 @@
-## bash_profile
+## bash_profile, called for login shells
 
-# handle .profile too
-. ~/.profile
+# dotfiles locations
+DOTFILES_HOME_DIR="$(cd -P "$(dirname "$(readlink ${BASH_SOURCE[0]})")" && pwd)"
+DOTFILES_ROOT_DIR="$( dirname "$DOTFILES_HOME_DIR" )"
+DOTFILES_BASH_DIR="$DOTFILES_ROOT_DIR/bash"
 
-# homebrew bash autocompletion
-if [ -f `brew --prefix`/etc/bash_completion ]; then
-  . `brew --prefix`/etc/bash_completion
-fi
+# include .profile
+source ~/.profile
 
-# execute bashrc
-[ -n "$BASH" ] && . ~/.bashrc
+# include bashrc too if this is an interactive shell
+[[ $- == *i* ]] && source ~/.bashrc
 
+# vim: ft=sh
