@@ -1,0 +1,4 @@
+# bind special keys according to readline configuration
+eval "$(sed -n 's/#.*//; s/^/bindkey /; s/: / /p' ~/.inputrc)"
+
+# vim: ft=zsh

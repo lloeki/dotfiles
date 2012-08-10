@@ -1,0 +1,9 @@
+# Use emacs keybindings even if our EDITOR is set to vi
+bindkey -e
+
+# bind some more keys, zsh only
+bindkey "\e[Z" reverse-menu-complete    # Shift+Tab
+
+source $DOTFILES_ZSH_DIR/import_inputrc
+
+# vim: ft=zsh

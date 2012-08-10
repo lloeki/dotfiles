@@ -1,0 +1,30 @@
+# Set terminal title
+set_term_title() {
+    [[ -o interactive ]] || return
+    # Bubble information up to the terminal
+    case $TERM_PROGRAM in
+        Apple_Terminal)
+            local SEARCH=' '
+            local REPLACE='%20'
+            local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
+            printf '\e]7;%s\a' "$PWD_URL"
+            ;;
+        *)
+            # NOOP
+            ;;
+    esac
+    case $TERM in
+        screen*)
+            #print -Pn "\ek%n@%m: %~\e\\" #breaks tmux
+            print -Pn "\e]2;%n@%m: %~\a"
+            ;;
+        xterm*|*rxvt*)
+            print -Pn "\e]2;%n@%m: %~\a"
+            ;;
+        *)
+            # NOOP
+            ;;
+    esac
+}
+
+# vim: ft=zsh

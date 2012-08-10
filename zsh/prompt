@@ -1,0 +1,16 @@
+source $DOTFILES_ZSH_DIR/prompt_vcs
+
+set_rprompt() {
+    vcs_info
+    if [[ -n $vcs_info_msg_0_ ]]; then
+       RPROMPT="$vcs_info_msg_0_"
+    else
+       RPROMPT="%F{green}%~%f"
+    fi
+    RPROMPT="%(?..%B[%?]%b ) $RPROMPT"
+}
+
+PROMPT="%(?.%F{blue}›.%F{red}?)%f%n@%m%F{blue}>%f "
+prompt_opts=(cr percent)
+
+# vim: ft=zsh
