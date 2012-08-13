@@ -33,6 +33,14 @@ __tpwd() {
     __truncate_dir "$PWD"
 }
 
+#__print_rprompt() {
+#    source "$DOTFILES_BASH_DIR/ansi_colors"
+#    local rprompt=""
+#    local prompt=""
+#    printf "%s%$(($COLUMNS-${#prompt}))s\r" $prompt $rprompt
+#}
+#PROMPT_COMMAND="$PROMPT_COMMAND __print_rprompt"
+
 __set_bash_ps1() {
 
     # load color vars
