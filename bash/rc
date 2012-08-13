@@ -5,11 +5,13 @@ source $DOTFILES_BASH_DIR/history
 source $DOTFILES_BASH_DIR/term_title
 source $DOTFILES_BASH_DIR/completion
 
+# Make bash check its window size after a process completes
+shopt -s checkwinsize
+
 # easy on spelling mistakes
 shopt -s cdspell
 
 # turn off distractive bells
 set bell-style none
-
 
 # vim: ft=sh
