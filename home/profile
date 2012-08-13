@@ -12,7 +12,7 @@ path_prepend () {
 
 # load all shell files
 for file in ~/.dotfiles/shell/*; do
-    . $file
+    [[ -x $file ]] && source $file
 done
 
 export PATH
