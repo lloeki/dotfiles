@@ -1,15 +1,5 @@
 ## .profile
 
-# utility functions
-
-path_append () {
-    PATH="$PATH:$1"
-}
-
-path_prepend () {
-    PATH="$1:$PATH"
-}
-
 # load all shell files
 for file in ~/.dotfiles/shell/*; do
     [[ -x $file ]] && source $file
