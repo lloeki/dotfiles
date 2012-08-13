@@ -1,5 +1,7 @@
 ## bashrc, called for interactive shells
 
+[[ -z "$DOTFILES_ROOT_DIR" ]] && source "$HOME/.dotfilesrc"
+
 source $DOTFILES_BASH_DIR/prompt
 source $DOTFILES_BASH_DIR/history
 source $DOTFILES_BASH_DIR/term_title

@@ -1,5 +1,7 @@
 # zshrc, called for interactive shells
 
+[[ -z "$DOTFILES_ROOT_DIR" ]] && source "$HOME/.dotfilesrc"
+
 source $DOTFILES_ZSH_DIR/term_title
 set_term_title # call it right now
 
