@@ -40,9 +40,6 @@ __set_bash_ps1() {
 
     # colorized:
     PS1=" ${B}[${UC}\u@\h ${G}\$(__tpwd)${B}]${UC}\\$ ${NONE}"
-    # without colors:
-    #PS1="${TITLEBAR}[\u@\h \${NEW_PWD}]\\$ "
-    # extra backslash in front of \$ to make bash colorize the prompt
 }
 
 __set_bash_ps1
