@@ -1,10 +1,5 @@
 ## bash_profile, called for login shells
 
-# dotfiles locations
-DOTFILES_HOME_DIR="$(cd -P "$(dirname "$(readlink ${BASH_SOURCE[0]})")" && pwd)"
-DOTFILES_ROOT_DIR="$( dirname "$DOTFILES_HOME_DIR" )"
-DOTFILES_BASH_DIR="$DOTFILES_ROOT_DIR/bash"
-
 # include .profile
 source ~/.profile
 
