@@ -9,17 +9,16 @@ __git_ps1_repo_path() {
 
 # repo name
 __git_ps1_repo_name() {
-    basename $(basename $(__git_ps1_repo_path))
+    basename $(dirname $(__git_ps1_repo_path))
 }
 
-# head being merged
+# head that's being merged
 __git_ps1_rebase_merge_head() {
     cat "$1/rebase-merge/head-name"
 }
 
-# branch name
-__git_ps1_branch() {
-    git symbolic-ref HEAD 2>/dev/null || {
+# describe according to GIT_PS1_DESCRIBE_STYLE
+__git_ps1_describe() {
     case "${GIT_PS1_DESCRIBE_STYLE-}" in
         (contains)
             git describe --contains HEAD ;;
@@ -29,12 +28,19 @@ __git_ps1_branch() {
             git describe HEAD ;;
         (* | default)
             git describe --exact-match HEAD ;;
-    esac 2>/dev/null ||
+    esac 2>/dev/null
+}
 
-        cut -c1-7 "$g/HEAD" 2>/dev/null || # TODO: this had dots ...
-        echo "unknown"
-    }
-    # TODO: strip refs/heads
+# branch name
+__git_ps1_branch() {
+    local g="$1"
+
+    local             branch="$(git symbolic-ref HEAD 2>/dev/null)"
+    [[ $? -ne 0 ]] && branch="$(__git_ps1_describe)"
+    [[ $? -ne 0 ]] && branch="$(git rev-parse --short HEAD)…"
+    [[ $? -ne 0 ]] && branch="unknown"
+
+    echo ${branch##refs/heads/}
 }
 
 __git_ps1_vars() {
@@ -51,43 +57,64 @@ __git_ps1_vars() {
     local branch=""
     local gitdir=0
     local bare=0
-    local work=1
+    local work=0
+    local staged=0
+    local unstaged=0
+    local initial=0
+    local untracked=0
+    local stash=0
 
-    if [[ -d "$g/rebase-merge" ]]; then rebase=1 merge=1 subject=$(__git_ps1_rebase_merge_head); fi
-    if [[ $rebase -eq 1 && -f "$g/rebase-merge/interactive" ]]; then interactive=1 merge=0; fi
-    if [[ -d "$g/rebase-apply" ]]; then rebase=1 apply=1; fi
-    if [[ $apply  -eq 1 && -f "$g/rebase-apply/applying" ]]; then rebase=0; fi
-    if [[ $apply  -eq 1 && -f "$g/rebase-apply/rebasing" ]]; then apply=0; fi
-    if [[ $rebase -eq 0 && -f "$g/MERGE_HEAD" ]]; then merge=1; fi
-    if [[ $rebase -eq 0 && -f "$g/BISECT_LOG" ]]; then bisect=1; fi
+    [[ -d "$g/rebase-merge" ]] && rebase=1 merge=1 subject=$(__git_ps1_rebase_merge_head)
+    [[ $rebase -eq 1 && -f "$g/rebase-merge/interactive" ]] && interactive=1 merge=0
+    [[ -d "$g/rebase-apply" ]] && rebase=1 apply=1
+    [[ $apply  -eq 1 && -f "$g/rebase-apply/applying" ]] && rebase=0
+    [[ $apply  -eq 1 && -f "$g/rebase-apply/rebasing" ]] && apply=0
+    [[ $rebase -eq 0 && -f "$g/MERGE_HEAD" ]] && merge=1
+    [[ $rebase -eq 0 && -f "$g/BISECT_LOG" ]] && bisect=1
 
-    #branch=$(__git_ps1_branch)
+    branch=$(__git_ps1_branch)
 
     [[ "true" = "$(git rev-parse --is-inside-git-dir 2>/dev/null)" ]] && gitdir=1
     [[ $gitdir -eq 1 && "true" = "$(git rev-parse --is-bare-repository 2>/dev/null)" ]] && bare=1
     [[ $gitdir -eq 0 && "true" = "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]] && work=1
 
     if [[ $work -eq 1 ]]; then
-        ##dirty
-        #if [ "$(git config --bool bash.showDirtyState)" != "false" ]; then
-        #    git diff --no-ext-diff --ignore-submodules \
-        #        --quiet --exit-code || w="*"
-        #    if git rev-parse --quiet --verify HEAD >/dev/null; then
-        #        git diff-index --cached --quiet \
-        #            --ignore-submodules HEAD -- || i="+"
-        #    else
-        #        i="#"
-        #    fi
-        #fi
+        ## dirtiness, if config allows it
+        if [ "$(git config --bool bash.showDirtyState)" != "false" ]; then
+            # unstaged files
+            git diff --no-ext-diff --ignore-submodules --quiet --exit-code || unstaged=1
 
-        ##stash
-        #git rev-parse --verify refs/stash >/dev/null 2>&1 && s="$"
+            if git rev-parse --quiet --verify HEAD >/dev/null; then
+                # staged files
+                git diff-index --cached --quiet --ignore-submodules HEAD -- || staged=1
+            else
+                # no current commit, we're fresh
+                initial=1
+            fi
+        fi
 
-        ##untracked
-        #if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-        #    u="%"
-        #fi
+        ## stash status
+        git rev-parse --verify refs/stash >/dev/null 2>&1 && stash=1
+
+        ## untracked files
+        [ -n "$(git ls-files --others --exclude-standard)" ] && untracked=1
     fi
+
+    echo rebase $rebase
+    echo interactive $interactive
+    echo apply $apply
+    echo merge $merge
+    echo bisect $bisect
+    echo subject $subject
+    echo branch $branch
+    echo gitdir $gitdir
+    echo bare $bare
+    echo work $work
+    echo staged $staged
+    echo unstaged $unstaged
+    echo whatever $whatever
+    echo untracked $untracked
+    echo stash $stash
 }
 
 # vim: ft=sh
