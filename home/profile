@@ -1,9 +1,7 @@
 ## .profile
 
-# load all shell files
-for file in ~/.dotfiles/shell/*; do
-    [[ -x $file ]] && source $file
-done
+. "$DOTFILES_ROOT_DIR/shell/autoload"
 
 export PATH
+
 # vim: ft=sh
