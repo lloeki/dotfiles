@@ -24,7 +24,8 @@ __truncate_left() {
 }
 
 __truncate_dir() {
-    dir=${1/#$HOME/\~}            #gain some place with '~'
+    #gain some place with '~'
+    dir=${1/#$HOME/\~}
     __truncate_left "$dir" 25 '…' '/'
 }
 
