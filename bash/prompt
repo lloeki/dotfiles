@@ -46,17 +46,20 @@ source $DOTFILES_BASH_DIR/git_prompt_info
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
-#GIT_PS1_DESCRIBE_STYLE=""
 
 # dynamic prompt
 __set_prompt() {
     source "$DOTFILES_BASH_DIR/ansi_colors"
     __git_ps1_vars
-    if [[ -n "${GIT_PS1_STATUS-}" ]]; then
-        PS1="${B}[${UC}\u@\h ${Y}${GIT_PS1_NAME}${UC}›${B}${GIT_PS1_BRANCH}${UC}›${G}${GIT_PS1_PREFIX}${B}]${UC}\\$ ${NONE}"
+    PS1="${B}[${UC}\u@\h"
+    if [[ -n "${GIT_PS1_NAME-}" ]]; then
+        PS1+=" ${Y}${GIT_PS1_NAME}"
+        PS1+="${UC}›${B}${GIT_PS1_BRANCH}"
+        PS1+="${UC}›${G}${GIT_PS1_PREFIX}"
     else
-        PS1="${B}[${UC}\u@\h ${G}$(__tpwd)${B}]${UC}\\$ ${NONE}"
+        PS1+=" ${G}$(__tpwd)"
     fi
+    PS1+="${B}]${UC}\\$ ${NONE}"
 }
 PROMPT_COMMAND="${PROMPT_COMMAND} __set_prompt;"
 
