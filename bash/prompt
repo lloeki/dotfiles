@@ -53,7 +53,7 @@ clear_incomplete_line() {
     tput cup $row $col
 
     # not on first column? clean up! (overwrites answer)
-    [[ $col != 0 ]] && printf "\e[7m%%\e[m%$((COLUMNS-1))s\r"
+    [[ $col != 0 ]] && printf "\e[7m%%\e[m%*s\r" $((COLUMNS-1))
     # else e.g prompt will overwrite answer echo
 }
 
