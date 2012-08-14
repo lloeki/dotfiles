@@ -56,6 +56,7 @@ __set_prompt() {
         PS1+=" ${Y}${GIT_PS1_NAME}"
         PS1+="${UC}›${B}${GIT_PS1_BRANCH}"
         PS1+="${UC}›${G}${GIT_PS1_PREFIX}"
+        PS1+=" ${UC}(${GIT_PS1_STATUS})"
     else
         PS1+=" ${G}$(__tpwd)"
     fi
