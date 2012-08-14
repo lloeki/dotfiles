@@ -41,6 +41,9 @@ __tpwd() {
     __truncate_path "$PWD"
 }
 
+# clears a line that was not terminated by a LF
+# fixing the dangling prompt issue
+# marks it with a reverse %, like zsh
 clear_incomplete_line() {
     # ask for cursor position
     echo -en "\033[6n"
