@@ -41,24 +41,23 @@ __tpwd() {
     __truncate_path "$PWD"
 }
 
-#__print_rprompt() {
-#    source "$DOTFILES_BASH_DIR/ansi_colors"
-#    local rprompt=""
-#    local prompt=""
-#    printf "%s%$(($COLUMNS-${#prompt}))s\r" $prompt $rprompt
-#}
-#PROMPT_COMMAND="$PROMPT_COMMAND __print_rprompt"
+# git prompt info
+source $DOTFILES_BASH_DIR/git_prompt_info
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+#GIT_PS1_DESCRIBE_STYLE=""
 
-__set_bash_ps1() {
-
-    # load color vars
+# dynamic prompt
+__set_prompt() {
     source "$DOTFILES_BASH_DIR/ansi_colors"
-
-    # colorized:
-    PS1=" ${B}[${UC}\u@\h ${G}\$(__tpwd)${B}]${UC}\\$ ${NONE}"
+    __git_ps1_vars
+    if [[ -n "${GIT_PS1_STATUS-}" ]]; then
+        PS1="${B}[${UC}\u@\h ${Y}${GIT_PS1_NAME}${UC}›${B}${GIT_PS1_BRANCH}${UC}›${G}${GIT_PS1_PREFIX}${B}]${UC}\\$ ${NONE}"
+    else
+        PS1="${B}[${UC}\u@\h ${G}$(__tpwd)${B}]${UC}\\$ ${NONE}"
+    fi
 }
-
-__set_bash_ps1
-unset __set_bash_ps1
+PROMPT_COMMAND="${PROMPT_COMMAND} __set_prompt;"
 
 # vim: ft=sh
