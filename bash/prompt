@@ -62,6 +62,5 @@ __set_prompt() {
     fi
     PS1+="${B}]${UC}\\$ ${NONE}"
 }
-PROMPT_COMMAND="${PROMPT_COMMAND} __set_prompt;"
 
 # vim: ft=sh

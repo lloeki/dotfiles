@@ -7,6 +7,8 @@ source $DOTFILES_BASH_DIR/history
 source $DOTFILES_BASH_DIR/term_title
 source $DOTFILES_BASH_DIR/completion
 
+PROMPT_COMMAND="set_prompt; set_term_title;"
+
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
 

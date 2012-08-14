@@ -23,6 +23,5 @@ set_term_title() {
     esac
     printf "$title"
 }
-PROMPT_COMMAND="set_term_title; $PROMPT_COMMAND"
 
 # vim: ft=sh
