@@ -55,7 +55,7 @@ clear_incomplete_line() {
     local col=$((${pos[1]} - 1))
 
     # not on first column? clean up!
-    [[ $col != 0 ]] && printf "\e[7m%%\e[m%$((COLUMNS-1))s\r"
+    [[ $col != 0 ]] && printf "\e[7m%%\e[m\n"
 }
 
 # git prompt info
