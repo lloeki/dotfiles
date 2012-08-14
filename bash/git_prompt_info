@@ -1,16 +1,23 @@
-# finds .git folder
-__git_ps1_repo_path() {
-    if [ -d .git ]; then
-        echo "$(pwd)/.git"
-    else
-        git rev-parse --git-dir 2>/dev/null
-    fi
-}
-
-# repo name
-__git_ps1_repo_name() {
-    basename $(dirname $(__git_ps1_repo_path))
-}
+# extracted from git's bash completion contrib
+# don't redefine it if it's there already
+if [[ -z "$(type -t __gitdir)" ]]; then
+    __gitdir ()
+    {
+        if [ -z "${1-}" ]; then
+            if [ -n "${__git_dir-}" ]; then
+                echo "$__git_dir"
+            elif [ -d .git ]; then
+                echo .git
+            else
+                git rev-parse --git-dir 2>/dev/null
+            fi
+        elif [ -d "$1/.git" ]; then
+            echo "$1/.git"
+        else
+            echo "$1"
+        fi
+    }
+fi
 
 # head that's being merged
 __git_ps1_rebase_merge_head() {
@@ -34,19 +41,29 @@ __git_ps1_describe() {
 # branch name
 __git_ps1_branch() {
     local g="$1"
-
-    local             branch="$(git symbolic-ref HEAD 2>/dev/null)"
-    [[ $? -ne 0 ]] && branch="$(__git_ps1_describe)"
-    [[ $? -ne 0 ]] && branch="$(git rev-parse --short HEAD)…"
-    [[ $? -ne 0 ]] && branch="unknown"
+    local branch
+    branch="$(git symbolic-ref HEAD 2>/dev/null)" || \
+    branch="$(__git_ps1_describe)" || \
+    branch="$(git rev-parse --short HEAD)…" || \
+    branch="unknown"
 
     echo ${branch##refs/heads/}
 }
 
+# compute git status and set environment variables
 __git_ps1_vars() {
-    #local g="$(__gitdir)"
-    local g=".git"
-    [[ -z "$g" ]] && return
+    local g="$(__gitdir)"
+
+    # are we in a git repo?
+    if [[ -z "$g" ]]; then
+        unset GIT_PS1_STATUS
+        unset GIT_PS1_BRANCH
+        unset GIT_PS1_SUBJECT
+        unset GIT_PS1_TOPLEVEL
+        unset GIT_PS1_NAME
+        unset GIT_PS1_PREFIX
+        return
+    fi
 
     local rebase=0
     local interactive=0
@@ -60,10 +77,47 @@ __git_ps1_vars() {
     local work=0
     local staged=0
     local unstaged=0
-    local initial=0
+    local new=0
     local untracked=0
-    local stash=0
+    local stashed=0
 
+    local toplevel=""
+    local prefix=""
+
+    # assess position in repository
+    [[ "true" = "$(git rev-parse --is-inside-git-dir 2>/dev/null)" ]] && gitdir=1
+    [[ $gitdir -eq 1 && "true" = "$(git rev-parse --is-bare-repository  2>/dev/null)" ]] && bare=1
+    [[ $gitdir -eq 0 && "true" = "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]] && work=1
+
+    # gitdir corner case
+    [[ "$g" == '.' ]] && if [[ "$(basename "$PWD")" == ".git" ]]; then
+        # inside .git: not a bare repository!
+        # weird: --is-bare-repository returns true regardless
+        bare=0
+        g="$PWD"
+    else
+        # really a bare repository
+        bare=1
+        g="$PWD"
+    fi
+
+    # make relative path absolute
+    [[ "${g/#\//}" == "$g" ]] && g="$PWD/$g"
+    g="${g/%\//}" # strip trailing slash, if any
+
+    # find base dir (toplevel)
+    [[ $bare -eq 1 ]] && toplevel="$g"
+    [[ $bare -eq 0 ]] && toplevel="$(dirname $g)"
+
+    # find relative path within toplevel
+    prefix="${PWD/#$toplevel/}"
+    prefix="${prefix/#\//}" # strip starting slash
+    [[ -z "$prefix" ]] && prefix='.' # toplevel == prefix
+
+    # get the current branch, or whatever describes HEAD
+    branch=$(__git_ps1_branch)
+
+    # evaluate action
     [[ -d "$g/rebase-merge" ]] && rebase=1 merge=1 subject=$(__git_ps1_rebase_merge_head)
     [[ $rebase -eq 1 && -f "$g/rebase-merge/interactive" ]] && interactive=1 merge=0
     [[ -d "$g/rebase-apply" ]] && rebase=1 apply=1
@@ -72,15 +126,10 @@ __git_ps1_vars() {
     [[ $rebase -eq 0 && -f "$g/MERGE_HEAD" ]] && merge=1
     [[ $rebase -eq 0 && -f "$g/BISECT_LOG" ]] && bisect=1
 
-    branch=$(__git_ps1_branch)
-
-    [[ "true" = "$(git rev-parse --is-inside-git-dir 2>/dev/null)" ]] && gitdir=1
-    [[ $gitdir -eq 1 && "true" = "$(git rev-parse --is-bare-repository 2>/dev/null)" ]] && bare=1
-    [[ $gitdir -eq 0 && "true" = "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]] && work=1
-
+    # working directory status
     if [[ $work -eq 1 ]]; then
         ## dirtiness, if config allows it
-        if [ "$(git config --bool bash.showDirtyState)" != "false" ]; then
+        if [[  -n "${GIT_PS1_SHOWDIRTYSTATE-}" && "$(git config --bool bash.showDirtyState)" != "false" ]]; then
             # unstaged files
             git diff --no-ext-diff --ignore-submodules --quiet --exit-code || unstaged=1
 
@@ -89,32 +138,41 @@ __git_ps1_vars() {
                 git diff-index --cached --quiet --ignore-submodules HEAD -- || staged=1
             else
                 # no current commit, we're fresh
-                initial=1
+                new=1
             fi
         fi
 
         ## stash status
-        git rev-parse --verify refs/stash >/dev/null 2>&1 && stash=1
+        if [[ -n "${GIT_PS1_SHOWSTASHSTATE-}" ]]; then
+            git rev-parse --verify refs/stash >/dev/null 2>&1 && stashed=1
+        fi
 
         ## untracked files
-        [ -n "$(git ls-files --others --exclude-standard)" ] && untracked=1
+        if [[ -n "${GIT_PS1_SHOWUNTRACKEDFILES-}" ]]; then
+            [ -n "$(git ls-files --others --exclude-standard)" ] && untracked=1
+        fi
     fi
 
-    echo rebase $rebase
-    echo interactive $interactive
-    echo apply $apply
-    echo merge $merge
-    echo bisect $bisect
-    echo subject $subject
-    echo branch $branch
-    echo gitdir $gitdir
-    echo bare $bare
-    echo work $work
-    echo staged $staged
-    echo unstaged $unstaged
-    echo whatever $whatever
-    echo untracked $untracked
-    echo stash $stash
+    # built environment variables
+    GIT_PS1_STATUS=""
+    [[ $rebase      -eq 1 ]] && GIT_PS1_STATUS+="R"
+    [[ $interactive -eq 1 ]] && GIT_PS1_STATUS+="i"
+    [[ $apply       -eq 1 ]] && GIT_PS1_STATUS+="A"
+    [[ $merge       -eq 1 ]] && GIT_PS1_STATUS+="M"
+    [[ $bisect      -eq 1 ]] && GIT_PS1_STATUS+="B"
+    [[ $gitdir      -eq 1 ]] && GIT_PS1_STATUS+="g"
+    [[ $bare        -eq 1 ]] && GIT_PS1_STATUS+="b"
+    [[ $work        -eq 1 ]] && GIT_PS1_STATUS+="w"
+    [[ $staged      -eq 1 ]] && GIT_PS1_STATUS+="s"
+    [[ $unstaged    -eq 1 ]] && GIT_PS1_STATUS+="u"
+    [[ $new         -eq 1 ]] && GIT_PS1_STATUS+="n"
+    [[ $untracked   -eq 1 ]] && GIT_PS1_STATUS+="t"
+    [[ $stashed     -eq 1 ]] && GIT_PS1_STATUS+="h"
+    GIT_PS1_BRANCH="$branch"
+    GIT_PS1_SUBJECT="$subject"
+    GIT_PS1_TOPLEVEL="$toplevel"
+    GIT_PS1_NAME="$(basename "$toplevel")"
+    GIT_PS1_PREFIX="$prefix"
 }
 
 # vim: ft=sh
