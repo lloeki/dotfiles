@@ -48,19 +48,59 @@ GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
 
 # dynamic prompt
-__set_prompt() {
+set_prompt() {
+    # save last command exit code (requires set_prompt to be first in PROMPT_COMMAND)
+    local last_exit_code="$?"
+
+    # load color vars
     source "$DOTFILES_BASH_DIR/ansi_colors"
+
+    # set up git status env vars
     __git_ps1_vars
-    PS1="${B}[${UC}\u@\h"
+
+    # build prompt
+    PS1=""
+
+    # opening + user@host
+    PS1+="${B}[${UC}\u@\h"
+
+    # git?
     if [[ -n "${GIT_PS1_NAME-}" ]]; then
+        # basic info
         PS1+=" ${Y}${GIT_PS1_NAME}"
-        PS1+="${UC}›${B}${GIT_PS1_BRANCH}"
-        PS1+="${UC}›${G}${GIT_PS1_PREFIX}"
-        PS1+=" ${UC}(${GIT_PS1_STATUS})"
+        [[ "$GIT_PS1_STATUS" == *b* ]] && PS1+="${NONE}›"
+        PS1+="${NONE}›${B}${GIT_PS1_BRANCH}"
+        [[ "$GIT_PS1_STATUS" == *g* ]] && PS1+="${NONE}›"
+        PS1+="${NONE}›${G}${GIT_PS1_PREFIX}"
+
+        # status symbols
+        local status=""
+        [[ "$GIT_PS1_STATUS" == *h* ]] && status+="${NONE}↰"
+        [[ "$GIT_PS1_STATUS" == *t* ]] && status+="${R}!"
+        [[ "$GIT_PS1_STATUS" == *u* ]] && status+="${Y}≠"
+        [[ "$GIT_PS1_STATUS" == *s* ]] && status+="${R}±"
+        [[ "$GIT_PS1_STATUS" == *n* ]] && status+="${BB}∅"
+        [[ -n "$status" ]] && PS1+=" ${status}"
+
+        # action info
+        local action=""
+        [[ "$GIT_PS1_STATUS" == *R* ]] && action+=" rebase"
+        [[ "$GIT_PS1_STATUS" == *i* ]] && action+="-i"
+        [[ "$GIT_PS1_STATUS" == *A* ]] && action+=" apply"
+        [[ "$GIT_PS1_STATUS" == *M* ]] && action+=" merge"
+        [[ "$GIT_PS1_STATUS" == *B* ]] && action+=" bisect"
+        [[ -n "$action" ]] && PS1+="${R}${action}"
     else
+        # no git => just a smartly truncated path
         PS1+=" ${G}$(__tpwd)"
     fi
-    PS1+="${B}]${UC}\\$ ${NONE}"
+
+    # exit code
+    [[ $last_exit_code -ne 0 ]] && PS1+=" ${BW}↪${last_exit_code}"
+
+    # closing prompt
+    PS1+="${B}]"
+    PS1+="${UC}\\$ ${NONE}"
 }
 
 # vim: ft=sh
