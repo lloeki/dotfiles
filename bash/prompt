@@ -53,6 +53,8 @@ clear_incomplete_line() {
     tput cup $row $col
 
     # not on first column? clean up! (overwrites answer)
+    # we print a terminal width worth of columns, but since 
+    # it goes too far, we backtrack with CR
     [[ $col != 0 ]] && printf "\e[7m%%\e[m%*s\r" $((COLUMNS-1))
     # else e.g prompt will overwrite answer echo
 }
