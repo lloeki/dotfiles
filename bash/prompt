@@ -1,3 +1,9 @@
+
+# truncates a string on the left
+# $1: string to truncate
+# $2: maximum length
+# $3: truncation string replacement (optional)
+# $4: separator symbol (optional, prevents truncation of rightmost item)
 __truncate_left() {
     local str="$1"
     local maxlen="$2"
@@ -23,14 +29,16 @@ __truncate_left() {
     echo "$str"
 }
 
-__truncate_dir() {
+# truncates a path
+__truncate_path() {
     #gain some place with '~'
-    dir=${1/#$HOME/\~}
-    __truncate_left "$dir" 25 '…' '/'
+    local path=${1/#$HOME/\~}
+    __truncate_left "$path" 25 '…' '/'
 }
 
+# truncates CWD
 __tpwd() {
-    __truncate_dir "$PWD"
+    __truncate_path "$PWD"
 }
 
 #__print_rprompt() {
