@@ -42,20 +42,19 @@ __tpwd() {
 }
 
 clear_incomplete_line() {
-    # prevent the terminal response to be displayed
-    stty raw -echo
     # ask for cursor position
     echo -en "\033[6n"
     # read answer
     IFS=';' read -r -d R -a pos
-    # set back terminal to human mode
-    stty -raw echo
     # extract tput-compatible answer
     local row=$((${pos[0]:2} - 1))
     local col=$((${pos[1]} - 1))
+    # move back over terminal answer echo, which will hopefully be overwritten
+    tput cup $row $col
 
-    # not on first column? clean up!
-    [[ $col != 0 ]] && printf "\e[7m%%\e[m\n"
+    # not on first column? clean up! (overwrites answer)
+    [[ $col != 0 ]] && printf "\e[7m%%\e[m%$((COLUMNS-1))s\r"
+    # else e.g prompt will overwrite answer echo
 }
 
 # git prompt info
