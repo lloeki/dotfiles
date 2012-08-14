@@ -137,7 +137,7 @@ __git_ps1_vars() {
                 # staged files
                 git diff-index --cached --quiet --ignore-submodules HEAD -- || staged=1
             else
-                # no current commit, we're a freshlt init'd repo
+                # no current commit, we're a freshly init'd repo
                 new=1
             fi
         fi
