@@ -1,6 +1,10 @@
-# homebrew bash autocompletion
-if [ -f `brew --prefix`/etc/bash_completion ]; then
-  source `brew --prefix`/etc/bash_completion
+# default bash autocompletion
+bash_completion_file="/etc/bash_completion"
+if which brew >/dev/null; then
+    bash_completion_file="`brew --prefix`$bash_completion_file"
 fi
+[[ -f $bash_completion_file ]] || unset bash_completion_file
+[[ -n "$bash_completion_file" ]] && source "$bash_completion_file"
+unset bash_completion_file
 
 # vim: ft=sh
