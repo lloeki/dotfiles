@@ -2,3 +2,6 @@
 GREP_OPTIONS='--color=auto'
 CLICOLOR=1;
 export GREP_OPTIONS CLICOLOR
+
+# gnome terminal knows colors
+[[ "$COLORTERM" == "gnome-terminal" ]] && export TERM=xterm-256color
