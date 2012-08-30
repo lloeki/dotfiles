@@ -1,6 +1,6 @@
 # default bash autocompletion
 bash_completion_file="/etc/bash_completion"
-if which brew >/dev/null; then
+if which brew 2>/dev/null >/dev/null; then
     bash_completion_file="`brew --prefix`$bash_completion_file"
 fi
 [[ -f $bash_completion_file ]] || unset bash_completion_file
