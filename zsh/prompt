@@ -10,7 +10,7 @@ set_rprompt() {
     RPROMPT="%(?..%B[%?]%b ) $RPROMPT"
 }
 
-PROMPT="%(?.%F{blue}›.%F{red}?)%f%n@%m%F{blue}>%f "
+PROMPT="%F{blue}[%f%n@%m%F{blue}]%f%(?.$.%F{red}?%f) "
 prompt_opts=(cr percent)
 
 # vim: ft=zsh
