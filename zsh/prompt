@@ -7,7 +7,7 @@ set_rprompt() {
     else
        RPROMPT="%F{green}%~%f"
     fi
-    RPROMPT="%(?..%B[%?]%b ) $RPROMPT"
+    RPROMPT="%(?..%B[%?]%b )$RPROMPT"
 }
 
 PROMPT="%F{blue}[%f%n@%m%F{blue}]%f%(?.$.%F{red}?%f) "
