@@ -3,7 +3,6 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git hg
 vcs_format="%F{green}%S%f‹%F{blue}%b%f‹%F{yellow}%r%f"
 if is-at-least 4.3.11; then
-    echo "foo"
     zstyle ':vcs_info:*' stagedstr "%F{red}±%f"
     zstyle ':vcs_info:*' unstagedstr "%F{yellow}≠%f"
     zstyle ':vcs_info:*' check-for-changes true
