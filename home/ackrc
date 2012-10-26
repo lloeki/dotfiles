@@ -4,3 +4,5 @@ coffee=.coffee
 less=.less
 --type-add
 ruby=.builder
+--type-set
+livescript=.ls
