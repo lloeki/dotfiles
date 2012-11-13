@@ -1,0 +1,115 @@
+!---- default colors ----
+
+! tangoesque scheme
+*background: #111111
+*foreground: #babdb6
+! Black (not tango) + DarkGrey
+*color0:  #000000
+*color8:  #555753
+! DarkRed + Red
+*color1:  #ff6565
+*color9:  #ff8d8d
+! DarkGreen + Green
+*color2:  #93d44f
+*color10: #c8e7a8
+! DarkYellow + Yellow
+*color3:  #eab93d
+*color11: #ffc123
+! DarkBlue + Blue
+*color4:  #204a87
+*color12: #3465a4
+! DarkMangenta + Mangenta
+*color5:  #ce5c00
+*color13: #f57900
+!DarkCyan + Cyan (both not tango)
+*color6:  #89b6e2
+*color14: #46a4ff
+! LightGrey + White
+*color7:  #cccccc
+*color15: #ffffff
+
+
+!---- Xft settings ----
+
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
+
+
+!---- xterm ----
+
+xterm*geometry:           90x33
+!xterm*faceName:           terminus:bold:pixelsize=14
+xterm*faceName:           Menlo:pixelsize=14
+!xterm*font:              -*-dina-medium-r-*-*-16-*-*-*-*-*-*-*
+xterm*dynamicColors:      true
+xterm*utf8:               2
+xterm*eightBitInput:      true
+xterm*saveLines:          10240
+xterm*scrollKey:          true
+xterm*scrollTtyOutput:    false
+xterm*scrollBar:          false
+xterm*rightScrollBar:     true
+xterm*jumpScroll:         true
+xterm*multiScroll:        true
+xterm*toolBar:            false
+xterm*termName:           xterm-256color
+
+!xterm*loginShell:         true
+
+! Zenburn
+xterm*background:  #3f3f3f
+xterm*foreground:  #dcdccc
+xterm*color0:      #1E2320
+xterm*color1:      #705050
+xterm*color2:      #60b48a
+xterm*color3:      #dfaf8f
+xterm*color4:      #506070
+xterm*color5:      #dc8cc3
+xterm*color6:      #8cd0d3
+xterm*color7:      #dcdccc
+xterm*color8:      #709080
+xterm*color9:      #dca3a3
+xterm*color10:     #c3bf9f
+xterm*color11:     #f0dfaf
+xterm*color12:     #94bff3
+xterm*color13:     #ec93d3
+xterm*color14:     #93e0e3
+xterm*color15:     #ffffff
+
+
+! ---- xscreensaver ----
+
+xscreensaver.splash:                    false
+xscreensaver.grabDesktopImages:         true
+
+!font settings
+xscreensaver.Dialog.headingFont:        -*-helvetica-*-r-normal-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.bodyFont:           -*-helvetica-*-o-normal-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.labelFont:          -*-helvetica-*-r-normal-*-14-*-*-*-*-*-*-*
+xscreensaver.Dialog.unameFont:          -*-helvetica-*-r-normal-*-10-*-*-*-*-*-*-*
+xscreensaver.Dialog.buttonFont:         -*-helvetica-*-r-normal-*-12-*-*-*-*-*-*-*
+xscreensaver.Dialog.dateFont:           -*-helvetica-*-r-normal-*-10-*-*-*-*-*-*-*
+xscreensaver.passwd.passwdFont:         -*-helvetica-*-r-normal-*-12-*-*-*-*-*-*-*
+!general dialog box (affects main hostname, username, password text)
+xscreensaver.Dialog.foreground:         #ffffff
+xscreensaver.Dialog.background:         #111111
+xscreensaver.Dialog.topShadowColor:     #111111
+xscreensaver.Dialog.bottomShadowColor:  #111111
+xscreensaver.Dialog.Button.foreground:  #666666
+xscreensaver.Dialog.Button.background:  #ffffff
+!username/password input box and date text colour
+xscreensaver.Dialog.text.foreground:    #666666
+xscreensaver.Dialog.text.background:    #ffffff
+xscreensaver.Dialog.internalBorderWidth:24
+xscreensaver.Dialog.borderWidth:        0
+xscreensaver.Dialog.shadowThickness:    2
+!timeout bar (background is actually determined by Dialog.text.background)
+xscreensaver.passwd.thermometer.foreground:  #ff0000
+xscreensaver.passwd.thermometer.background:  #000000
+xscreensaver.passwd.thermometer.width:       0
+!datestamp format--see the strftime(3) manual page for details
+xscreensaver.dateFormat:    %a %b %d, %H:%M
+
