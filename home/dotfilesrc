@@ -3,5 +3,6 @@ DOTFILES_HOME_DIR="$(cd -P "$(dirname "$(readlink ~/.profile)")" && pwd)"
 DOTFILES_ROOT_DIR="$( dirname "$DOTFILES_HOME_DIR" )"
 DOTFILES_ZSH_DIR="$DOTFILES_ROOT_DIR/zsh"
 DOTFILES_BASH_DIR="$DOTFILES_ROOT_DIR/bash"
+DOTFILES_SHELL_DIR="$DOTFILES_ROOT_DIR/shell"
 
 # vim: ft=sh
