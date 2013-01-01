@@ -4,6 +4,9 @@
 
 #sudo tmutil disablelocal
 
+# disable rubberbanding, but not vanishing scrollbars
+defaults write -g NSScrollViewRubberbanding -bool false
+
 # fix font with external monitor
 # http://apple.stackexchange.com/questions/19468/terminal-text-size-different-when-connected-to-external-monitor
 defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
