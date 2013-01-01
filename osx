@@ -1,22 +1,44 @@
-# see https://github.com/mathiasbynens/dotfiles/blob/master/.osx
+#!/bin/sh
+#
+# for more, see https://github.com/mathiasbynens/dotfiles/blob/master/.osx
+
 #sudo tmutil disablelocal
 
 # fix font with external monitor
 # http://apple.stackexchange.com/questions/19468/terminal-text-size-different-when-connected-to-external-monitor
 defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
 
+# disable new windows zooming in
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+
 defaults write NSGlobalDomain NSWindowResizeTime 0.15
+
+#
 defaults write com.apple.dock expose-animation-duration -float 0.15
+
+# switch to repeat keys on long key presses
 defaults write -g ApplePressAndHoldEnabled -bool false
+
+# open disk images automatically
 defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
 defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
+
+# stop polluting network shares
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+# disable mail animations
 defaults write com.apple.Mail DisableReplyAnimations -bool true
 defaults write com.apple.Mail DisableSendAnimations -bool true
+
+# switch to not remembering windows
 defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
+
+# show user's Library
 chflags nohidden ~/Library
+
+# default to UTF-8 instead of MacRoman (http://superuser.com/a/82194)
 #echo "0x08000100:0" > ~/.CFUserTextEncoding
 
+# restart all possibly affected app
 for app in Safari Dock Mail Finder; do killall $app; done
 
