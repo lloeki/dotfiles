@@ -1,5 +1,6 @@
 # ignore sequential duplicates
 setopt hist_ignore_dups
+setopt hist_ignore_space
 
 # keep 1000 lines of history within the shell and save it to ~/.zsh_history:
 HISTSIZE=1000
