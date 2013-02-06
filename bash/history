@@ -10,4 +10,7 @@ shopt -s histappend
 # ignore sequential duplicates
 export HISTCONTROL=ignoreboth
 
+# more!
+export HISTSIZE=10000
+
 # vim: ft=sh
