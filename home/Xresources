@@ -51,6 +51,7 @@ xterm*saveLines:          10240
 xterm*scrollKey:          true
 xterm*scrollTtyOutput:    false
 xterm*scrollBar:          false
+!xterm*scrollBar*thickness: 1
 xterm*rightScrollBar:     true
 xterm*jumpScroll:         true
 xterm*multiScroll:        true
@@ -60,6 +61,8 @@ xterm*termName:           xterm-256color
 !xterm*loginShell:         true
 
 ! Zenburn
+!xterm*scrollBar*background:  #3f3f3f
+!xterm*scrollBar*foreground:  #dcdccc
 xterm*background:  #3f3f3f
 xterm*foreground:  #dcdccc
 xterm*color0:      #1E2320
@@ -78,6 +81,49 @@ xterm*color12:     #94bff3
 xterm*color13:     #ec93d3
 xterm*color14:     #93e0e3
 xterm*color15:     #ffffff
+
+
+!---- urxvt ----
+
+urxvt*geometry:           90x33
+urxvt*font:               xft:Menlo:pixelsize=14,xft:AquaKana:pixelsize:14
+urxvt*letterSpace:        -2
+urxvt*saveLines:          10240
+urxvt*scrollTtyKeypress:  true
+!urxvt*scrollWithBuffer:   false
+urxvt*scrollTtyOutput:    false
+urxvt*scrollBar:          true
+urxvt*scrollstyle:        plain
+urxvt*thickness:          5
+urxvt*scrollBar_floating: true
+urxvt*scrollBar_right:    true
+!urxvt*toolBar:            false
+urxvt*termName:           rxvt-unicode
+urxvt*iso14755:           false
+urxvt*iso14755_52:        false
+
+!urxvt*loginShell:         true
+
+! Zenburn
+
+urxvt*background:  #3f3f3f
+urxvt*foreground:  #dcdccc
+urxvt*color0:      #1E2320
+urxvt*color1:      #705050
+urxvt*color2:      #60b48a
+urxvt*color3:      #dfaf8f
+urxvt*color4:      #506070
+urxvt*color5:      #dc8cc3
+urxvt*color6:      #8cd0d3
+urxvt*color7:      #dcdccc
+urxvt*color8:      #709080
+urxvt*color9:      #dca3a3
+urxvt*color10:     #c3bf9f
+urxvt*color11:     #f0dfaf
+urxvt*color12:     #94bff3
+urxvt*color13:     #ec93d3
+urxvt*color14:     #93e0e3
+urxvt*color15:     #ffffff
 
 
 ! ---- xscreensaver ----
