@@ -11,3 +11,7 @@ test -d /usr/local/share/python3 && PATH="/usr/local/share/python3:$PATH"
 test -d /usr/local/share/python && PATH="/usr/local/share/python:$PATH"
 
 export PATH
+
+# no emoji
+HOMEBREW_NO_EMOJI="you bet"
+export HOMEBREW_NO_EMOJI
