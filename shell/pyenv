@@ -1,0 +1,4 @@
+# pyenv
+test -d "$HOME/.pyenv/bin" && PATH="$HOME/.pyenv/bin:$PATH"
+which pyenv 2>&1 >/dev/null && eval "$(pyenv init -)"
+export PATH
