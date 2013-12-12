@@ -23,7 +23,7 @@ preexec() {
 }
 
 chpwd() {
-    set_term_title
+    #set_term_title
 }
 
 # vim: ft=zsh
