@@ -1,16 +1,249 @@
-source $DOTFILES_ZSH_DIR/prompt_vcs
+#source $DOTFILES_ZSH_DIR/prompt_vcs
 
-set_rprompt() {
-    vcs_info
-    if [[ -n $vcs_info_msg_0_ ]]; then
-       RPROMPT="$vcs_info_msg_0_"
-    else
-       RPROMPT="%F{green}%~%f"
-    fi
-    RPROMPT="%(?..%B[%?]%b )$RPROMPT"
+autoload -U color
+
+POWERLINE_TRI_LEFT_FULL=''
+POWERLINE_TRI_LEFT_EMPTY=''
+POWERLINE_TRI_RIGHT_FULL=''
+POWERLINE_TRI_RIGHT_EMPTY=''
+POWERLINE_BRANCH=''
+POWERLINE_LN=''
+POWERLINE_LOCK=''
+POWERLINE_ASIDE='➦'
+
+UNICODE_BOX_VERTICAL_BAR='│'
+
+prompt_is_fancy() {
+    [[ $PROMPT_FANCY -eq 1 ]]
 }
 
-PROMPT="%F{blue}[%f%n@%m%F{blue}]%f%(?.$.%F{red}?%f) "
+prompt_setup_segments() {
+    if prompt_is_fancy; then
+        SEGMENT_SEPARATOR=$POWERLINE_TRI_RIGHT_FULL
+        RSEGMENT_SEPARATOR=$POWERLINE_TRI_LEFT_FULL
+        SUBSEGMENT_SEPARATOR=$POWERLINE_TRI_RIGHT_EMPTY
+        RSUBSEGMENT_SEPARATOR=$POWERLINE_TRI_LEFT_EMPTY
+    else
+        SEGMENT_SEPARATOR=''
+        RSEGMENT_SEPARATOR=''
+        SUBSEGMENT_SEPARATOR=$UNICODE_BOX_VERTICAL_BAR
+        RSUBSEGMENT_SEPARATOR=$SUBSEGMENT_SEPARATOR
+    fi
+}
+
+SEGMENT_DEFAULT_BG=15
+#SEGMENT_DEFAULT_BG=0
+SEGMENT_DEFAULT_FG=14
+
+prompt_segment() {
+    local bg fg fake_bg
+
+    [[ -n $1 ]] && bg="$1" || bg='default'
+    [[ -n $2 ]] && fg="$2" || fg='default'
+
+    if [[ $CURRENT_BG == 'default' ]]; then
+        fake_bg=$SEGMENT_DEFAULT_BG
+    else
+        fake_bg=$CURRENT_BG
+    fi
+
+    if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
+        echo -n " %{%K{$bg}%F{$fake_bg}%}$SEGMENT_SEPARATOR%{%F{$fg}%} "
+    else
+        echo -n "%{%K{$bg}%}%{%F{$fg}%} "
+    fi
+
+    CURRENT_BG=$1
+    [[ -n $3 ]] && print -Pn $3
+}
+
+prompt_subsegment() {
+    echo -n " $SUBSEGMENT_SEPARATOR "
+    [[ -n $1 ]] && print -Pn $1
+}
+
+# End the prompt, closing any open segments
+prompt_end() {
+    if [[ -n $CURRENT_BG ]]; then
+        echo -n " %{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
+    else
+        echo -n "%{%k%}"
+    fi
+    echo -n "%{%f%}"
+    CURRENT_BG=''
+}
+
+rprompt_segment() {
+    local bg fg fake_bg prev_bg
+
+    [[ -n $1 ]] && bg="$1" || bg='default'
+    [[ -n $2 ]] && fg="$2" || fg='default'
+
+    if [[ $bg == 'default' ]]; then
+        fake_bg=$SEGMENT_DEFAULT_BG
+    else
+        fake_bg=$bg
+    fi
+    prev_bg=$CURRENT_BG
+
+    if [[ $1 != $CURRENT_BG ]]; then
+        echo -n " %{%K{$prev_bg}%F{$fake_bg}%}$RSEGMENT_SEPARATOR%{%K{$bg}%F{$fg}%} "
+    else
+        echo -n "%{%K{$bg}%}%{%F{$fg}%} "
+    fi
+
+    CURRENT_BG=$1
+    [[ -n $3 ]] && print -Pn $3
+}
+
+rprompt_end() {
+    echo -n ' '
+    echo -n "%{%k%f%}"
+    CURRENT_BG=''
+}
+
+
+prompt_host() {
+    if [[ $UID -eq 0 ]]; then
+        prompt_segment red white '%n@%m'
+    else
+        prompt_segment white black '%n@%m'
+    fi
+}
+
+prompt_dir() {
+    prompt_segment green white '%~'
+}
+
+prompt_git() {
+    local ref dirty wpath wname icon
+    if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
+        ref=$(git symbolic-ref HEAD 2> /dev/null)
+        wpath=$(cd $(dirname $(git rev-parse --git-dir)) && pwd)
+        #wpath=$(cd . > /dev/null && pwd)
+        wname=$(basename $wpath)
+        wpwd="${PWD#$wpath}"
+        prompt_segment green white $wname
+        if prompt_is_fancy; then
+            branch_icon="$POWERLINE_BRANCH "
+        else
+            branch_icon=""
+        fi
+        prompt_subsegment "${ref/refs\/heads\//$branch_icon}"
+        [[ -n $wpwd ]] && prompt_subsegment "${wpwd#/}"
+        return 0
+    else
+        return 1
+    fi
+}
+
+prompt_vcs_repo() {
+    prompt_git
+}
+
+prompt_segment_test() {
+    prompt_segment red white
+    prompt_segment default white
+    prompt_segment blue white
+    prompt_segment default white
+    prompt_segment green white
+    prompt_segment default white
+    prompt_segment cyan white
+    prompt_segment default white
+    prompt_segment yellow white
+    prompt_segment default white
+    prompt_segment white black
+    prompt_segment default white
+    prompt_segment black white
+    prompt_segment default white
+    prompt_segment red white
+    prompt_segment default white
+    prompt_segment
+    CURRENT_BG='NONE'
+    echo
+}
+
+rprompt_segment_test() {
+    rprompt_segment
+    rprompt_segment red white
+    rprompt_segment default white
+    rprompt_segment blue white
+    rprompt_segment default white
+    rprompt_segment green white
+    rprompt_segment default white
+    rprompt_segment cyan white
+    rprompt_segment default white
+    rprompt_segment yellow white
+    rprompt_segment default white
+    rprompt_segment white black
+    rprompt_segment default white
+    rprompt_segment black white
+    rprompt_segment default white
+    rprompt_segment red white
+    rprompt_segment default white
+    CURRENT_BG='NONE'
+    echo
+}
+
+prompt_build() {
+    prompt_setup_segments
+    CURRENT_BG='NONE'
+    prompt_host
+    prompt_vcs_repo || prompt_dir
+    prompt_end
+    echo -n ' '
+}
+
+prompt_last_rc() {
+    #echo -n "%(?..%B[%?]%b)"
+    [[ $LAST_CMD_RC -ne 0 ]] && rprompt_segment red white "$LAST_CMD_RC"
+}
+
+PROMPT_VI_MODE='INSERT'
+prompt_vi_mode() {
+    local mode_color
+
+    if set -o | grep -q 'vi.*on'; then
+        PROMPT_VI_MODE="${${KEYMAP/vicmd/NORMAL}/(main|viins)/INSERT}"
+    else
+        PROMPT_VI_MODE=''
+    fi
+
+    case $PROMPT_VI_MODE in
+        NORMAL)
+            mode_color='green'
+            ;;
+        INSERT)
+            mode_color='blue'
+            ;;
+    esac
+    [[ -n $mode_color ]] && rprompt_segment $mode_color white $PROMPT_VI_MODE
+}
+
+function zle-line-init zle-keymap-select {
+    set_prompt
+    set_rprompt
+    zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+rprompt_build() {
+    prompt_setup_segments
+    CURRENT_BG='NONE'
+    prompt_last_rc
+    #prompt_vi_mode
+    rprompt_end
+}
+
 prompt_opts=(cr percent)
+
+set_prompt() {
+    PROMPT="$(prompt_build)"
+}
+
+set_rprompt() {
+    RPROMPT="$(rprompt_build)"
+}
 
 # vim: ft=zsh

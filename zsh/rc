@@ -13,9 +13,11 @@ source $DOTFILES_ZSH_DIR/prompt
 source $DOTFILES_ZSH_DIR/bundler
 
 precmd() {
+    LAST_CMD_RC=$?
     psvar=()
-    set_term_title
+    set_prompt
     set_rprompt
+    set_term_title
 }
 
 preexec() {
