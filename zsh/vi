@@ -1,0 +1,7 @@
+#bindkey -v
+# fix esc delay
+KEYTIMEOUT=1
+# fix esc swallow
+bindkey -sM vicmd '^[' '^G'
+# fix ^X shortcuts
+bindkey -rM viins '^X'

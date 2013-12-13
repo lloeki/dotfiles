@@ -8,6 +8,7 @@ set_term_title # call it right now
 
 source $DOTFILES_ZSH_DIR/history
 source $DOTFILES_ZSH_DIR/keybindings
+source $DOTFILES_ZSH_DIR/vi
 source $DOTFILES_ZSH_DIR/completion
 source $DOTFILES_ZSH_DIR/prompt
 source $DOTFILES_ZSH_DIR/bundler
