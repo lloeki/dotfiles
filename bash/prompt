@@ -63,7 +63,7 @@ clear_incomplete_line() {
 }
 
 # git prompt info
-source $DOTFILES_BASH_DIR/git_prompt_info
+source $DOTFILES_SHELL_DIR/git_prompt_info
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1

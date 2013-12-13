@@ -1,6 +1,6 @@
 # extracted from git's bash completion contrib
 # don't redefine it if it's there already
-if [[ -z "$(type -t __gitdir)" ]]; then
+if [[ -z $BASH_VERSION || -z "$(type -t __gitdir)" ]]; then
     __gitdir ()
     {
         if [ -z "${1-}" ]; then
