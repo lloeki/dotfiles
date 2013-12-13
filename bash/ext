@@ -1,0 +1,27 @@
+# Make Bash more like Zsh
+# derived from http://glyf.livejournal.com/63106.html
+
+# default: NOOPs
+function preexec { :; }
+function precmd  { :; }
+function chpwd   { :; }
+
+__cd_invoke_chpwd() {
+    builtin cd $@
+    chpwd
+}
+
+__preexec_invoke_exec () {
+    local this_command;
+
+    [ -n "$COMP_LINE" ] && return  # completion
+    [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return  # precmd
+
+    this_command=`history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g"`;
+    preexec "$this_command"
+}
+
+# set up the hooks
+PROMPT_COMMAND="precmd"
+trap '__preexec_invoke_exec' DEBUG
+cd() { __cd_invoke_chpwd $@; }

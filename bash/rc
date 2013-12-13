@@ -3,14 +3,17 @@
 [[ -z "$DOTFILES_ROOT_DIR" ]] && source "$HOME/.dotfilesrc"
 
 source $DOTFILES_SHELL_DIR/aliases
+source $DOTFILES_BASH_DIR/ext
 source $DOTFILES_BASH_DIR/prompt
 source $DOTFILES_BASH_DIR/history
 source $DOTFILES_BASH_DIR/term_title
 source $DOTFILES_BASH_DIR/completion
 
-PROMPT_COMMAND="set_prompt;"
-PROMPT_COMMAND+="set_term_title;"
-#PROMPT_COMMAND+="clear_incomplete_line;"
+precmd() {
+    set_prompt
+    set_term_title
+    #clear_incomplete_line
+}
 
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
