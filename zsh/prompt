@@ -127,29 +127,46 @@ prompt_dir() {
 }
 
 prompt_git() {
-    local ref dirty wpath wname icon
     if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-        ref=$(git symbolic-ref HEAD 2> /dev/null)
-        wpath=$(cd $(dirname $(git rev-parse --git-dir)) && pwd)
-        #wpath=$(cd . > /dev/null && pwd)
-        wname=$(basename $wpath)
-        wpwd="${PWD#$wpath}"
-        prompt_segment green white $wname
-        if prompt_is_fancy; then
-            branch_icon="$POWERLINE_BRANCH "
-        else
-            branch_icon=""
-        fi
-        prompt_subsegment "${ref/refs\/heads\//$branch_icon}"
-        [[ -n $wpwd ]] && prompt_subsegment "${wpwd#/}"
+        PROMPT_VCS_TYPE='git'
+        PROMPT_VCS_REF=$(git symbolic-ref HEAD 2> /dev/null)
+        PROMPT_VCS_REF="${PROMPT_VCS_REF/refs\/heads\//}"
+        PROMPT_VCS_WPATH=$(cd $(dirname $(git rev-parse --git-dir)) && pwd)
+        PROMPT_VCS_WNAME=$(basename $PROMPT_VCS_WPATH)
+        PROMPT_VCS_WPWD="${PWD#$PROMPT_VCS_WPATH}"
+        PROMPT_VCS_WPWD="${PROMPT_VCS_WPWD#/}"
+        git diff --ignore-submodules --quiet
+        PROMPT_VCS_DIRTY=$?
         return 0
     else
+        unset PROMPT_VCS_TYPE
         return 1
     fi
 }
 
 prompt_vcs_repo() {
-    prompt_git
+    if prompt_git; then # TODO: || prompt_hg
+        local branch_icon repo_color
+        if prompt_is_fancy; then
+            branch_icon=" $POWERLINE_BRANCH "
+        else
+            branch_icon=" ⎇ "
+        fi
+
+        if [[ $PROMPT_VCS_DIRTY -eq 1 ]]; then
+            repo_color=yellow
+        else
+            repo_color=blue
+        fi
+
+        prompt_segment $repo_color white "$PROMPT_VCS_WNAME$branch_icon$PROMPT_VCS_REF"
+        [[ -n $PROMPT_VCS_WPWD ]] && prompt_segment green white "$PROMPT_VCS_WPWD"
+
+        return 0
+    else
+        return 1
+    fi
+
 }
 
 prompt_segment_test() {
@@ -196,17 +213,6 @@ rprompt_segment_test() {
     echo
 }
 
-prompt_build() {
-    RPROMPT_SEGMENTS=''
-    prompt_setup_segments
-    CURRENT_BG='NONE'
-    prompt_host
-    #prompt_vcs_repo || prompt_dir
-    #prompt_vi_mode
-    prompt_end
-    echo -n ' '
-}
-
 prompt_last_rc() {
     #echo -n "%(?..%B[%?]%b)"
     [[ $LAST_CMD_RC -ne 0 ]] && prompt_segment red white "$LAST_CMD_RC"
@@ -238,12 +244,21 @@ function zle-line-init zle-keymap-select {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
+prompt_build() {
+    RPROMPT_SEGMENTS=''
+    prompt_setup_segments
+    CURRENT_BG='NONE'
+    prompt_host
+    prompt_vcs_repo || prompt_dir
+    prompt_end
+    echo -n ' '
+}
+
 rprompt_build() {
     RPROMPT_SEGMENT=1
     prompt_setup_segments
     CURRENT_BG='NONE'
     prompt_last_rc
-    prompt_dir
     rprompt_end
 }
 
