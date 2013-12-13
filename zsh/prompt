@@ -169,6 +169,32 @@ prompt_vcs_repo() {
 
 }
 
+prompt_vcs_status() {
+    # status symbols
+    if prompt_git; then
+        local vcs_status=""
+        [[ "$GIT_PS1_STATUS" == *h* ]] && vcs_status+="${NONE}↰"
+        [[ "$GIT_PS1_STATUS" == *t* ]] && vcs_status+="${R}!"
+        [[ "$GIT_PS1_STATUS" == *u* ]] && vcs_status+="${Y}≠"
+        [[ "$GIT_PS1_STATUS" == *s* ]] && vcs_status+="${R}±"
+        [[ "$GIT_PS1_STATUS" == *n* ]] && vcs_status+="${BB}∅"
+        [[ -n "$vcs_status" ]] && prompt_segment white black "${vcs_status}"
+    fi
+}
+
+prompt_vcs_action() {
+    # action info
+    if prompt_git; then
+        local action=""
+        [[ "$GIT_PS1_STATUS" == *R* ]] && action+=" rebase"
+        [[ "$GIT_PS1_STATUS" == *i* ]] && action+="-i"
+        [[ "$GIT_PS1_STATUS" == *A* ]] && action+=" apply"
+        [[ "$GIT_PS1_STATUS" == *M* ]] && action+=" merge"
+        [[ "$GIT_PS1_STATUS" == *B* ]] && action+=" bisect"
+        [[ -n "$action" ]] && prompt_segment yellow white "$action"
+    fi
+}
+
 prompt_segment_test() {
     prompt_segment red white
     prompt_segment default white
@@ -259,6 +285,8 @@ rprompt_build() {
     prompt_setup_segments
     CURRENT_BG='NONE'
     prompt_last_rc
+    #prompt_vcs_status
+    #prompt_vcs_action
     rprompt_end
 }
 
