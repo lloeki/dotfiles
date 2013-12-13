@@ -1,14 +1,21 @@
 #source $DOTFILES_ZSH_DIR/prompt_vcs
 
-autoload -U color
+#POWERLINE_TRI_LEFT_FULL=''
+#POWERLINE_TRI_LEFT_EMPTY=''
+#POWERLINE_TRI_RIGHT_FULL=''
+#POWERLINE_TRI_RIGHT_EMPTY=''
+#POWERLINE_BRANCH=''
+#POWERLINE_LN=''
+#POWERLINE_LOCK=''
+#POWERLINE_ASIDE='➦'
 
-POWERLINE_TRI_LEFT_FULL=''
-POWERLINE_TRI_LEFT_EMPTY=''
-POWERLINE_TRI_RIGHT_FULL=''
-POWERLINE_TRI_RIGHT_EMPTY=''
-POWERLINE_BRANCH=''
-POWERLINE_LN=''
-POWERLINE_LOCK=''
+POWERLINE_TRI_LEFT_FULL='⮂'
+POWERLINE_TRI_LEFT_EMPTY='⮃'
+POWERLINE_TRI_RIGHT_FULL='⮀'
+POWERLINE_TRI_RIGHT_EMPTY='⮁'
+POWERLINE_BRANCH=''
+POWERLINE_LN='⭡'
+POWERLINE_LOCK='⭤'
 POWERLINE_ASIDE='➦'
 
 UNICODE_BOX_VERTICAL_BAR='│'
@@ -36,6 +43,10 @@ SEGMENT_DEFAULT_BG=15
 SEGMENT_DEFAULT_FG=14
 
 prompt_segment() {
+    [[ -z $RPROMPT_SEGMENT ]] && lprompt_segment $@ || rprompt_segment $@
+}
+
+lprompt_segment() {
     local bg fg fake_bg
 
     [[ -n $1 ]] && bg="$1" || bg='default'
@@ -186,38 +197,37 @@ rprompt_segment_test() {
 }
 
 prompt_build() {
+    RPROMPT_SEGMENTS=''
     prompt_setup_segments
     CURRENT_BG='NONE'
     prompt_host
-    prompt_vcs_repo || prompt_dir
+    #prompt_vcs_repo || prompt_dir
+    #prompt_vi_mode
     prompt_end
     echo -n ' '
 }
 
 prompt_last_rc() {
     #echo -n "%(?..%B[%?]%b)"
-    [[ $LAST_CMD_RC -ne 0 ]] && rprompt_segment red white "$LAST_CMD_RC"
+    [[ $LAST_CMD_RC -ne 0 ]] && prompt_segment red white "$LAST_CMD_RC"
 }
 
-PROMPT_VI_MODE='INSERT'
 prompt_vi_mode() {
-    local mode_color
+    local mode_color mode_text
 
-    if set -o | grep -q 'vi.*on'; then
-        PROMPT_VI_MODE="${${KEYMAP/vicmd/NORMAL}/(main|viins)/INSERT}"
-    else
-        PROMPT_VI_MODE=''
-    fi
+    PROMPT_VI_MODE="${${KEYMAP/vicmd/NORMAL}/(main|viins)/INSERT}"
 
     case $PROMPT_VI_MODE in
         NORMAL)
             mode_color='green'
+            mode_text='N'
             ;;
-        INSERT)
+        *)
             mode_color='blue'
+            mode_text='I'
             ;;
     esac
-    [[ -n $mode_color ]] && rprompt_segment $mode_color white $PROMPT_VI_MODE
+    [[ -n $mode_color ]] && prompt_segment $mode_color white $mode_text
 }
 
 function zle-line-init zle-keymap-select {
@@ -229,10 +239,11 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 rprompt_build() {
+    RPROMPT_SEGMENT=1
     prompt_setup_segments
     CURRENT_BG='NONE'
     prompt_last_rc
-    #prompt_vi_mode
+    prompt_dir
     rprompt_end
 }
 
