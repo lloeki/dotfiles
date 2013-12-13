@@ -127,6 +127,7 @@ prompt_dir() {
 }
 
 prompt_git() {
+    __git_ps1_vars
     if [[ -n $GIT_PS1_STATUS ]]; then
         PROMPT_VCS_TYPE='git'
         PROMPT_VCS_REF="$GIT_PS1_BRANCH"

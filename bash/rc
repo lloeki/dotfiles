@@ -15,6 +15,11 @@ precmd() {
     #clear_incomplete_line
 }
 
+chpwd() {
+    __git_ps1_gitdir
+}
+chpwd
+
 # Make bash check its window size after a process completes
 shopt -s checkwinsize
 

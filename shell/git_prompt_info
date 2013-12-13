@@ -50,11 +50,21 @@ __git_ps1_branch() {
     echo ${branch##refs/heads/}
 }
 
-# compute git status and set environment variables
-__git_ps1_vars() {
+__git_ps1_gitdir() {
     local g="$(__gitdir)"
 
     # are we in a git repo?
+    if [[ -z "$g" ]]; then
+        unset GIT_PS1_GITDIR
+    else
+        GIT_PS1_GITDIR="$g"
+    fi
+}
+
+# compute git status and set environment variables
+__git_ps1_vars() {
+    local g="$GIT_PS1_GITDIR"
+
     if [[ -z "$g" ]]; then
         unset GIT_PS1_STATUS
         unset GIT_PS1_BRANCH

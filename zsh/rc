@@ -17,7 +17,6 @@ source $DOTFILES_SHELL_DIR/git_prompt_info
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
-__git_ps1_vars
 
 precmd() {
     LAST_CMD_RC=$?
@@ -32,8 +31,8 @@ preexec() {
 }
 
 chpwd() {
-    __git_ps1_vars
-    #set_term_title
+    __git_ps1_gitdir
 }
+chpwd
 
 # vim: ft=zsh
