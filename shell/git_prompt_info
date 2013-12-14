@@ -100,7 +100,7 @@ __git_ps1_vars() {
     [[ $gitdir -eq 0 && "true" = "$(git rev-parse --is-inside-work-tree 2>/dev/null)" ]] && work=1
 
     # gitdir corner case
-    [[ "$g" == '.' ]] && if [[ "$(basename "$PWD")" == ".git" ]]; then
+    [[ "$g" == '.' ]] && if [[ "${PWD##*/}" == ".git" ]]; then
         # inside .git: not a bare repository!
         # weird: --is-bare-repository returns true regardless
         bare=0
@@ -159,7 +159,7 @@ __git_ps1_vars() {
 
         ## untracked files
         if [[ -n "${GIT_PS1_SHOWUNTRACKEDFILES-}" ]]; then
-            [ -n "$(git ls-files --others --exclude-standard)" ] && untracked=1
+            [[ -n "$(git ls-files --others --exclude-standard)" ]] && untracked=1
         fi
     fi
 
@@ -181,7 +181,7 @@ __git_ps1_vars() {
     GIT_PS1_BRANCH="$branch"
     GIT_PS1_SUBJECT="$subject"
     GIT_PS1_TOPLEVEL="$toplevel"
-    GIT_PS1_NAME="$(basename "$toplevel")"
+    GIT_PS1_NAME="${toplevel##*/}"
     GIT_PS1_PREFIX="$prefix"
 }
 
