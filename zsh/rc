@@ -22,7 +22,6 @@ precmd() {
     LAST_CMD_RC=$?
     psvar=()
     set_prompt
-    set_rprompt
     set_term_title
 }
 

@@ -127,7 +127,6 @@ prompt_dir() {
 }
 
 prompt_git() {
-    __git_ps1_vars
     if [[ -n $GIT_PS1_STATUS ]]; then
         PROMPT_VCS_TYPE='git'
         PROMPT_VCS_REF="$GIT_PS1_BRANCH"
@@ -264,7 +263,6 @@ prompt_vi_mode() {
 
 function zle-line-init zle-keymap-select {
     set_prompt
-    set_rprompt
     zle reset-prompt
 }
 zle -N zle-line-init
@@ -285,18 +283,16 @@ rprompt_build() {
     prompt_setup_segments
     CURRENT_BG='NONE'
     prompt_last_rc
-    #prompt_vcs_status
-    #prompt_vcs_action
+    prompt_vcs_status
+    prompt_vcs_action
     rprompt_end
 }
 
 prompt_opts=(cr percent)
 
 set_prompt() {
+    __git_ps1_vars
     PROMPT="$(prompt_build)"
-}
-
-set_rprompt() {
     RPROMPT="$(rprompt_build)"
 }
 
