@@ -117,7 +117,7 @@ __git_ps1_vars() {
 
     # find base dir (toplevel)
     [[ $bare -eq 1 ]] && toplevel="$g"
-    [[ $bare -eq 0 ]] && toplevel="$(dirname $g)"
+    [[ $bare -eq 0 ]] && toplevel="${g%/*}"
 
     # find relative path within toplevel
     prefix="${PWD/#$toplevel/}"
@@ -139,7 +139,7 @@ __git_ps1_vars() {
     # working directory status
     if [[ $work -eq 1 ]]; then
         ## dirtiness, if config allows it
-        if [[  -n "${GIT_PS1_SHOWDIRTYSTATE-}" && "$(git config --bool bash.showDirtyState)" != "false" ]]; then
+        if [[  -n "${GIT_PS1_SHOWDIRTYSTATE-}" ]]; then
             # unstaged files
             git diff --no-ext-diff --ignore-submodules --quiet --exit-code || unstaged=1
 
