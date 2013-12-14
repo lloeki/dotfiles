@@ -44,7 +44,7 @@ __git_ps1_branch() {
     local branch
     branch="$(git symbolic-ref HEAD 2>/dev/null)" || \
     branch="$(__git_ps1_describe)" || \
-    branch="$(git rev-parse --short HEAD)…" || \
+    branch="$(git rev-parse --short HEAD)" || \
     branch="unknown"
 
     echo ${branch##refs/heads/}
