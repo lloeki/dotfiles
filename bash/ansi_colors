@@ -1,4 +1,6 @@
-local NONE="\[\033[0m\]"    # unsets color to term's fg color
+local NONE="\[\033[0m\]"    # reset all attributes
+local DEFAULT="\[\033[0;39m\]"   # reset fg to default
+local BGDEFAULT="\[\033[0;49m\]" # reset bg to default
 
 # normal colors
 local K="\[\033[0;30m\]"    # black
@@ -11,26 +13,26 @@ local C="\[\033[0;36m\]"    # cyan
 local W="\[\033[0;37m\]"    # white
 
 # bright/bold colors
-local BK="\[\033[1;30m\]"
-local BR="\[\033[1;31m\]"
-local BG="\[\033[1;32m\]"
-local BY="\[\033[1;33m\]"
-local BB="\[\033[1;34m\]"
-local BM="\[\033[1;35m\]"
-local BC="\[\033[1;36m\]"
-local BW="\[\033[1;37m\]"
+local BK="\[\033[1;30m\]"   # black
+local BR="\[\033[1;31m\]"   # red
+local BG="\[\033[1;32m\]"   # greed
+local BY="\[\033[1;33m\]"   # yellow
+local BB="\[\033[1;34m\]"   # blue
+local BM="\[\033[1;35m\]"   # magenta
+local BC="\[\033[1;36m\]"   # cyan
+local BW="\[\033[1;37m\]"   # white
 
 # normal background colors
-local BGK="\[\033[40m\]"
-local BGR="\[\033[41m\]"
-local BGG="\[\033[42m\]"
-local BGY="\[\033[43m\]"
-local BGB="\[\033[44m\]"
-local BGM="\[\033[45m\]"
-local BGC="\[\033[46m\]"
-local BGW="\[\033[47m\]"
+local BGK="\[\033[40m\]"    # black
+local BGR="\[\033[41m\]"    # red
+local BGG="\[\033[42m\]"    # green
+local BGY="\[\033[43m\]"    # yellow
+local BGB="\[\033[44m\]"    # blue
+local BGM="\[\033[45m\]"    # magenta
+local BGC="\[\033[46m\]"    # cyan
+local BGW="\[\033[47m\]"    # white
 
 local UC=$W                 # user's color
-[ $UID -eq "0" ] && UC=$R   # root's color
+[[ $UID -eq "0" ]] && UC=$R # root's color
 
 # vim: ft=sh
