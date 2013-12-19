@@ -8,6 +8,8 @@ source $DOTFILES_BASH_DIR/prompt
 source $DOTFILES_BASH_DIR/history
 source $DOTFILES_BASH_DIR/term_title
 source $DOTFILES_BASH_DIR/completion
+source $DOTFILES_SHELL_DIR/bundler
+source $DOTFILES_SHELL_DIR/go
 
 precmd() {
     set_prompt

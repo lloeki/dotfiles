@@ -6,12 +6,14 @@ _go-installed() {
 
 _within-go-project() {
   local check_dir=$PWD
-  while [ "$(dirname $check_dir)" != "/" ]; do
+  local next_check_dir=${check_dir%/*}
+  while [ "$next_check_dir" != "" ]; do
     if [ -f "$check_dir/.gopath" ]; then
         echo "$check_dir"
         return
     fi
-    check_dir="$(dirname $check_dir)"
+    check_dir="$next_check_dir"
+    next_check_dir=${check_dir%/*}
   done
   false
 }
@@ -25,11 +27,13 @@ _run-with-gopath() {
   fi
 }
 
-for cmd in $go_commands; do
-  eval "function gopath_$cmd () { _run-with-gopath $cmd \$@}"
+for cmd in ${go_commands[@]}; do
+  eval "function gopath_$cmd () { _run-with-gopath $cmd \$@; }"
   alias $cmd=gopath_$cmd
 
-  if which _$cmd > /dev/null 2>&1; then
-        compdef _$cmd gopath_$cmd=$cmd
+  if [[ -n $ZSH_VERSION ]]; then
+    if which _$cmd > /dev/null 2>&1; then
+      compdef _$cmd gopath_$cmd=$cmd
+    fi
   fi
 done
