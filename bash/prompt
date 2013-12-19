@@ -1,3 +1,5 @@
+source "$DOTFILES_SHELL_DIR/prompt_segments"
+source "$DOTFILES_BASH_DIR/prompt_segments"
 source "$DOTFILES_SHELL_DIR/prompt_utils"
 
 # git prompt info

@@ -1,0 +1,66 @@
+SEGMENT_DEFAULT_BG=15
+#SEGMENT_DEFAULT_BG=0
+SEGMENT_DEFAULT_FG=14
+
+lprompt_segment() {
+    local bg fg fake_bg
+
+    [[ -n $1 ]] && bg="$1" || bg='default'
+    [[ -n $2 ]] && fg="$2" || fg='default'
+
+    if [[ $CURRENT_BG == 'default' ]]; then
+        fake_bg=$SEGMENT_DEFAULT_BG
+    else
+        fake_bg=$CURRENT_BG
+    fi
+
+    if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
+        echo -n " %{%K{$bg}%F{$fake_bg}%}$SEGMENT_SEPARATOR%{%F{$fg}%} "
+    else
+        echo -n "%{%K{$bg}%}%{%F{$fg}%} "
+    fi
+
+    CURRENT_BG=$1
+    [[ -n $3 ]] && print -Pn $3
+}
+
+# End the prompt, closing any open segments
+prompt_end() {
+    if [[ -n $CURRENT_BG ]]; then
+        echo -n " %{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
+    else
+        echo -n "%{%k%}"
+    fi
+    echo -n "%{%f%}"
+    CURRENT_BG=''
+}
+
+rprompt_segment() {
+    local bg fg fake_bg prev_bg
+
+    [[ -n $1 ]] && bg="$1" || bg='default'
+    [[ -n $2 ]] && fg="$2" || fg='default'
+
+    if [[ $bg == 'default' ]]; then
+        fake_bg=$SEGMENT_DEFAULT_BG
+    else
+        fake_bg=$bg
+    fi
+    prev_bg=$CURRENT_BG
+
+    if [[ $1 != $CURRENT_BG ]]; then
+        echo -n " %{%K{$prev_bg}%F{$fake_bg}%}$RSEGMENT_SEPARATOR%{%K{$bg}%F{$fg}%} "
+    else
+        echo -n "%{%K{$bg}%}%{%F{$fg}%} "
+    fi
+
+    CURRENT_BG=$1
+    [[ -n $3 ]] && print -Pn $3
+}
+
+rprompt_end() {
+    echo -n ' '
+    echo -n "%{%k%f%}"
+    CURRENT_BG=''
+}
+
