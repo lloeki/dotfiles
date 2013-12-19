@@ -30,24 +30,27 @@ trap '__preexec_invoke_exec' DEBUG
 cd() { __cd_invoke_chpwd $@; }
 
 
-# clears a line that was not terminated by a LF
-# fixing the dangling prompt issue
-# marks it with a reverse %, like zsh
+# clears a line that was not terminated by a LF fixing the dangling prompt
+# issue by marking it with a reversed %, like zsh
 clear_incomplete_line() {
-    # ask for cursor position
-    echo -en "\033[6n"
-    # read answer
-    IFS=';' read -r -d R -a pos
-    # extract tput-compatible answer
-    local row=$((${pos[0]:2} - 1))
-    local col=$((${pos[1]} - 1))
-    # move back over terminal answer echo, which will hopefully be overwritten
-    tput cup $row $col
+    local row
+    local col
 
-    # not on first column? clean up! (overwrites answer)
-    # we print a terminal width worth of columns, but since 
-    # it goes too far, we backtrack with CR
-    [[ $col != 0 ]] && printf "\e[7m%%\e[m%*s\r" $((COLUMNS-1))
-    # else e.g prompt will overwrite answer echo
+    # ask for cursor position then read answer
+    # TODO: fix read: mashing keyboard makes syntax errors
+    stty -echo
+    echo -en "\033[6n"
+    IFS=';' read -r -d R -a pos
+    stty echo
+
+    # extract tput-compatible answer
+    row=$(( ${pos[0]:2} - 1 ))
+    col=$(( ${pos[1]} - 1 ))
+
+    # not on first column? do clean up: fill with spaces and rag left
+    if [[ $col != 0 ]]; then
+        printf "\e[7m%%\e[m"
+        printf "%*s\r" $(( COLUMNS - $col ))
+    fi
 }
 

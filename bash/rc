@@ -12,9 +12,9 @@ source $DOTFILES_SHELL_DIR/bundler
 source $DOTFILES_SHELL_DIR/go
 
 precmd() {
+    clear_incomplete_line
     set_prompt
     set_term_title
-    #clear_incomplete_line
 }
 
 chpwd() {
