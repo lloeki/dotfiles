@@ -1,0 +1,41 @@
+# truncates a string on the left
+# $1: string to truncate
+# $2: maximum length
+# $3: truncation string replacement (optional)
+# $4: separator symbol (optional, prevents truncation of rightmost item)
+__truncate_left() {
+    local str="$1"
+    local maxlen="$2"
+    local trunc_symbol="$3"
+    local sep_symbol="$4"
+
+    # get minimum length to not truncate a long name
+    if [ -n "$sep_symbol" ]
+    then
+        local component=${1##*$sep_symbol}
+        maxlen=$(( ( maxlen < ${#component} ) ? ${#component} : maxlen ))
+    fi
+
+    # truncation point
+    local offset=$(( ${#str} - maxlen ))
+
+    if [ ${offset} -gt "0" ]
+    then
+        #truncation is needed
+        str=${str:$offset:$maxlen}  #truncate
+        str=${trunc_symbol}/${str#*/}  #add symbol
+    fi
+    echo "$str"
+}
+
+# truncates a path
+__truncate_path() {
+    #gain some place with '~'
+    local path=${1/#$HOME/\~}
+    __truncate_left "$path" 25 '…' '/'
+}
+
+# truncates CWD
+__tpwd() {
+    __truncate_path "$PWD"
+}
