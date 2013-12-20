@@ -12,8 +12,10 @@ source $DOTFILES_SHELL_DIR/bundler
 source $DOTFILES_SHELL_DIR/go
 
 precmd() {
+    LAST_CMD_RC=$?
     clear_incomplete_line
     set_prompt
+    update_terminal_cwd
     set_term_title
 }
 

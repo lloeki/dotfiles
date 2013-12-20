@@ -57,7 +57,7 @@ set_prompt() {
     fi
 
     # exit code
-    [[ $last_exit_code -ne 0 ]] && PS1+=" ${BW}${last_exit_code}"
+    [[ $LAST_CMD_RC -ne 0 ]] && PS1+=" ${BW}${LAST_CMD_RC}"
 
     # closing prompt
     PS1+="${B}]"
