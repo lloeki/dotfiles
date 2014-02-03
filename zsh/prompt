@@ -5,7 +5,7 @@ prompt_host() {
     if [[ $UID -eq 0 ]]; then
         prompt_segment red white '%n@%m'
     else
-        prompt_segment white black '%n@%m'
+        prompt_segment black white '%n@%m'
     fi
 }
 
@@ -40,7 +40,7 @@ prompt_vcs_repo() {
         fi
 
         if [[ $PROMPT_VCS_DIRTY -eq 1 ]]; then
-            repo_color=yellow
+            repo_color=red
         else
             repo_color=blue
         fi
@@ -64,7 +64,7 @@ prompt_vcs_status() {
         [[ "$GIT_PS1_STATUS" == *u* ]] && vcs_status+="${Y}≠"
         [[ "$GIT_PS1_STATUS" == *s* ]] && vcs_status+="${R}±"
         [[ "$GIT_PS1_STATUS" == *n* ]] && vcs_status+="${BB}∅"
-        [[ -n "$vcs_status" ]] && prompt_segment white black "${vcs_status}"
+        [[ -n "$vcs_status" ]] && prompt_segment black white "${vcs_status}"
     fi
 }
 
@@ -77,7 +77,7 @@ prompt_vcs_action() {
         [[ "$GIT_PS1_STATUS" == *A* ]] && action+=" apply"
         [[ "$GIT_PS1_STATUS" == *M* ]] && action+=" merge"
         [[ "$GIT_PS1_STATUS" == *B* ]] && action+=" bisect"
-        [[ -n "$action" ]] && prompt_segment yellow white "$action"
+        [[ -n "$action" ]] && prompt_segment red white "$action"
     fi
 }
 
