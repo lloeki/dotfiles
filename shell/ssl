@@ -1,2 +1,2 @@
-[ -f /usr/local/opt/curl-ca-bundle/share/ca-bundle.crt ] \
-&& export SSL_CERT_FILE=/usr/local/opt/curl-ca-bundle/share/ca-bundle.crt
+[ -f /usr/local/share/ca-bundle.crt ] \
+&& export SSL_CERT_FILE=/usr/local/share/ca-bundle.crt
