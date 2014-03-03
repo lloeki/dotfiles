@@ -5,10 +5,10 @@ SEGMENT_DEFAULT_FG='default'
 CURRENT_BG='NONE'
 
 lprompt_segment() {
-    local bg fg fake_bg
+    local real_bg real_fg fake_bg
 
-    [[ -n $1 ]] && bg="$1" || bg='default'
-    [[ -n $2 ]] && fg="$2" || fg='default'
+    [[ -n $1 ]] && real_bg="$1" || real_bg='default'
+    [[ -n $2 ]] && real_fg="$2" || real_fg='default'
 
     if [[ $CURRENT_BG == 'default' ]]; then
         fake_bg=$SEGMENT_DEFAULT_BG
@@ -16,16 +16,18 @@ lprompt_segment() {
         fake_bg=$CURRENT_BG
     fi
 
-    # evaluate color vars
-    local color_vars="fg fake_bg"
-    local bg_color_vars="bg"
-    source "$DOTFILES_BASH_DIR/ansi_colors"
-
+    # resolve colors
+    ansi_sgr_index "bg-$real_bg"
+    real_bg="${bg[$?]}"
+    ansi_sgr_index $fake_bg
+    fake_bg="${fg[$?]}"
+    ansi_sgr_index $real_fg
+    real_fg="${fg[$?]}"
 
     if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
-        echo -n " \[$bg$fake_bg\]$SEGMENT_SEPARATOR\[$fg\] "
+        echo -n " \[$real_bg$fake_bg\]$SEGMENT_SEPARATOR\[$real_fg\] "
     else
-        echo -n "\[$bg$fg\] "
+        echo -n "\[$real_bg$real_fg\] "
     fi
 
     CURRENT_BG=$1
@@ -36,28 +38,31 @@ lprompt_segment() {
 
 # End the prompt, closing any open segments
 prompt_end() {
-    local $bg;
-    local $fg;
+    local $real_bg;
+    local $real_fg;
     local $fake_bg;
 
-    bg="default"
-    fg="default"
+    real_bg="default"
+    real_fg="default"
 
     if [[ -n $CURRENT_BG ]]; then
         fake_bg=$CURRENT_BG
     fi
 
-    # evaluate color vars
-    local color_vars="fg fake_bg"
-    local bg_color_vars="bg"
-    source "$DOTFILES_BASH_DIR/ansi_colors"
+    # resolve colors
+    ansi_sgr_index "bg-$real_bg"
+    real_bg="${bg[$?]}"
+    ansi_sgr_index $fake_bg
+    fake_bg="${fg[$?]}"
+    ansi_sgr_index $real_fg
+    real_fg="${fg[$?]}"
 
     if [[ -n $CURRENT_BG ]]; then
-        echo -n " \[$bg$fake_bg\]$SEGMENT_SEPARATOR"
+        echo -n " \[$real_bg$fake_bg\]$SEGMENT_SEPARATOR"
     else
-        echo -n "\[$bg\]"
+        echo -n "\[$real_bg\]"
     fi
-    echo -n "\[$fg\]"
+    echo -n "\[$real_fg\]"
     CURRENT_BG=''
 }
 

@@ -1,0 +1,115 @@
+ansi_sgr_index() {
+    case "$1" in
+        none)                       return 00;;
+        bold)                       return 01;;
+        faint)                      return 02;;
+        standout)                   return 03;;
+        underline)                  return 04;;
+        blink)                      return 05;;
+       #fast-blink)                 return 06;;
+        reverse)                    return 07;;
+        conceal)                    return 08;;
+       #strikethrough)              return 09;;
+
+       #font-default)               return 10;;
+       #font-first)                 return 11;;
+       #font-second)                return 12;;
+       #font-third)                 return 13;;
+       #font-fourth)                return 14;;
+       #font-fifth)                 return 15;;
+       #font-sixth)                 return 16;;
+       #font-seventh)               return 17;;
+       #font-eighth)                return 18;;
+       #font-ninth)                 return 19;;
+
+       #gothic)                     return 20;;
+       #double-underline)           return 21;;
+        normal)                     return 22;;
+        no-standout)                return 23;;
+        no-underline)               return 24;;
+        no-blink)                   return 25;;
+       #proportional)               return 26;;
+        no-reverse)                 return 27;;
+        no-conceal)                 return 28;;
+       #no-strikethrough)           return 29;;
+
+        black)                      return 30;;
+        red)                        return 31;;
+        green)                      return 32;;
+        yellow)                     return 33;;
+        blue)                       return 34;;
+        magenta)                    return 35;;
+        cyan)                       return 36;;
+        white)                      return 37;;
+       #iso-8316-6)                 return 38;;
+        default)                    return 39;;
+
+        fg-black)                   return 30;;
+        fg-red)                     return 31;;
+        fg-green)                   return 32;;
+        fg-yellow)                  return 33;;
+        fg-blue)                    return 34;;
+        fg-magenta)                 return 35;;
+        fg-cyan)                    return 36;;
+        fg-white)                   return 37;;
+       #fg-iso-8316-6)              return 38;;
+        fg-default)                 return 39;;
+
+        bg-black)                   return 40;;
+        bg-red)                     return 41;;
+        bg-green)                   return 42;;
+        bg-yellow)                  return 43;;
+        bg-blue)                    return 44;;
+        bg-magenta)                 return 45;;
+        bg-cyan)                    return 46;;
+        bg-white)                   return 47;;
+       #bg-iso-8316-6)              return 48;;
+        bg-default)                 return 49;;
+
+       #no-proportional)            return 50;;
+       #border-rectangle)           return 51;;
+       #border-circle)              return 52;;
+       #overline)                   return 53;;
+       #no-border)                  return 54;;
+       #no-overline)                return 55;;
+       #through 59 reserved)        return 56;;
+
+       #underline-or-right)         return 60;;
+       #double-underline-or-right)  return 61;;
+       #overline-or-left)           return 62;;
+       #double-overline-or-left)    return 63;;
+       #stress)                     return 64;;
+       #no-ideogram-marking)        return 65;;
+
+        *)  return 255;;
+    esac
+}
+
+ansi_csi_l="\033["
+ansi_csi_sgr_r="m"
+
+color=();
+fg=();
+fg_bold=();
+fg_no_bold=();
+bg=();
+bg_bold=();
+bg_no_bold=();
+
+for v in {30..39}; do
+    fg[$v]="${ansi_csi_l}${v}${ansi_csi_sgr_r}"
+    ansi_sgr_index 'bold'
+    fg_bold[$v]="${ansi_csi_l}${?};${v}${ansi_csi_sgr_r}"
+    ansi_sgr_index 'normal'
+    fg_no_bold[$v]="${ansi_csi_l}${?};${v}${ansi_csi_sgr_r}"
+done
+
+for v in {40..49}; do
+    bg[$v]="${ansi_csi_l}${v}${ansi_csi_sgr_r}"
+    ansi_sgr_index 'bold'
+    bg_bold[$v]="${ansi_csi_l}${?};${v}${ansi_csi_sgr_r}"
+    ansi_sgr_index 'normal'
+    bg_no_bold[$v]="${ansi_csi_l}${?};${v}${ansi_csi_sgr_r}"
+done
+
+# vim: ft=sh

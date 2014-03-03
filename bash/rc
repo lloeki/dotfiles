@@ -4,6 +4,7 @@
 
 source $DOTFILES_SHELL_DIR/aliases
 source $DOTFILES_BASH_DIR/ext
+source $DOTFILES_BASH_DIR/colors
 source $DOTFILES_BASH_DIR/prompt
 source $DOTFILES_BASH_DIR/history
 source $DOTFILES_BASH_DIR/term_title

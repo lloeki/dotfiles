@@ -3,18 +3,18 @@ source "$DOTFILES_BASH_DIR/prompt_segments"
 source "$DOTFILES_SHELL_DIR/prompt_vcs"
 
 prompt_host() {
-    local bg='black'
-    local fg='white'
+    local host_bg='black'
+    local host_fg='white'
 
     if [[ $UID -eq 0 ]]; then
-        bg='red'
+        host_bg='red'
     fi
 
     if [[ -n $SSH_CLIENT ]]; then
-        fg='yellow'
+        host_fg='yellow'
     fi
 
-    prompt_segment $bg $fg '\u@\h'
+    prompt_segment $host_bg $host_fg '\u@\h'
 }
 
 prompt_dir() {
