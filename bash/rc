@@ -11,6 +11,11 @@ source $DOTFILES_BASH_DIR/completion
 source $DOTFILES_SHELL_DIR/bundler
 source $DOTFILES_SHELL_DIR/go
 
+source $DOTFILES_SHELL_DIR/git_prompt_info
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWUNTRACKEDFILES=1
+
 precmd() {
     LAST_CMD_RC=$?
     clear_incomplete_line

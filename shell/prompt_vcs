@@ -1,0 +1,69 @@
+prompt_git() {
+    if [[ -n $GIT_PS1_STATUS ]]; then
+        PROMPT_VCS_TYPE='git'
+        PROMPT_VCS_REF="$GIT_PS1_BRANCH"
+        PROMPT_VCS_WPATH="$GIT_PS1_TOPLEVEL"
+        PROMPT_VCS_WNAME="$GIT_PS1_NAME"
+        PROMPT_VCS_WPWD="$GIT_PS1_PREFIX"
+        [[ "$GIT_PS1_STATUS" == *t* ]] && PROMPT_VCS_DIRTY=1
+        [[ "$GIT_PS1_STATUS" == *u* ]] && PROMPT_VCS_DIRTY=1
+        [[ "$GIT_PS1_STATUS" == *s* ]] && PROMPT_VCS_DIRTY=1
+        return 0
+    else
+        unset PROMPT_VCS_TYPE
+        return 1
+    fi
+}
+
+prompt_vcs_repo() {
+    if prompt_git; then # TODO: || prompt_hg
+        local branch_icon repo_color
+        if prompt_is_fancy; then
+            branch_icon=" $POWERLINE_BRANCH "
+        else
+            branch_icon=" ⎇ "
+        fi
+
+        if [[ $PROMPT_VCS_DIRTY -eq 1 ]]; then
+            repo_color=red
+        else
+            repo_color=blue
+        fi
+
+        prompt_segment $repo_color white "$PROMPT_VCS_WNAME$branch_icon$PROMPT_VCS_REF"
+        [[ -n $PROMPT_VCS_WPWD ]] && prompt_segment green white "$PROMPT_VCS_WPWD"
+
+        return 0
+    else
+        return 1
+    fi
+
+}
+
+prompt_vcs_status() {
+    # status symbols
+    if prompt_git; then
+        local vcs_status=""
+        [[ "$GIT_PS1_STATUS" == *h* ]] && vcs_status+="${NONE}↰"
+        [[ "$GIT_PS1_STATUS" == *t* ]] && vcs_status+="${R}!"
+        [[ "$GIT_PS1_STATUS" == *u* ]] && vcs_status+="${Y}≠"
+        [[ "$GIT_PS1_STATUS" == *s* ]] && vcs_status+="${R}±"
+        [[ "$GIT_PS1_STATUS" == *n* ]] && vcs_status+="${BB}∅"
+        [[ -n "$vcs_status" ]] && prompt_segment black white "${vcs_status}"
+    fi
+}
+
+prompt_vcs_action() {
+    # action info
+    if prompt_git; then
+        local action=""
+        [[ "$GIT_PS1_STATUS" == *R* ]] && action+=" rebase"
+        [[ "$GIT_PS1_STATUS" == *i* ]] && action+="-i"
+        [[ "$GIT_PS1_STATUS" == *A* ]] && action+=" apply"
+        [[ "$GIT_PS1_STATUS" == *M* ]] && action+=" merge"
+        [[ "$GIT_PS1_STATUS" == *B* ]] && action+=" bisect"
+        [[ -n "$action" ]] && prompt_segment red white "$action"
+    fi
+}
+
+# vim: ft=sh:

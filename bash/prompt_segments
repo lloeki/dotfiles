@@ -1,3 +1,9 @@
+# prompt segments for bash
+
+SEGMENT_DEFAULT_BG='default'
+SEGMENT_DEFAULT_FG='default'
+CURRENT_BG='NONE'
+
 lprompt_segment() {
     local bg fg fake_bg
 
@@ -10,52 +16,49 @@ lprompt_segment() {
         fake_bg=$CURRENT_BG
     fi
 
+    # evaluate color vars
+    local color_vars="fg fake_bg"
+    local bg_color_vars="bg"
+    source "$DOTFILES_BASH_DIR/ansi_colors"
+
+
     if [[ $CURRENT_BG != 'NONE' && $1 != $CURRENT_BG ]]; then
-        echo -n " %{%K{$bg}%F{$fake_bg}%}$SEGMENT_SEPARATOR%{%F{$fg}%} "
+        echo -n " \[$bg$fake_bg\]$SEGMENT_SEPARATOR\[$fg\] "
     else
-        echo -n "%{%K{$bg}%}%{%F{$fg}%} "
+        echo -n "\[$bg$fg\] "
     fi
 
     CURRENT_BG=$1
-    [[ -n $3 ]] && print -Pn $3
+    shift
+    shift
+    [[ -n "$*" ]] && echo -n "$*"
 }
 
 # End the prompt, closing any open segments
 prompt_end() {
+    local $bg;
+    local $fg;
+    local $fake_bg;
+
+    bg="default"
+    fg="default"
+
     if [[ -n $CURRENT_BG ]]; then
-        echo -n " %{%k%F{$CURRENT_BG}%}$SEGMENT_SEPARATOR"
-    else
-        echo -n "%{%k%}"
+        fake_bg=$CURRENT_BG
     fi
-    echo -n "%{%f%}"
+
+    # evaluate color vars
+    local color_vars="fg fake_bg"
+    local bg_color_vars="bg"
+    source "$DOTFILES_BASH_DIR/ansi_colors"
+
+    if [[ -n $CURRENT_BG ]]; then
+        echo -n " \[$bg$fake_bg\]$SEGMENT_SEPARATOR"
+    else
+        echo -n "\[$bg\]"
+    fi
+    echo -n "\[$fg\]"
     CURRENT_BG=''
 }
 
-rprompt_segment() {
-    local bg fg fake_bg prev_bg
-
-    [[ -n $1 ]] && bg="$1" || bg='default'
-    [[ -n $2 ]] && fg="$2" || fg='default'
-
-    if [[ $bg == 'default' ]]; then
-        fake_bg=$SEGMENT_DEFAULT_BG
-    else
-        fake_bg=$bg
-    fi
-    prev_bg=$CURRENT_BG
-
-    if [[ $1 != $CURRENT_BG ]]; then
-        echo -n " %{%K{$prev_bg}%F{$fake_bg}%}$RSEGMENT_SEPARATOR%{%K{$bg}%F{$fg}%} "
-    else
-        echo -n "%{%K{$bg}%}%{%F{$fg}%} "
-    fi
-
-    CURRENT_BG=$1
-    [[ -n $3 ]] && print -Pn $3
-}
-
-rprompt_end() {
-    echo -n ' '
-    echo -n "%{%k%f%}"
-    CURRENT_BG=''
-}
+# vim: ft=sh:

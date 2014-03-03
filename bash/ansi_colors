@@ -1,16 +1,17 @@
-local NONE="\[\033[0m\]"    # reset all attributes
-local DEFAULT="\[\033[0;39m\]"   # reset fg to default
-local BGDEFAULT="\[\033[0;49m\]" # reset bg to default
+# defaults
+local Z="\[\033[0m\]"      # reset (zero) all attributes
+local N="\[\033[0;39m\]"   # reset fg to default (none)
+local BGN="\[\033[0;49m\]" # reset bg to default (none)
 
 # normal colors
-local K="\[\033[0;30m\]"    # black
-local R="\[\033[0;31m\]"    # red
-local G="\[\033[0;32m\]"    # green
-local Y="\[\033[0;33m\]"    # yellow
-local B="\[\033[0;34m\]"    # blue
-local M="\[\033[0;35m\]"    # magenta
-local C="\[\033[0;36m\]"    # cyan
-local W="\[\033[0;37m\]"    # white
+local K="\[\033[30m\]"    # black
+local R="\[\033[31m\]"    # red
+local G="\[\033[32m\]"    # green
+local Y="\[\033[33m\]"    # yellow
+local B="\[\033[34m\]"    # blue
+local M="\[\033[35m\]"    # magenta
+local C="\[\033[36m\]"    # cyan
+local W="\[\033[37m\]"    # white
 
 # bright/bold colors
 local BK="\[\033[1;30m\]"   # black
@@ -32,7 +33,34 @@ local BGM="\[\033[45m\]"    # magenta
 local BGC="\[\033[46m\]"    # cyan
 local BGW="\[\033[47m\]"    # white
 
-local UC=$W                 # user's color
-[[ $UID -eq "0" ]] && UC=$R # root's color
+# transform color variables, if asked
+for var in $color_vars; do
+    case "${!var}" in
+        "black")   declare $var="$K";;
+        "red")     declare $var="$R";;
+        "green")   declare $var="$G";;
+        "yellow")  declare $var="$Y";;
+        "blue")    declare $var="$B";;
+        "magenta") declare $var="$M";;
+        "cyan")    declare $var="$C";;
+        "white")   declare $var="$W";;
+        "default") declare $var="$N";;
+    esac
+done
+
+# transform background color variables, if asked
+for var in $bg_color_vars; do
+    case "${!var}" in
+        "black")   declare $var="$BGK";;
+        "red")     declare $var="$BGR";;
+        "green")   declare $var="$BGG";;
+        "yellow")  declare $var="$BGY";;
+        "blue")    declare $var="$BGB";;
+        "magenta") declare $var="$BGM";;
+        "cyan")    declare $var="$BGC";;
+        "white")   declare $var="$BGW";;
+        "default") declare $var="$BGN";;
+    esac
+done
 
 # vim: ft=sh
