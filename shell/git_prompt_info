@@ -128,7 +128,7 @@ __git_ps1_vars() {
     branch=$(__git_ps1_branch)
 
     # evaluate action
-    [[ -d "$g/rebase-merge" ]] && rebase=1 merge=1 subject=$(__git_ps1_rebase_merge_head)
+    [[ -d "$g/rebase-merge" ]] && rebase=1 merge=1 subject=$(__git_ps1_rebase_merge_head $g)
     [[ $rebase -eq 1 && -f "$g/rebase-merge/interactive" ]] && interactive=1 merge=0
     [[ -d "$g/rebase-apply" ]] && rebase=1 apply=1
     [[ $apply  -eq 1 && -f "$g/rebase-apply/applying" ]] && rebase=0
