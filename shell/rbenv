@@ -1,4 +1,9 @@
 # rbenv
-test -d "$HOME/.rbenv/bin" && PATH="$HOME/.rbenv/bin:$PATH"
+test -d "/opt/rbenv" && RBENV_ROOT="/opt/rbenv"
+test -d "$HOME/.rbenv" && RBENV_ROOT="$HOME/.rbenv"
+export RBENV_ROOT
+
+[[ -n "$RBENV_ROOT" ]] && PATH="$RBENV_ROOT/bin:$PATH"
+
 which rbenv 2>&1 >/dev/null && eval "$(rbenv init -)"
 export PATH
