@@ -58,7 +58,7 @@ xterm*multiScroll:        true
 xterm*toolBar:            false
 xterm*termName:           xterm-256color
 
-!xterm*loginShell:         true
+xterm*loginShell:         true
 
 ! Zenburn
 !xterm*scrollBar*background:  #3f3f3f

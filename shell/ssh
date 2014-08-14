@@ -1,6 +1,6 @@
 # ssh keychain, if no agent set
 if [ -z "$SSH_AUTH_SOCK" ]; then
-    if which keychain 2>&1 >/dev/null; then
-        eval $(keychain --eval --agents ssh -Q --quiet id_rsa)
+    if which envoy 2>&1 >/dev/null; then
+        source <(envoy -p)
     fi
 fi
