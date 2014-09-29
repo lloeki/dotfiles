@@ -10,7 +10,7 @@ function precmd  { :; }
 function chpwd   { :; }
 
 __cd_invoke_chpwd() {
-    builtin cd $@
+    builtin cd "$@"
     chpwd
 }
 
@@ -27,7 +27,7 @@ __preexec_invoke_exec () {
 # set up the hooks
 PROMPT_COMMAND="precmd"
 trap '__preexec_invoke_exec' DEBUG
-cd() { __cd_invoke_chpwd $@; }
+cd() { __cd_invoke_chpwd "$@"; }
 
 
 # clears a line that was not terminated by a LF fixing the dangling prompt
