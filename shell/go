@@ -1,4 +1,4 @@
-go_commands=(go)
+go_commands=(go vim)
 
 _go-installed() {
   which go > /dev/null 2>&1
@@ -21,13 +21,13 @@ _within-go-project() {
 _run-with-gopath() {
   local go_path
   if _go-installed && go_path=$(_within-go-project); then
-    GOPATH="$go_path" $@
+    env PATH="$PATH:$go_path/bin" GOPATH="$go_path" "$@"
   else
-    $@
+    "$@"
   fi
 }
 
-for cmd in ${go_commands[@]}; do
+for cmd in "${go_commands[@]}"; do
   eval "function gopath_$cmd () { _run-with-gopath $cmd \$@; }"
   alias $cmd=gopath_$cmd
 
@@ -37,3 +37,5 @@ for cmd in ${go_commands[@]}; do
     fi
   fi
 done
+
+# vim: ft=sh
