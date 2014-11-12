@@ -1,0 +1,7 @@
+if [[ -f /usr/local/opt/chruby/share/chruby/chruby.sh ]]; then
+    source /usr/local/opt/chruby/share/chruby/chruby.sh
+
+    if [[ -f $HOME/.ruby-version ]]; then
+        chruby $(cat $HOME/.ruby-version)
+    fi
+fi
