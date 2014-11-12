@@ -89,7 +89,11 @@ prompt_vi_mode() {
     [[ -n $mode_color ]] && prompt_segment $mode_color white $mode_text
 }
 
-function zle-line-init zle-keymap-select {
+function zle-line-init {
+    set_prompt
+    zle reset-prompt
+}
+function zle-keymap-select {
     set_prompt
     zle reset-prompt
 }
@@ -118,10 +122,55 @@ rprompt_build() {
 
 prompt_opts=(cr percent)
 
-set_prompt() {
+function contains() {
+  [[ "$2" == *$1* ]]
+}
+
+function prompt_pwd() {
+  if [[ $PWD == $HOME ]]; then
+    echo -n "~"
+  else
+    echo -n "${PWD##*/}"
+  fi
+}
+
+prompt_build_simple() {
     __git_ps1_vars
-    PROMPT="$(prompt_build)"
-    RPROMPT="$(rprompt_build)"
+
+    #set_color green
+    prompt_pwd
+
+    # add git prompt info
+    if [[ -n "$GIT_PS1_STATUS" ]]; then
+        #set_color blue
+        echo -n " $GIT_PS1_BRANCH"
+
+        vcs_status=""
+        contains h "$GIT_PS1_STATUS" && vcs_status="$vcs_status""↰"
+        contains t "$GIT_PS1_STATUS" && vcs_status="$vcs_status""!"
+        contains u "$GIT_PS1_STATUS" && vcs_status="$vcs_status""≠"
+        contains s "$GIT_PS1_STATUS" && vcs_status="$vcs_status""±"
+        contains n "$GIT_PS1_STATUS" && vcs_status="$vcs_status""∅"
+        #set_color red
+        [[ -n "$vcs_status" ]] && echo -n " $vcs_status"
+
+        action=""
+        contains R "$GIT_PS1_STATUS" && action="$action rebase"
+        contains i "$GIT_PS1_STATUS" && action="$action-i"
+        contains A "$GIT_PS1_STATUS" && action="$action apply"
+        contains M "$GIT_PS1_STATUS" && action="$action merge"
+        contains B "$GIT_PS1_STATUS" && action="$action bisect"
+        #set_color yellow
+        [[ -n "$action" ]] && echo -n "$action"
+    fi
+
+    # close prompt
+    #set_color normal
+    echo -n '> '
+}
+
+set_prompt() {
+  PROMPT="$(prompt_build_simple)"
 }
 
 # vim: ft=zsh
