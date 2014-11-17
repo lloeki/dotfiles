@@ -32,6 +32,7 @@ preexec() {
 
 chpwd() {
     __git_ps1_gitdir
+    _gopath
 }
 chpwd
 
