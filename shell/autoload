@@ -1,6 +1,6 @@
 # load all shell files
-for file in ~/.dotfiles/shell/*; do
-    [[ -x $file ]] && source $file
+for file in "$DOTFILES_SHELL_DIR"/*; do
+    [[ -x $file ]] && source "$file"
 done
 
 # vim: ft=sh
