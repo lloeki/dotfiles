@@ -1,0 +1,123 @@
+# hack a dictionary with case and return codes
+ansi_sgr_index() {
+    case "$1" in
+        none)                       return 00;;
+        bold)                       return 01;;
+        faint)                      return 02;;
+        standout)                   return 03;;
+        underline)                  return 04;;
+        blink)                      return 05;;
+        fast-blink)                 return 06;;
+        reverse)                    return 07;;
+        conceal)                    return 08;;
+        strikethrough)              return 09;;
+
+        font-default)               return 10;;
+        font-first)                 return 11;;
+        font-second)                return 12;;
+        font-third)                 return 13;;
+        font-fourth)                return 14;;
+        font-fifth)                 return 15;;
+        font-sixth)                 return 16;;
+        font-seventh)               return 17;;
+        font-eighth)                return 18;;
+        font-ninth)                 return 19;;
+
+        gothic)                     return 20;;
+        double-underline)           return 21;;
+        normal)                     return 22;;
+        no-standout)                return 23;;
+        no-underline)               return 24;;
+        no-blink)                   return 25;;
+        proportional)               return 26;;
+        no-reverse)                 return 27;;
+        no-conceal)                 return 28;;
+        no-strikethrough)           return 29;;
+
+        black)                      return 30;;
+        red)                        return 31;;
+        green)                      return 32;;
+        yellow)                     return 33;;
+        blue)                       return 34;;
+        magenta)                    return 35;;
+        cyan)                       return 36;;
+        white)                      return 37;;
+        iso-8316-6)                 return 38;;
+        default)                    return 39;;
+
+        fg-black)                   return 30;;
+        fg-red)                     return 31;;
+        fg-green)                   return 32;;
+        fg-yellow)                  return 33;;
+        fg-blue)                    return 34;;
+        fg-magenta)                 return 35;;
+        fg-cyan)                    return 36;;
+        fg-white)                   return 37;;
+        fg-iso-8316-6)              return 38;;
+        fg-default)                 return 39;;
+
+        bg-black)                   return 40;;
+        bg-red)                     return 41;;
+        bg-green)                   return 42;;
+        bg-yellow)                  return 43;;
+        bg-blue)                    return 44;;
+        bg-magenta)                 return 45;;
+        bg-cyan)                    return 46;;
+        bg-white)                   return 47;;
+        bg-iso-8316-6)              return 48;;
+        bg-default)                 return 49;;
+
+        no-proportional)            return 50;;
+        border-rectangle)           return 51;;
+        border-circle)              return 52;;
+        overline)                   return 53;;
+        no-border)                  return 54;;
+        no-overline)                return 55;;
+        #through 59 reserved)        return 56;;
+
+        underline-or-right)         return 60;;
+        double-underline-or-right)  return 61;;
+        overline-or-left)           return 62;;
+        double-overline-or-left)    return 63;;
+        stress)                     return 64;;
+        no-ideogram-marking)        return 65;;
+    esac
+
+    return 255
+}
+
+# create caching key-value vars dynamically
+setup_ansi_sgr_index() {
+    local keys="
+        none bold faint standout underline blink fast-blink reverse conceal strikethrough
+        font-default font-first font-second font-third font-fourth font-fifth font-sixth font-seventh font-eighth font-ninth
+        gothic double-underline normal no-standout no-underline no-blink proportional no-reverse no-conceal no-strikethrough
+        black red green yellow blue magenta cyan white iso-8316-6 default
+        fg-black fg-red fg-green fg-yellow fg-blue fg-magenta fg-cyan fg-white fg-iso-8316-6 fg-default
+        bg-black bg-red bg-green bg-yellow bg-blue bg-magenta bg-cyan bg-white bg-iso-8316-6 bg-default
+        no-proportional border-rectangle border-circle overline no-border no-overline
+        underline-or-right double-underline-or-right overline-or-left double-overline-or-left stress no-ideogram-marking"
+
+    for key in $keys; do
+        cache_ansi_sgr "$key"
+    done
+}
+
+# resolve to cache var
+cache_ansi_sgr() {
+    local key=$1; key=${key//-/_}
+
+    eval "ansi_sgr_index ${key}"
+    local code=$?
+    [[ $code -ne 255 ]] && eval "ANSI_SGR_INDEX__${key}__=\$code"
+}
+
+# memoized fetch
+ansi_sgr() {
+    local key=$1; key=${key//-/_}
+
+    eval "[[ -z \$ANSI_SGR_INDEX__${key}__ ]]" && cache_ansi_sgr "$key"
+    eval "echo -n \$ANSI_SGR_INDEX__${key}__"
+}
+
+# vim: ft=sh

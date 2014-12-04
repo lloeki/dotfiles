@@ -1,0 +1,25 @@
+if [[ $BASH_VERSINFO -gt 3 ]]; then
+    source "$DOTFILES_BASH_DIR"/ansi4
+else
+    source "$DOTFILES_BASH_DIR"/ansi3
+fi
+
+setup_ansi_sgr_index
+
+# set_color [-p] color
+# -p: wraps output for bash prompt size match
+set_color() {
+    if [[ $1 == "-p" ]]; then
+        local prompt=1
+        shift
+    fi
+    local code=$1
+
+    [[ $prompt -eq 1 ]] && echo -n "\["
+    echo -n "\033["
+    ansi_sgr "$code"
+    echo -n "m"
+    [[ $prompt -eq 1 ]] && echo -n "\]"
+}
+
+# vim: ft=sh

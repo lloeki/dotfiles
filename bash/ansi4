@@ -1,0 +1,92 @@
+declare -A ANSI_SGR_INDEX
+
+# build index
+setup_ansi_sgr_index() {
+    ANSI_SGR_INDEX["none"]=00
+    ANSI_SGR_INDEX["bold"]=01
+    ANSI_SGR_INDEX["faint"]=02
+    ANSI_SGR_INDEX["standout"]=03
+    ANSI_SGR_INDEX["underline"]=04
+    ANSI_SGR_INDEX["blink"]=05
+    ANSI_SGR_INDEX["fast-blink"]=06
+    ANSI_SGR_INDEX["reverse"]=07
+    ANSI_SGR_INDEX["conceal"]=08
+    ANSI_SGR_INDEX["strikethrough"]=09
+
+    ANSI_SGR_INDEX["font-default"]=10
+    ANSI_SGR_INDEX["font-first"]=11
+    ANSI_SGR_INDEX["font-second"]=12
+    ANSI_SGR_INDEX["font-third"]=13
+    ANSI_SGR_INDEX["font-fourth"]=14
+    ANSI_SGR_INDEX["font-fifth"]=15
+    ANSI_SGR_INDEX["font-sixth"]=16
+    ANSI_SGR_INDEX["font-seventh"]=17
+    ANSI_SGR_INDEX["font-eighth"]=18
+    ANSI_SGR_INDEX["font-ninth"]=19
+
+    ANSI_SGR_INDEX["gothic"]=20
+    ANSI_SGR_INDEX["double-underline"]=21
+    ANSI_SGR_INDEX["normal"]=22
+    ANSI_SGR_INDEX["no-standout"]=23
+    ANSI_SGR_INDEX["no-underline"]=24
+    ANSI_SGR_INDEX["no-blink"]=25
+    ANSI_SGR_INDEX["proportional"]=26
+    ANSI_SGR_INDEX["no-reverse"]=27
+    ANSI_SGR_INDEX["no-conceal"]=28
+    ANSI_SGR_INDEX["no-strikethrough"]=29
+
+    ANSI_SGR_INDEX["black"]=30
+    ANSI_SGR_INDEX["red"]=31
+    ANSI_SGR_INDEX["green"]=32
+    ANSI_SGR_INDEX["yellow"]=33
+    ANSI_SGR_INDEX["blue"]=34
+    ANSI_SGR_INDEX["magenta"]=35
+    ANSI_SGR_INDEX["cyan"]=36
+    ANSI_SGR_INDEX["white"]=37
+    ANSI_SGR_INDEX["iso-8316-6"]=38
+    ANSI_SGR_INDEX["default"]=39
+
+    ANSI_SGR_INDEX["fg-black"]=30
+    ANSI_SGR_INDEX["fg-red"]=31
+    ANSI_SGR_INDEX["fg-green"]=32
+    ANSI_SGR_INDEX["fg-yellow"]=33
+    ANSI_SGR_INDEX["fg-blue"]=34
+    ANSI_SGR_INDEX["fg-magenta"]=35
+    ANSI_SGR_INDEX["fg-cyan"]=36
+    ANSI_SGR_INDEX["fg-white"]=37
+    ANSI_SGR_INDEX["fg-iso-8316-6"]=38
+    ANSI_SGR_INDEX["fg-default"]=39
+
+    ANSI_SGR_INDEX["bg-black"]=40
+    ANSI_SGR_INDEX["bg-red"]=41
+    ANSI_SGR_INDEX["bg-green"]=42
+    ANSI_SGR_INDEX["bg-yellow"]=43
+    ANSI_SGR_INDEX["bg-blue"]=44
+    ANSI_SGR_INDEX["bg-magenta"]=45
+    ANSI_SGR_INDEX["bg-cyan"]=46
+    ANSI_SGR_INDEX["bg-white"]=47
+    ANSI_SGR_INDEX["bg-iso-8316-6"]=48
+    ANSI_SGR_INDEX["bg-default"]=49
+
+    ANSI_SGR_INDEX["no-proportional"]=50
+    ANSI_SGR_INDEX["border-rectangle"]=51
+    ANSI_SGR_INDEX["border-circle"]=52
+    ANSI_SGR_INDEX["overline"]=53
+    ANSI_SGR_INDEX["no-border"]=54
+    ANSI_SGR_INDEX["no-overline"]=55
+    #ANSI_SGR_INDEX["through 59 reserved"]=56
+
+    ANSI_SGR_INDEX["underline-or-right"]=60
+    ANSI_SGR_INDEX["double-underline-or-right"]=61
+    ANSI_SGR_INDEX["overline-or-left"]=62
+    ANSI_SGR_INDEX["double-overline-or-left"]=63
+    ANSI_SGR_INDEX["stress"]=64
+    ANSI_SGR_INDEX["no-ideogram-marking"]=65
+}
+
+# fetch
+ansi_sgr() {
+    echo -n ${ANSI_SGR_INDEX[$1]}
+}
+
+# vim: ft=sh
