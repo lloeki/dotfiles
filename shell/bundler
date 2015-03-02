@@ -2,4 +2,4 @@
 # gem install rubygems-bundler
 # gem regenerate_binstubs
 
-export RUBYGEMS_GEMDEPS='-'
+#export RUBYGEMS_GEMDEPS='-'
