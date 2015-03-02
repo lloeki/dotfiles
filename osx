@@ -10,12 +10,12 @@ defaults write com.apple.iTunes disable-elastic-scroll -bool YES
 
 # fix font with external monitor
 # http://apple.stackexchange.com/questions/19468/terminal-text-size-different-when-connected-to-external-monitor
-defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
+#defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
 
 # disable new windows zooming in
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 
-defaults write NSGlobalDomain NSWindowResizeTime 0.15
+#defaults write NSGlobalDomain NSWindowResizeTime 0.15
 
 # mission control zoom time
 #defaults write com.apple.dock expose-animation-duration -float 0.15
@@ -24,8 +24,8 @@ defaults write NSGlobalDomain NSWindowResizeTime 0.15
 defaults write -g ApplePressAndHoldEnabled -bool false
 
 # open disk images automatically
-defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
-defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
+#defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
+#defaults write com.apple.frameworks.diskimages auto-open-rw-root -bool true
 
 # stop polluting network shares
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
@@ -38,11 +38,10 @@ defaults write com.apple.Mail DisableSendAnimations -bool true
 defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
 
 # show user's Library
-chflags nohidden ~/Library
+#chflags nohidden ~/Library
 
 # default to UTF-8 instead of MacRoman (http://superuser.com/a/82194)
 #echo "0x08000100:0" > ~/.CFUserTextEncoding
 
 # restart all possibly affected app
 for app in Safari Dock Mail Finder; do killall $app; done
-
