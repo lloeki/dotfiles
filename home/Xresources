@@ -41,6 +41,7 @@ Xft.hintstyle:  hintslight
 !---- xterm ----
 
 xterm*geometry:           90x33
+xterm*borderWidth:        0
 !xterm*faceName:           terminus:bold:pixelsize=14
 xterm*faceName:           Menlo:pixelsize=14
 !xterm*font:              -*-dina-medium-r-*-*-16-*-*-*-*-*-*-*
