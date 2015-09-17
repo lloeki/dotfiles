@@ -1,0 +1,40 @@
+# worKDir
+function kd() {
+    local conf="$HOME/.kdrc"
+    if [[ $# -eq 0 ]]; then
+        local candidate="$PWD"
+        while [[ -n "$candidate" ]]; do
+            for file in Gemfile Procfile; do
+                if [[ -f "$candidate/$file" ]]; then
+                    cd "$candidate"
+                    return $?
+                fi
+            done
+            candidate="${candidate%/*}"
+        done
+        return 1
+    fi
+    if [[ $# -eq 1 ]]; then
+        local target
+        target="$(grep -e "^$1" "$conf" | awk '{ print $2 }' | tail -1)"
+        if [[ -n "$target" ]]; then
+            cd "$target"
+            return $?
+        fi
+        return 1
+    fi
+    if [[ $# -eq 2 ]]; then
+        local target
+        name="$1"
+        if [[ -d "$2" ]]; then
+            target=$(cd "$2"; pwd)
+            if [[ -n "$target" ]]; then
+                sed -i -e "/^$name/d" "$conf"
+                echo "$name" "$target" >> "$conf"
+            fi
+        fi
+        return 1
+    fi
+}
+
+# vim: ft=sh
