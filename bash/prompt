@@ -64,7 +64,7 @@ prompt_build_simple() {
         echo -n " $GIT_PS1_BRANCH"
 
         vcs_status=""
-        contains h "$GIT_PS1_STATUS" && vcs_status="$vcs_status""↰"
+        contains h "$GIT_PS1_STATUS" && vcs_status="$vcs_status""⇱"
         contains t "$GIT_PS1_STATUS" && vcs_status="$vcs_status""!"
         contains u "$GIT_PS1_STATUS" && vcs_status="$vcs_status""≠"
         contains s "$GIT_PS1_STATUS" && vcs_status="$vcs_status""±"
