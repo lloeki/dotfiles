@@ -1,5 +1,40 @@
-# for ruby < 2.2:
-# gem install rubygems-bundler
-# gem regenerate_binstubs
+# bundler
 
-#export RUBYGEMS_GEMDEPS='-'
+# shall not be bundled: rails, foreman, god
+bundled_commands=(annotate cap capify cucumber guard heroku nanoc rackup rainbows rake rspec ruby shotgun spec spork thin unicorn unicorn_rails irb pry)
+
+_bundler-installed() {
+  which bundle > /dev/null 2>&1
+}
+
+_within-bundled-project() {
+  local check_dir=$PWD
+  local next_check_dir=${check_dir%/*}
+  while [ "$next_check_dir" != "" ]; do
+    [[ -f "$check_dir/Gemfile" ]] && return
+    check_dir="$next_check_dir"
+    next_check_dir=${check_dir%/*}
+  done
+  false
+}
+
+_run-with-bundler() {
+  if _bundler-installed && _within-bundled-project; then
+    bundle exec $@
+  else
+    $@
+  fi
+}
+
+for cmd in ${bundled_commands[@]}; do
+  eval "function bundled_$cmd () { _run-with-bundler $cmd \$@; }"
+  alias $cmd=bundled_$cmd
+
+  if [[ -n $ZSH_VERSION ]]; then
+    if declare -f _$cmd > /dev/null 2>&1; then
+      compdef _$cmd bundled_$cmd=$cmd
+    fi
+  fi
+done
+
+# vim: ft=zsh

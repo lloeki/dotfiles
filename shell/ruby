@@ -1,0 +1,3 @@
+GEM_HOME="$HOME/.gems"
+export GEM_HOME
+PATH=$PATH:"$GEM_HOME/bin"
