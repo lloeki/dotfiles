@@ -1,0 +1,28 @@
+;; Main package list to fetch from melpa.
+(defvar bundle-packages
+  '(evil
+    evil-surround
+    ))
+
+;; Package manager configuration.
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(package-initialize)
+
+(defun bundle-sync ()
+  "Install packages."
+  (interactive)
+  (package-refresh-contents)
+  (dolist (p bundle-packages)
+    (when (not (package-installed-p p))
+      (package-install p))))
+
+;; Autosync on obvious miss
+(cond ((not (file-exists-p "~/.emacs.d/elpa")) (bundle-sync)))
+
+;; Evil
+(require 'evil)
+(evil-mode 1)
+(menu-bar-mode -1)
+(require 'evil-surround)
+(global-evil-surround-mode 1)
