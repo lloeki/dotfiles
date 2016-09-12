@@ -1,11 +1,3 @@
-# local path
-PATH=/usr/local/bin:/usr/local/sbin:$PATH
-
-# node.js path
-NODE_PATH=/usr/local/lib/node
-export NODE_PATH
-PATH=$PATH:/usr/local/share/npm/bin
-
 # go
 PATH=$PATH:/usr/local/opt/go/libexec/bin
 

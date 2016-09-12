@@ -1,10 +1,9 @@
 # default bash autocompletion
-bash_completion_file="/etc/bash_completion"
-if which brew 2>/dev/null >/dev/null; then
-    bash_completion_file="`brew --prefix`$bash_completion_file"
+#/etc/bash_completion
+#/usr/local/share/bash-completion/bash_completion
+bash_completion_file="/usr/local/etc/bash_completion"
+if [[ -f "$bash_completion_file" ]]; then
+    source "$bash_completion_file"
 fi
-[[ -f $bash_completion_file ]] || unset bash_completion_file
-[[ -n "$bash_completion_file" ]] && source "$bash_completion_file"
-unset bash_completion_file
 
 # vim: ft=sh

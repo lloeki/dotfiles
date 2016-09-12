@@ -6,7 +6,10 @@ set convert-meta off
 
 # useful with XDG/MacOSX folders
 set completion-ignore-case on
-#set show-all-if-ambiguous
+set show-all-if-ambiguous on
+set show-all-if-unmodified on
+#set visible-stats on
+#set page-completions off
 
 # home/end, pageup/dn, ins/del
 "\e[1~": beginning-of-line
