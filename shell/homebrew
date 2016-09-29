@@ -1,6 +1,8 @@
 # go
 PATH=$PATH:/usr/local/opt/go/libexec/bin
 
-# no emoji
 HOMEBREW_NO_EMOJI="you bet"
+HOMEBREW_NO_AUTO_UPDATE="1"
+
+export HOMEBREW_NO_AUTO_UPDATE
 export HOMEBREW_NO_EMOJI
