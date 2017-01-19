@@ -3,16 +3,16 @@ _go-installed() {
 }
 
 _within-go-project() {
-  local check_dir=$PWD
-  local next_check_dir=${check_dir%/*}
+  local check_dir="$PWD"
+  local next_check_dir="${check_dir%/*}"
 
-  while [ "$next_check_dir" != "" ]; do
-    if [ -d "$check_dir/.gopath" ]; then
+  while [[ "$next_check_dir" != "" ]]; do
+    if [[ -d "$check_dir/.gopath" ]]; then
         echo "$check_dir/.gopath"
         return
-    elif [ -f "$check_dir/.gopath" ]; then
+    elif [[ -f "$check_dir/.gopath" ]]; then
         local gopath="$(cat "$check_dir/.gopath")"
-        if [ -z "$gopath" ]; then
+        if [[ -z "$gopath" ]]; then
             echo "$check_dir"
         else
             echo "$gopath"
@@ -21,7 +21,7 @@ _within-go-project() {
     fi
 
     check_dir="$next_check_dir"
-    next_check_dir=${check_dir%/*}
+    next_check_dir="${check_dir%/*}"
   done
 
   false
