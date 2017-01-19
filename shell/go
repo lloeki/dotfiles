@@ -62,4 +62,15 @@ _gopath() {
   fi
 }
 
+_go-package() {
+    git remote get-url origin | perl -ne '/@(.*).git/ and { $_ = "$1" and s/:/\// and print }'
+}
+
+_link-go-package() {
+    local pkgn="$(_go-package)"
+    local src="$(_within-go-project)/src"
+    mkdir -p "$src/$(dirname $pkgn)"
+    ln -sf "$PWD" "$src/$pkgn"
+}
+
 # vim: ft=sh
