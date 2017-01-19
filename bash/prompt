@@ -55,6 +55,10 @@ function prompt_pwd() {
 prompt_build_simple() {
     __git_ps1_vars
 
+    if [[ -n $SSH_CLIENT ]]; then
+        echo -n "${HOSTNAME%%.local} "
+    fi
+
     set_color -p green
     prompt_pwd
 
