@@ -7,8 +7,16 @@ _within-go-project() {
   local next_check_dir=${check_dir%/*}
 
   while [ "$next_check_dir" != "" ]; do
-    if [ -f "$check_dir/.gopath" ]; then
-        echo "$check_dir"
+    if [ -d "$check_dir/.gopath" ]; then
+        echo "$check_dir/.gopath"
+        return
+    elif [ -f "$check_dir/.gopath" ]; then
+        local gopath="$(cat "$check_dir/.gopath")"
+        if [ -z "$gopath" ]; then
+            echo "$check_dir"
+        else
+            echo "$gopath"
+        fi
         return
     fi
 
