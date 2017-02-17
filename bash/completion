@@ -1,7 +1,7 @@
 # default bash autocompletion
 #/etc/bash_completion
 #/usr/local/share/bash-completion/bash_completion
-bash_completion_file="/usr/local/etc/bash_completion"
+bash_completion_file="/opt/arch/share/bash-completion/bash_completion"
 if [[ -f "$bash_completion_file" ]]; then
     source "$bash_completion_file"
 fi

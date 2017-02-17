@@ -1,0 +1,2 @@
+export PATH="/opt/arch/bin:opt/arch/sbin:$PATH"
+#export MANPATH="/opt/arch/share/man:/usr/local/share/man:/usr/share/man:/usr/X11/man"
