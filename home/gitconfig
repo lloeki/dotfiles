@@ -1,0 +1,37 @@
+[push]
+	default = simple
+[user]
+	email = loic.nageleisen@gmail.com
+	name = Loic Nageleisen
+[core]
+	excludesfile = /Users/lloeki/.gitignore
+[pull]
+	ff = only
+[url "git@github.com:"]
+	pushInsteadOf = https://github.com/
+[url "git@gitlab.com:"]
+	pushInsteadOf = https://gitlab.com/
+[url "git@gitlab.adhoc-gti.com:"]
+	insteadOf = https://gitlab.adhoc-gti.com/
+[diff]
+	compactionHeuristic = on
+	indentHeuristic = on
+[alias]
+	co = checkout
+	cm = !git add -A && git commit
+	br = branch
+	ci = commit
+	st = status
+	unstage = reset HEAD --
+	recent = for-each-ref --count=10 --sort=-committerdate refs/heads/ --format="%(refname:short)"
+	overview = log --all --oneline --no-merges
+	recap = !git log --all --oneline --no-merges --author=${1-$(git config user.email)}
+	today = !git log --all --since=00:00:00 --oneline --no-merges --author=${1-$(git config user.email)}
+	changelog = !git log --oneline --no-merges ${1-$(git describe --abbrev=0)}..HEAD
+	upstream = !git log --oneline --no-merges HEAD..${1-$(git branch -lvv | perl -ne '/^\\*.*\\[(.*?)\\]/ and print "$1\n"')}
+	local = !git log --oneline --no-merges ${1-$(git branch -lvv | perl -ne '/^\\*.*\\[(.*?)\\]/ and print "$1\n"')}..HEAD
+	graph = log --oneline --graph --all --decorate --date=iso
+	save = !git add -A && git commit -m 'SAVEPOINT'
+	undo = reset HEAD~1 --mixed
+	backup = !git push origin/backup/$(whoami)/$(git branch)
+	lint = !git branch --merged | grep -v \"^\\s*master$\" | grep -v \"\\*\" | xargs -n 1 git branch -d
