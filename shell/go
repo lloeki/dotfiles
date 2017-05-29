@@ -11,7 +11,7 @@ _within-go-project() {
         echo "$check_dir/.gopath"
         return
     elif [[ -f "$check_dir/.gopath" ]]; then
-        local gopath="$(cat "$check_dir/.gopath")"
+        local gopath="$(<"$check_dir/.gopath")"
         if [[ -z "$gopath" ]]; then
             echo "$check_dir"
         else
