@@ -59,6 +59,12 @@ prompt_build_simple() {
         echo -n "${HOSTNAME%%.local} "
     fi
 
+    # add venv info
+    set_color -p yellow
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        echo -n "${VIRTUAL_ENV##*/} "
+    fi
+
     set_color -p green
     prompt_pwd
 
