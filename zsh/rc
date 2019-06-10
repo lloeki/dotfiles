@@ -11,6 +11,7 @@ source $DOTFILES_ZSH_DIR/keybindings
 source $DOTFILES_ZSH_DIR/vi
 source $DOTFILES_ZSH_DIR/completion
 source $DOTFILES_ZSH_DIR/prompt
+source $DOTFILES_ZSH_DIR/fzf
 source $DOTFILES_SHELL_DIR/go
 
 set -o ignoreeof
