@@ -1,0 +1,18 @@
+function note() {
+    (
+        local title="$1"
+        local timestamp="$(date +%Y-%m-%dT%H:%M:%S%z)"
+        local dir="${HOME}/Dropbox/Notes"
+
+        mkdir -p "${dir}"
+        cd "${dir}"
+        if [[ -n $1 ]]; then
+            exec vim "$timestamp-$title.md"
+        else
+            exec vim .
+        fi
+    )
+}
+
+# vim: ft=zsh
+
