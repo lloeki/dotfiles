@@ -126,24 +126,30 @@ function contains() {
   [[ "$2" == *$1* ]]
 }
 
-function prompt_pwd() {
-  if [[ $PWD == $HOME ]]; then
-    echo -n "~"
-  else
-    echo -n "${PWD##*/}"
-  fi
-}
-
-prompt_build_simple() {
+set_prompt() {
     __git_ps1_vars
 
-    #set_color green
-    prompt_pwd
+    local buffer=""
+
+    if [[ -n $SSH_CLIENT ]]; then
+        buffer="${buffer}${HOST} "
+    fi
+
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        buffer="${buffer}%F{yellow}${VIRTUAL_ENV##*/} "
+    fi
+
+    local pwd
+    if [[ $PWD == $HOME ]]; then
+       pwd="~"
+    else
+      pwd="${PWD##*/}"
+    fi
+    buffer="${buffer}%F{green}${pwd}"
 
     # add git prompt info
     if [[ -n "$GIT_PS1_STATUS" ]]; then
-        #set_color blue
-        echo -n " $GIT_PS1_BRANCH"
+        buffer="${buffer} %F{blue}$GIT_PS1_BRANCH"
 
         vcs_status=""
         contains h "$GIT_PS1_STATUS" && vcs_status="$vcs_status""⇱"
@@ -151,8 +157,7 @@ prompt_build_simple() {
         contains u "$GIT_PS1_STATUS" && vcs_status="$vcs_status""≠"
         contains s "$GIT_PS1_STATUS" && vcs_status="$vcs_status""±"
         contains n "$GIT_PS1_STATUS" && vcs_status="$vcs_status""∅"
-        #set_color red
-        [[ -n "$vcs_status" ]] && echo -n " $vcs_status"
+        [[ -n "$vcs_status" ]] && buffer="${buffer} %F{red}$vcs_status"
 
         action=""
         contains R "$GIT_PS1_STATUS" && action="$action rebase"
@@ -160,17 +165,11 @@ prompt_build_simple() {
         contains A "$GIT_PS1_STATUS" && action="$action apply"
         contains M "$GIT_PS1_STATUS" && action="$action merge"
         contains B "$GIT_PS1_STATUS" && action="$action bisect"
-        #set_color yellow
-        [[ -n "$action" ]] && echo -n "$action"
+        [[ -n "$action" ]] && buffer="${buffer} %F{yellow}$action"
     fi
 
-    # close prompt
-    #set_color normal
-    echo -n '> '
-}
-
-set_prompt() {
-  PROMPT="$(prompt_build_simple)"
+    buffer="${buffer}%f> "
+    PROMPT="${buffer}"
 }
 
 # vim: ft=zsh
