@@ -45,10 +45,12 @@ _strip-go-path() {
 
 _set-gopath() {
   export GOPATH="$*"
+  export GOBIN="$GOPATH/bin"
 }
 
 _unset-gopath() {
   unset GOPATH
+  unset GOBIN
 }
 
 _gopath() {
