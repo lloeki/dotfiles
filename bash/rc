@@ -28,6 +28,7 @@ precmd() {
 chpwd() {
     __git_ps1_gitdir
     _gopath
+    _auto-chruby
 }
 chpwd
 

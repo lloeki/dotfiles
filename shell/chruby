@@ -1,7 +1,28 @@
 if [[ -f /opt/arch/share/chruby/chruby.sh ]]; then
     source /opt/arch/share/chruby/chruby.sh
-
-    if [[ -f $HOME/.ruby-version ]]; then
-        chruby $(cat $HOME/.ruby-version)
-    fi
 fi
+
+_ruby-version() {
+    local check_dir=$PWD
+    local next_check_dir=${check_dir%/*}
+    while [ "$next_check_dir" != "" ]; do
+        if [[ -f "$check_dir/.ruby-version" ]]; then
+            cat "$check_dir/.ruby-version"
+            return
+        fi
+        check_dir="$next_check_dir"
+        next_check_dir=${check_dir%/*}
+    done
+    if [[ -f $HOME/.ruby-version ]]; then
+        cat $HOME/.ruby-version
+        return
+    fi
+    false
+}
+
+_auto-chruby() {
+    local ruby_version=$(_ruby-version)
+    if [[ -n "${ruby_version}" ]]; then
+        chruby "${ruby_version}"
+    fi
+}
