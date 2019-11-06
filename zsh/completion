@@ -1,5 +1,5 @@
-# homebrew completions
-fpath=(/usr/local/share/zsh-completions $fpath)
+# archmac completions
+fpath=(/opt/arch/share/zsh/site-functions $fpath)
 
 # Use modern completion system
 autoload -Uz compinit
