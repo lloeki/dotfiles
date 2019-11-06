@@ -4,6 +4,9 @@ set input-meta on
 set output-meta on
 set convert-meta off
 
+# silence
+set bell-style none
+
 # useful with XDG/MacOSX folders
 set completion-ignore-case on
 set show-all-if-ambiguous on
