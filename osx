@@ -5,10 +5,10 @@
 #sudo tmutil disablelocal
 
 # disable rubberbanding, but not vanishing scrollbars
-defaults write -g NSScrollViewRubberbanding -bool false
-defaults write com.apple.iTunes disable-elastic-scroll -bool YES
+#defaults write -g NSScrollViewRubberbanding -bool false
+#defaults write com.apple.iTunes disable-elastic-scroll -bool YES
 
-# fix font with external monitor
+# fix font smoothing with external monitor
 # http://apple.stackexchange.com/questions/19468/terminal-text-size-different-when-connected-to-external-monitor
 #defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
 
@@ -16,12 +16,13 @@ defaults write com.apple.iTunes disable-elastic-scroll -bool YES
 defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
 
 #defaults write NSGlobalDomain NSWindowResizeTime 0.15
+defaults write -g NSWindowResizeTime -float 0.003
 
 # mission control zoom time
 #defaults write com.apple.dock expose-animation-duration -float 0.15
 
 # switch to repeat keys on long key presses
-defaults write -g ApplePressAndHoldEnabled -bool false
+#defaults write -g ApplePressAndHoldEnabled -bool false
 
 # open disk images automatically
 #defaults write com.apple.frameworks.diskimages auto-open-ro-root -bool true
@@ -44,4 +45,4 @@ defaults write NSGlobalDomain NSQuitAlwaysKeepsWindows -bool false
 #echo "0x08000100:0" > ~/.CFUserTextEncoding
 
 # restart all possibly affected app
-for app in Safari Dock Mail Finder; do killall $app; done
+#for app in Safari Dock Mail Finder; do killall $app; done
