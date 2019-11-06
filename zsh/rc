@@ -15,6 +15,7 @@ source $DOTFILES_ZSH_DIR/fzf
 source $DOTFILES_SHELL_DIR/go
 
 set -o ignoreeof
+unsetopt BEEP
 
 source $DOTFILES_SHELL_DIR/git_prompt_info
 GIT_PS1_SHOWDIRTYSTATE=1
