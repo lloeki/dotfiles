@@ -1,8 +1,9 @@
 [push]
 	default = simple
-[user]
-	email = loic.nageleisen@gmail.com
-	name = Loic Nageleisen
+[include]
+	path = ~/.gitconfig.lloeki
+[includeIf "gitdir:~/Workspace/github.com/sqreen/"]
+	path = ~/.gitconfig.sqreen
 [core]
 	excludesfile = /Users/lloeki/.gitignore
 [pull]
