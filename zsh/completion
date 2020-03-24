@@ -1,5 +1,5 @@
-# archmac completions
-fpath=(/opt/arch/share/zsh/site-functions $fpath)
+# nix completions
+fpath=($HOME/.nix-profile/share/zsh/site-functions $fpath)
 
 # Use modern completion system
 autoload -Uz compinit

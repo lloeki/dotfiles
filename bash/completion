@@ -1,9 +1,6 @@
-# default bash autocompletion
-#/etc/bash_completion
-#/usr/local/share/bash-completion/bash_completion
-bash_completion_file="/opt/arch/share/bash-completion/bash_completion"
+bash_completion_file="$HOME/.nix-profile/share/bash-completion/bash_completion"
 if [[ $BASH_VERSION != 3.* && -f "$bash_completion_file" ]]; then
     source "$bash_completion_file"
 fi
 
-# vim: ft=sh
+# vim: ft=bash

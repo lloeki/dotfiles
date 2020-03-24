@@ -1,5 +1,5 @@
-if [[ -f /opt/arch/share/chruby/chruby.sh ]]; then
-    source /opt/arch/share/chruby/chruby.sh
+if [[ -f $HOME/.nix-profile/share/chruby/chruby.sh ]]; then
+    source $HOME/.nix-profile/share/chruby/chruby.sh
 fi
 
 _ruby-version() {
