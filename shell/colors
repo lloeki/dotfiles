@@ -1,7 +1,7 @@
 # add some color
-GREP_OPTIONS='--color=auto'
+alias grep=grep --color=auto
 CLICOLOR=1;
-export GREP_OPTIONS CLICOLOR
+export CLICOLOR
 
 # gnome terminal knows colors
 [[ "$COLORTERM" == "gnome-terminal" ]] && export TERM=xterm-256color
