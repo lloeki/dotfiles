@@ -36,7 +36,7 @@ preexec() {
 chpwd() {
     __git_ps1_gitdir
     _gopath
-    _auto-chruby
+    if _has-chruby; then _auto-chruby; fi
 }
 chpwd
 

@@ -1,6 +1,14 @@
 if [[ -f $HOME/.nix-profile/share/chruby/chruby.sh ]]; then
     source $HOME/.nix-profile/share/chruby/chruby.sh
+elif [[ -f /opt/arch/share/chruby/chruby.sh ]]; then
+    source /opt/arch/share/chruby/chruby.sh
+elif [[ -f /usr/local/share/chruby/chruby.sh ]]; then
+    source /usr/local/share/chruby/chruby.sh
 fi
+
+_has-chruby() {
+    type -f chruby >/dev/null 2>&1
+}
 
 _ruby-version() {
     local check_dir=$PWD
