@@ -31,7 +31,8 @@
 
 !---- Xft settings ----
 
-Xft.dpi:        96
+Xft.dpi:        192
+!Xft.dpi:        96
 Xft.antialias:  true
 Xft.rgba:       rgb
 Xft.hinting:    true
@@ -40,10 +41,11 @@ Xft.hintstyle:  hintslight
 
 !---- xterm ----
 
-xterm*geometry:           90x33
+xterm*geometry:           80x24
 xterm*borderWidth:        0
 !xterm*faceName:           terminus:bold:pixelsize=14
-xterm*faceName:           Menlo:pixelsize=14
+!xterm*faceName:           Menlo:pixelsize=14
+xterm*faceName:           Menlo:pixelsize=24
 !xterm*font:              -*-dina-medium-r-*-*-16-*-*-*-*-*-*-*
 xterm*dynamicColors:      true
 xterm*utf8:               2
@@ -60,6 +62,12 @@ xterm*toolBar:            false
 xterm*termName:           xterm-256color
 
 xterm*loginShell:         true
+
+xterm*selectToClipboard:  true
+xterm*VT100.Translations: #override \
+      Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n\
+      Shift Ctrl<Key>V: insert-selection(PRIMARY) \n\
+
 
 ! Zenburn
 !xterm*scrollBar*background:  #3f3f3f
