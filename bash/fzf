@@ -1,6 +1,8 @@
 # shellcheck shell=bash
 # vim: ft=sh
 
+if type fzf 1>/dev/null 2>/dev/null; then
+
 __fzf_select__() {
   local cmd="${FZF_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type f -print \
@@ -54,3 +56,5 @@ fi
 
 bind '"\C-r": " \C-e\C-u`__fzf_history__`\e\C-e\e^\er"'
 bind '"\ec": " \C-e\C-u`__fzf_cd__`\e\C-e\er\C-m"'
+
+fi
