@@ -1,5 +1,5 @@
 # ignore repeated, space-started, and casual commands
-export HISTIGNORE="&:[ ]*:l[sl]:[bf]g:exit"
+export HISTIGNORE="&:[ ]*:l[sl]:[bf]g:exit:cd .."
 
 # enable multiline historization as a single line
 shopt -s cmdhist
