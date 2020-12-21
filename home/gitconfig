@@ -15,7 +15,6 @@
 [url "git@gitlab.adhoc-gti.com:"]
 	insteadOf = https://gitlab.adhoc-gti.com/
 [diff]
-	compactionHeuristic = on
 	indentHeuristic = on
 [alias]
 	co = checkout
