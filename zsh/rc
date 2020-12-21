@@ -37,6 +37,7 @@ chpwd() {
     __git_ps1_gitdir
     _gopath
     if _has-chruby; then _auto-chruby; fi
+    #_auto-rubygems_gemdeps
 }
 chpwd
 

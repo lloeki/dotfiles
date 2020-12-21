@@ -7,7 +7,7 @@ function kd() {
     if [[ $# -eq 0 ]]; then
         local candidate="$PWD"
         while [[ -n "$candidate" ]]; do
-            for file in Gemfile Procfile .git; do
+            for file in Gemfile .git; do
                 if [[ -e "$candidate/$file" ]]; then
                     if [[ -t 1 ]]; then
                         cd "$candidate" || return 1

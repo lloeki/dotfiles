@@ -1,3 +1,21 @@
-GEM_HOME="$HOME/.gems"
-export GEM_HOME
-PATH=$PATH:"$GEM_HOME/bin"
+# vim: ft=sh
+# shellcheck shell=bash
+
+#ruby_version='2.7.0'
+#GEM_HOME="$HOME/.gem/ruby/${ruby_version}"
+#export GEM_HOME
+#PATH=$PATH:"$GEM_HOME/bin"
+
+_auto-rubygems_gemdeps() {
+    local check_dir=$PWD
+    local next_check_dir=${check_dir%/*}
+    while [ "$next_check_dir" != "" ]; do
+        if [[ -f "$check_dir/Gemfile" ]]; then
+            export RUBYGEMS_GEMDEPS="$check_dir/Gemfile"
+            return
+        fi
+        check_dir="$next_check_dir"
+        next_check_dir=${check_dir%/*}
+    done
+    unset RUBYGEMS_GEMDEPS
+}

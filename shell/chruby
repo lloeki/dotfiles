@@ -1,4 +1,6 @@
-if [[ -f $HOME/.nix-profile/share/chruby/chruby.sh ]]; then
+if [[ -f /opt/arch/share/chruby/chruby.sh ]]; then
+    source /opt/arch/share/chruby/chruby.sh
+elif [[ -f $HOME/.nix-profile/share/chruby/chruby.sh ]]; then
     source $HOME/.nix-profile/share/chruby/chruby.sh
 elif [[ -f /opt/arch/share/chruby/chruby.sh ]]; then
     source /opt/arch/share/chruby/chruby.sh
@@ -29,6 +31,9 @@ _ruby-version() {
 }
 
 _auto-chruby() {
+    if ! type -f chruby > /dev/null 2>&1; then
+        return
+    fi
     local ruby_version=$(_ruby-version)
     if [[ -n "${ruby_version}" ]]; then
         chruby "${ruby_version}"
