@@ -92,6 +92,9 @@ prompt_build_simple() {
         [[ -n "$action" ]] && echo -n "$action"
     fi
 
+    set_color -p yellow
+    [[ -n "${IN_NIX_SHELL}" ]] && echo -n " nix"
+
     # close prompt
     set_color -p none
     echo -n '> '

@@ -168,6 +168,8 @@ set_prompt() {
         [[ -n "$action" ]] && buffer="${buffer} %F{yellow}$action"
     fi
 
+    [[ -n "${IN_NIX_SHELL}" ]] && buffer="${buffer} %F{yellow}nix"
+
     buffer="${buffer}%f> "
     PROMPT="${buffer}"
 }
