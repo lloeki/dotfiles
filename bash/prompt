@@ -56,7 +56,7 @@ prompt_build_simple() {
     __git_ps1_vars
 
     if [[ -n $SSH_CLIENT ]]; then
-        echo -n "${HOSTNAME%%.local} "
+        echo -n "${HOSTNAME%.local} "
     fi
 
     if [[ -n $STY ]]; then

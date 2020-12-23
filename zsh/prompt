@@ -132,7 +132,7 @@ set_prompt() {
     local buffer=""
 
     if [[ -n $SSH_CLIENT ]]; then
-        buffer="${buffer}${HOST} "
+        buffer="${buffer}${HOST%.local} "
     fi
 
     if [[ -n $STY ]]; then
