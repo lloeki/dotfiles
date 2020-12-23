@@ -1,4 +1,4 @@
-export DOCKER_HOST=tcp://172.16.63.96:4243
+#export DOCKER_HOST=tcp://172.16.63.96:4243
 
 #export DOCKER_TLS_VERIFY="1"
 #export DOCKER_HOST="tcp://172.16.71.132:2376"
