@@ -1,10 +1,16 @@
 # vim: ft=sh
 # shellcheck shell=bash
 
-#ruby_version='2.7.0'
-#GEM_HOME="$HOME/.gem/ruby/${ruby_version}"
-#export GEM_HOME
-#PATH=$PATH:"$GEM_HOME/bin"
+_gem_home() {
+    GEM_HOME="${HOME}/.gem/ruby/system"
+    export GEM_HOME
+    PATH="${GEM_HOME}/bin:${PATH}"
+    export PATH
+}
+
+if ! _has-chruby; then
+    _gem_home
+fi
 
 _auto-rubygems_gemdeps() {
     local check_dir=$PWD
