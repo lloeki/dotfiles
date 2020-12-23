@@ -9,7 +9,7 @@ elif [[ -f /usr/local/share/chruby/chruby.sh ]]; then
 fi
 
 _has-chruby() {
-    type -f chruby >/dev/null 2>&1
+    type chruby >/dev/null 2>&1
 }
 
 _ruby-version() {
