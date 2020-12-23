@@ -1,11 +1,36 @@
+# less noise
 startup_message off
-
-hardstatus on
-hardstatus alwayslastline
-#hardstatus string "%3n %t%? @%u%?%? [%h]%?%=%c"
-hardstatus string '%{= kW}%-Lw%{= kY}%50>%n%f* %t%{= kW}%+Lw%< %{= kG}%-=%D %d %M %Y %c:%s%{-}' 
-
-defscrollback 1024
-
 vbell off
 
+# login shell
+shell -${SHELL}
+
+# tab-like bar
+hardstatus on
+hardstatus alwayslastline
+#hardstatus string '%{= kW}%-Lw%{= kY}%50>%n%f* %t%{= kW}%+Lw%< %{= kG}%-=%c %d-%M-%y%{-}'
+hardstatus string '%{= gk}%-Lw%50>%n%f* %t%+Lw%< %-="%H" %c %d-%M-%y%{-}'
+
+# split title
+#caption always "%3n %t%? @%u%?%? [%h]%?%=%c"
+
+# more room
+defscrollback 10000
+
+# survive brutality
+autodetach on
+
+# colors
+term screen-256color
+
+# scroll
+#termcapinfo xterm* ti@:te@
+
+# tmux-like bindings
+escape   ^bb
+bind     w   windowlist -b
+bind     x   kill
+bind     ^z  suspend
+
+bind     j   focus down
+bind     k   focus up

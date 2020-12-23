@@ -59,6 +59,10 @@ prompt_build_simple() {
         echo -n "${HOSTNAME%%.local} "
     fi
 
+    if [[ -n $STY ]]; then
+        buffer="${buffer}screen "
+    fi
+
     # add venv info
     set_color -p yellow
     if [[ -n "$VIRTUAL_ENV" ]]; then

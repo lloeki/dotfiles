@@ -135,6 +135,10 @@ set_prompt() {
         buffer="${buffer}${HOST} "
     fi
 
+    if [[ -n $STY ]]; then
+        buffer="${buffer}screen "
+    fi
+
     if [[ -n "$VIRTUAL_ENV" ]]; then
         buffer="${buffer}%F{yellow}${VIRTUAL_ENV##*/} "
     fi
