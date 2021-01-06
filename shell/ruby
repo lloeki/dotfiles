@@ -8,7 +8,7 @@ _gem_home() {
     export PATH
 }
 
-if ! _has-chruby; then
+if ! _has-chruby && ! _has-rbenv; then
     _gem_home
 fi
 
