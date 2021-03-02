@@ -185,4 +185,4 @@ __git_ps1_vars() {
     GIT_PS1_PREFIX="$prefix"
 }
 
-# vim: ft=sh
+# vim: ft=bash

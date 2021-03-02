@@ -3,4 +3,4 @@ for file in "$DOTFILES_SHELL_DIR"/*; do
     [[ -x $file ]] && source "$file"
 done
 
-# vim: ft=sh
+# vim: ft=bash

@@ -22,4 +22,4 @@ set_color() {
     [[ $prompt -eq 1 ]] && echo -n "\]"
 }
 
-# vim: ft=sh
+# vim: ft=bash

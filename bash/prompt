@@ -108,4 +108,4 @@ set_prompt() {
     PS1="$(prompt_build_simple)"
 }
 
-# vim: ft=sh
+# vim: ft=bash

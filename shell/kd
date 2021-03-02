@@ -1,7 +1,7 @@
-# vim: ft=sh
+# vim: ft=bash
 # shellcheck shell=bash
 
-# worKDir
+# worKDir or quicKDir
 function kd() {
     local conf="$HOME/.kdrc"
     if [[ $# -eq 0 ]]; then

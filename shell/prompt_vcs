@@ -66,4 +66,4 @@ prompt_vcs_action() {
     fi
 }
 
-# vim: ft=sh:
+# vim: ft=bash

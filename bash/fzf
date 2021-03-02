@@ -1,6 +1,3 @@
-# shellcheck shell=bash
-# vim: ft=sh
-
 if type fzf 1>/dev/null 2>/dev/null; then
 
 __fzf_select__() {
@@ -58,3 +55,5 @@ bind '"\C-r": " \C-e\C-u`__fzf_history__`\e\C-e\e^\er"'
 bind '"\ec": " \C-e\C-u`__fzf_cd__`\e\C-e\er\C-m"'
 
 fi
+
+# vim: ft=bash

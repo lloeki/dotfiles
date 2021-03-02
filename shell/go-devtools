@@ -1,1 +1,3 @@
 export PATH="$HOME/.local/libexec/go/bin:$PATH"
+
+# vim: ft=bash

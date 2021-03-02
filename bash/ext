@@ -54,3 +54,4 @@ clear_incomplete_line() {
     fi
 }
 
+# vim: ft=bash

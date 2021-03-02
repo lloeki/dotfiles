@@ -1,1 +1,5 @@
 ulimit -S -n 1024
+
+# vim: ft=bash
+
+

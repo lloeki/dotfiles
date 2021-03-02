@@ -64,3 +64,4 @@ rprompt_end() {
     CURRENT_BG=''
 }
 
+# vim: ft=zsh

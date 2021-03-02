@@ -3,7 +3,7 @@
 bundled_commands=(annotate cap capify cucumber guard heroku nanoc rackup rainbows rails rake rspec rubocop ruby shotgun spec spork thin unicorn unicorn_rails irb pry)
 
 _bundler-installed() {
-  which bundle > /dev/null 2>&1
+  command -v bundle > /dev/null 2>&1
 }
 
 _within-bundled-project() {
@@ -36,4 +36,4 @@ for cmd in ${bundled_commands[@]}; do
   fi
 done
 
-# vim: ft=zsh
+# vim: ft=bash

@@ -39,3 +39,5 @@ _auto-chruby() {
         chruby "${ruby_version}"
     fi
 }
+
+# vim: ft=bash

@@ -1,6 +1,3 @@
-# vim: ft=sh
-# shellcheck shell=bash
-
 test -d "/opt/rbenv" && RBENV_ROOT="/opt/rbenv"
 test -d "$HOME/.rbenv" && RBENV_ROOT="$HOME/.rbenv"
 export RBENV_ROOT
@@ -15,3 +12,5 @@ if _has-rbenv; then
     eval "$(rbenv init -)"
     export PATH
 fi
+
+# vim: ft=bash

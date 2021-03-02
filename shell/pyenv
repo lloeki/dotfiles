@@ -1,4 +1,10 @@
 # pyenv
-test -d "$HOME/.pyenv/bin" && PATH="$HOME/.pyenv/bin:$PATH"
-which pyenv 2>&1 >/dev/null && eval "$(pyenv init -)"
+if test -d "$HOME/.pyenv/bin"; then
+    PATH="$HOME/.pyenv/bin:$PATH"
+fi
+if command -v pyenv 2>&1 >/dev/null; then
+    eval "$(pyenv init -)"
+fi
 export PATH
+
+# vim: ft=bash

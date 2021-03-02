@@ -78,3 +78,5 @@ bindkey '^R' fzf-history-widget
 
 fi
 fi
+
+# vim: ft=zsh

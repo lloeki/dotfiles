@@ -4,3 +4,5 @@
 #export DOCKER_HOST="tcp://172.16.71.132:2376"
 #export DOCKER_CERT_PATH="/Users/lloeki/.docker/machine/machines/default"
 #export DOCKER_MACHINE_NAME="default"
+
+# vim: ft=bash

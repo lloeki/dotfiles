@@ -1,3 +1,5 @@
 # user path
 PATH=~/.local/bin:$PATH
 export PATH
+
+# vim: ft=bash

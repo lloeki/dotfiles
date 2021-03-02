@@ -1,5 +1,5 @@
 _go-installed() {
-  which go > /dev/null 2>&1
+  command -v go > /dev/null 2>&1
 }
 
 _within-go-project() {
@@ -75,4 +75,4 @@ _link-go-package() {
     ln -sf "$PWD" "$src/$pkgn"
 }
 
-# vim: ft=sh
+# vim: ft=bash

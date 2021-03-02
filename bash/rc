@@ -45,4 +45,4 @@ set bell-style none
 # disable deprecation warning
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
-# vim: ft=sh
+# vim: ft=bash

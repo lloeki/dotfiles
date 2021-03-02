@@ -1,1 +1,5 @@
-source $HOME/.archrc
+if test -f $HOME/.archrc; then
+    source $HOME/.archrc
+fi
+
+# vim: ft=bash

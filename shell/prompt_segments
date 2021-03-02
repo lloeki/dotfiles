@@ -49,4 +49,4 @@ prompt_subsegment() {
     [[ -n $1 ]] && print -Pn $1
 }
 
-# vim: ft=sh:
+# vim: ft=bash

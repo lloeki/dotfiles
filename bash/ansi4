@@ -89,4 +89,4 @@ ansi_sgr() {
     echo -n ${ANSI_SGR_INDEX[$1]}
 }
 
-# vim: ft=sh
+# vim: ft=bash

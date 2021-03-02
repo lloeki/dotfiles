@@ -6,4 +6,4 @@ source ~/.profile
 # include bashrc too if this is an interactive shell
 [[ $- == *i* ]] && source ~/.bashrc
 
-# vim: ft=sh
+# vim: ft=bash

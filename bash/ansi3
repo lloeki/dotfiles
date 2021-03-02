@@ -120,4 +120,4 @@ ansi_sgr() {
     eval "echo -n \$ANSI_SGR_INDEX__${key}__"
 }
 
-# vim: ft=sh
+# vim: ft=bash

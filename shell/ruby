@@ -1,6 +1,3 @@
-# vim: ft=sh
-# shellcheck shell=bash
-
 _gem_home() {
     GEM_HOME="${HOME}/.gem/ruby/system"
     export GEM_HOME
@@ -25,3 +22,5 @@ _auto-rubygems_gemdeps() {
     done
     unset RUBYGEMS_GEMDEPS
 }
+
+# vim: ft=bash

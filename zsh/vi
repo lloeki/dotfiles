@@ -5,3 +5,5 @@ KEYTIMEOUT=1
 bindkey -sM vicmd '^[' '^G'
 # fix ^X shortcuts
 bindkey -rM viins '^X'
+
+# vim: ft=zsh

@@ -15,7 +15,7 @@ fi
 
 set_term_title() {
     case $TERM in
-     xterm*|rxvt*)
+     xterm*|rxvt*|alacritty)
          local title="\033]2;$USER@${HOSTNAME%%.*}:${PWD/#$HOME/~}\a"
          ;;
      *)
@@ -25,4 +25,4 @@ set_term_title() {
     printf "$title"
 }
 
-# vim: ft=sh
+# vim: ft=bash

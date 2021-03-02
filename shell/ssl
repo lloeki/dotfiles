@@ -1,2 +1,5 @@
-[ -f /usr/local/share/ca-bundle.crt ] \
-&& export SSL_CERT_FILE=/usr/local/share/ca-bundle.crt
+if [[ -f /usr/local/share/ca-bundle.crt ]]; then
+    export SSL_CERT_FILE=/usr/local/share/ca-bundle.crt
+fi
+
+# vim: ft=bash

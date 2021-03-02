@@ -1,5 +1,6 @@
-
 # default editor
 EDITOR=vim
 VISUAL=vim
 export EDITOR VISUAL
+
+# vim: ft=bash

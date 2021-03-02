@@ -66,4 +66,4 @@ prompt_end() {
     CURRENT_BG=''
 }
 
-# vim: ft=sh:
+# vim: ft=bash
