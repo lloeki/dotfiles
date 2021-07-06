@@ -13,4 +13,7 @@ export HISTCONTROL=ignoreboth
 # more!
 export HISTSIZE=10000
 
+# file
+export HISTFILE=~/.history
+
 # vim: ft=bash
