@@ -4,6 +4,8 @@
 # Hooks
 # derived from http://glyf.livejournal.com/63106.html
 
+# TODO: support precmd_functions and chpwd_functions arrays
+
 # default: NOOPs
 function preexec { :; }
 function precmd  { :; }

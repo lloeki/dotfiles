@@ -13,6 +13,7 @@ source $DOTFILES_ZSH_DIR/completion
 source $DOTFILES_ZSH_DIR/prompt
 source $DOTFILES_ZSH_DIR/fzf
 source $DOTFILES_SHELL_DIR/go
+source $DOTFILES_SHELL_DIR/direnv
 
 set -o ignoreeof
 unsetopt BEEP
@@ -24,6 +25,7 @@ GIT_PS1_SHOWUNTRACKEDFILES=1
 
 precmd() {
     LAST_CMD_RC=$?
+    _direnv_hook
     psvar=()
     set_prompt
     set_term_title

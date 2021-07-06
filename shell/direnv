@@ -1,0 +1,21 @@
+if command -v direnv 2>&1 >/dev/null; then
+    if [[ -n $BASH_VERSION ]]; then
+        # eval "$(direnv hook bash)"
+        _direnv_hook() {
+          local previous_exit_status=$?;
+          trap -- '' SIGINT;
+          eval "$("${HOME}/.nix-profile/bin/direnv" export bash)";
+          trap - SIGINT;
+          return $previous_exit_status;
+        };
+    fi
+    if [[ -n $ZSH_VERSION ]]; then
+        # eval "$(direnv hook zsh)"
+        _direnv_hook() {
+          trap -- '' SIGINT;
+          eval "$("${HOME}/.nix-profile/bin/direnv" export zsh)";
+          trap - SIGINT;
+        }
+    fi
+fi
+

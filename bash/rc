@@ -20,6 +20,7 @@ GIT_PS1_SHOWUNTRACKEDFILES=1
 
 precmd() {
     LAST_CMD_RC=$?
+    _direnv_hook
     #clear_incomplete_line
     set_prompt
     update_terminal_cwd
