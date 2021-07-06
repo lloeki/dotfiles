@@ -1,3 +1,6 @@
 [user]
 	email = loic.nageleisen@gmail.com
 	name = Loic Nageleisen
+	signingkey = 971B4D9F125CD31E
+[commit]
+	gpgsign = true

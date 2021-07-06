@@ -1,7 +1,7 @@
 [user]
-	email = loic@sqreen.com
+	email = loic.nageleisen@datadoghq.com
 	name = Loic Nageleisen
-	signingkey = 7E3DAAAC74D5A2EE
+	signingkey = 87D237924563E757
 [commit]
 	gpgsign = true
 [core]

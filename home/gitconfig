@@ -2,8 +2,10 @@
 	default = simple
 [include]
 	path = ~/.gitconfig.lloeki
-[includeIf "gitdir:~/Workspace/github.com/sqreen/"]
+[includeIf "gitdir:~/Source/github.com/sqreen/"]
 	path = ~/.gitconfig.sqreen
+[includeIf "gitdir:~/Source/github.com/DataDog/"]
+	path = ~/.gitconfig.datadog
 [core]
 	excludesfile = /Users/lloeki/.gitignore
 [pull]
