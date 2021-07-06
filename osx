@@ -30,6 +30,7 @@ defaults write -g NSWindowResizeTime -float 0.003
 
 # stop polluting network shares
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 # disable mail animations
 defaults write com.apple.Mail DisableReplyAnimations -bool true
