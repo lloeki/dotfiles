@@ -1,6 +1,10 @@
 # vim: ft=bash
 # shellcheck shell=bash
 
+# TODO: make relative paths absolute (use . possible)
+# TODO: create kdrc if not exist
+# TODO: use .config/kd
+
 # worKDir or quicKDir
 function kd() {
     local conf="$HOME/.kdrc"
@@ -25,7 +29,7 @@ function kd() {
     fi
     if [[ $# -eq 1 ]]; then
         local target
-        target="$(awk "\$1 = /^${1}/ {a=\$2}; END { if (a) {print a}}" "$conf")"
+        target="$(awk "match(\$0, /^${1}/) {match(\$0, / .*/); a=substr(\$0,RSTART+1,RLENGTH-1)}; END { if (a) {print a}}" "$conf")"
         if [[ -n "$target" ]]; then
             if [[ -t 1 ]]; then
                 cd "$target" || return 1
