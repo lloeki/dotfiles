@@ -7,7 +7,6 @@ setopt hist_verify
 
 HISTSIZE=100000
 SAVEHIST=100000
-HISTFILE=~/.history
 HISTORY_IGNORE="(^ +|ls|bg|fg|pwd|exit|cd ..)"
 
 # vim: ft=zsh
