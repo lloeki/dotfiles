@@ -17,5 +17,9 @@ if command -v direnv 2>&1 >/dev/null; then
           trap - SIGINT;
         }
     fi
+else
+    _direnv_hook() {
+        :
+    }
 fi
 
