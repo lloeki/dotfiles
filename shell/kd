@@ -8,6 +8,9 @@
 # worKDir or quicKDir
 function kd() {
     local conf="$HOME/.kdrc"
+    if [[ ! -f "${conf}" ]]; then
+        touch "${conf}"
+    fi
     if [[ $# -eq 0 ]]; then
         local candidate="$PWD"
         while [[ -n "$candidate" ]]; do
