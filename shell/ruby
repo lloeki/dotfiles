@@ -23,4 +23,54 @@ _auto-rubygems_gemdeps() {
     unset RUBYGEMS_GEMDEPS
 }
 
+unpack_gem() {
+    local gemname="${1:?argument missing}"
+    local basename="${1%%.gem}"
+
+    if [[ "${gemname}" == "${basename}" ]]; then
+        echo "error: not a .gem: '${gemname}'"
+        return 1
+    fi
+
+    mkdir -p "${basename}/data"
+    tar -C "${basename}" -xvf "${gemname}"
+    gunzip "${basename}/checksums.yaml.gz"
+    gunzip "${basename}/metadata.gz"
+    tar -C "${basename}"/data -xvzf "${basename}"/data.tar.gz && rm -f "${basename}"/data.tar.gz
+}
+
+pack_gem() {
+    local dirname="${1:?argument missing}"
+    local gemname="${2:-"${dirname}".gem}"
+    if type shasum 2>&1 >/dev/null; then
+        local sha256sum=( shasum -a 256 )
+        local sha512sum=( shasum -a 512 )
+    else
+        local sha256sum=( sha256sum )
+        local sha512sum=( sha512sum )
+    fi
+
+    tar --strip-components 2 --uid 0 --gid 0 -cvzf "${dirname}"/data.tar.gz "${dirname}"/data
+    gzip < "${dirname}/metadata" > "${dirname}/metadata.gz"
+
+    metadata_gz_sha256="$("${sha256sum[@]}" "${dirname}"/metadata.gz | sed 's/  .*//')"
+    data_tar_gz_sha256="$("${sha256sum[@]}" "${dirname}"/data.tar.gz | sed 's/  .*//')"
+    metadata_gz_sha512="$("${sha512sum[@]}" "${dirname}"/metadata.gz | sed 's/  .*//')"
+    data_tar_gz_sha512="$("${sha512sum[@]}" "${dirname}"/data.tar.gz | sed 's/  .*//')"
+
+    chmod u+w "${dirname}/checksums.yaml"
+    cat <<CHECKSUMS > "${dirname}/checksums.yaml"
+---
+SHA256:
+  metadata.gz: ${metadata_gz_sha256}
+  data.tar.gz: ${data_tar_gz_sha256}
+SHA512:
+  metadata.gz: ${metadata_gz_sha512}
+  data.tar.gz: ${data_tar_gz_sha512}
+CHECKSUMS
+    gzip < "${dirname}/checksums.yaml" > "${dirname}/checksums.yaml.gz"
+
+    tar --strip-components 1 --uid 0 --gid 0 -cvf "${gemname}" "${dirname}"/metadata.gz "${dirname}"/data.tar.gz "${dirname}"/checksums.yaml.gz
+}
+
 # vim: ft=bash
