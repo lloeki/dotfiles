@@ -6,6 +6,10 @@
 	path = ~/.gitconfig.sqreen
 [includeIf "gitdir:~/Source/github.com/DataDog/"]
 	path = ~/.gitconfig.datadog
+[includeIf "gitdir:~/src/github.com/sqreen/"]
+	path = ~/.gitconfig.sqreen
+[includeIf "gitdir:~/src/github.com/DataDog/"]
+	path = ~/.gitconfig.datadog
 [core]
 	excludesfile = /Users/lloeki/.gitignore
 [pull]
