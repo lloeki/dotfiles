@@ -4,7 +4,7 @@ if command -v direnv 2>&1 >/dev/null; then
         _direnv_hook() {
           local previous_exit_status=$?;
           trap -- '' SIGINT;
-          eval "$("${HOME}/.nix-profile/bin/direnv" export bash)";
+          eval "$(direnv export bash)";
           trap - SIGINT;
           return $previous_exit_status;
         };
@@ -13,7 +13,7 @@ if command -v direnv 2>&1 >/dev/null; then
         # eval "$(direnv hook zsh)"
         _direnv_hook() {
           trap -- '' SIGINT;
-          eval "$("${HOME}/.nix-profile/bin/direnv" export zsh)";
+          eval "$(direnv export zsh)";
           trap - SIGINT;
         }
     fi
