@@ -63,7 +63,7 @@ xterm*termName:           xterm-256color
 
 xterm*loginShell:         true
 
-xterm*selectToClipboard:  true
+!xterm*selectToClipboard:  true
 xterm*VT100.Translations: #override \
       Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n\
       Shift Ctrl<Key>V: insert-selection(PRIMARY) \n\
