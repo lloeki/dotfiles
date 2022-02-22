@@ -1,7 +1,7 @@
 # start ssh agent, if no agent set
 if [[ -n "${XDG_RUNTIME_DIR}" && -z "${SSH_AUTH_SOCK}" ]]; then
     if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-        ssh-agent -t 1h > "${XDG_RUNTIME_DIR}/ssh-agent.env"
+        ssh-agent -t 24h > "${XDG_RUNTIME_DIR}/ssh-agent.env"
     fi
     if [[ ! -S "${SSH_AUTH_SOCK}" ]] && [[ -f "${XDG_RUNTIME_DIR}/ssh-agent.env" ]]; then
         source "${XDG_RUNTIME_DIR}/ssh-agent.env" > /dev/null
