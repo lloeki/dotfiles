@@ -11,7 +11,7 @@
 [includeIf "gitdir:~/src/github.com/DataDog/"]
 	path = ~/.gitconfig.datadog
 [core]
-	excludesfile = /Users/lloeki/.gitignore
+	excludesfile = ~/.gitignore
 [pull]
 	ff = only
 [url "git@github.com:"]
