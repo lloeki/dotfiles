@@ -1,10 +1,32 @@
 # start ssh agent, if no agent set
 if [[ -n "${XDG_RUNTIME_DIR}" && -z "${SSH_AUTH_SOCK}" ]]; then
+    # XDG should make this linux only
+    # macOS starts its own agent, so, doubly so
+
     if ! pgrep -u "$USER" ssh-agent > /dev/null; then
         ssh-agent -t 24h > "${XDG_RUNTIME_DIR}/ssh-agent.env"
     fi
+
     if [[ ! -S "${SSH_AUTH_SOCK}" ]] && [[ -f "${XDG_RUNTIME_DIR}/ssh-agent.env" ]]; then
         source "${XDG_RUNTIME_DIR}/ssh-agent.env" > /dev/null
+    fi
+fi
+
+# autoload keys if there's an agent
+if [[ -n "${SSH_AUTH_SOCK}" ]]; then
+    if ! ssh-add -l > /dev/null; then
+        case "${OSTYPE}"; in
+            linux*)
+                # TODO: unsure yet
+                :
+                ;;
+            darwin*)
+                ssh-add -q --apple-load-keychain
+                ;;
+            *)
+                :
+                ;;
+        esac
     fi
 fi
 
