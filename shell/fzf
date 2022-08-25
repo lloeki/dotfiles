@@ -6,6 +6,19 @@ if command -v fzf 2>&1 >/dev/null; then
         export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!{.git,node_modules,vendor}/*"'
         export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
     fi
+
+    function fcd() {
+      local dir;
+
+      while true; do
+        dir="$(ls -a1p | grep '/$' | grep -v '^./$' | fzf --height 40% --reverse --no-multi --preview 'pwd' --preview-window=up,1,border-none --no-info)"
+        if [[ -z "${dir}" ]]; then
+          break
+        else
+          cd "${dir}"
+        fi
+      done
+    }
 fi
 
 # vim: ft=bash
