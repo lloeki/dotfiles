@@ -1,0 +1,19 @@
+# cat nix | grep -v '^#' | while read -r drv; do nix-env -q "${drv%%_*}" || nix-env -iA nixpkgs."${drv}"; done
+borgbackup
+direnv
+docker
+docker-compose
+fzf
+git
+gnupg
+htop
+ncmpcpp
+ripgrep
+ruby_3_1
+shellcheck
+tmux
+youtube-dl
+jq
+bat
+ffmpeg
+fswatch
