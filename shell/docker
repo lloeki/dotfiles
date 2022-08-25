@@ -1,10 +1,23 @@
-#export DOCKER_HOST=tcp://172.16.63.96:4243
+if [[ "${OSTYPE}" == *darwin* ]]; then
+    vmrun='/Applications/VMware Fusion.app/Contents/Library/vmrun'
+    docker_vmx="${HOME}/Virtual Machines.localized/Docker.vmwarevm/Docker.vmx"
 
-#export DOCKER_TLS_VERIFY="1"
-#export DOCKER_HOST="tcp://172.16.71.132:2376"
-#export DOCKER_CERT_PATH="/Users/lloeki/.docker/machine/machines/default"
-#export DOCKER_MACHINE_NAME="default"
+    if [[ -f "${vmrun}" && -f "${docker_vmx}" ]]; then
+        if "${vmrun}" list | grep -q "${docker_vmx}"; then
+            :
+        else
+            # TODO: user feedback facilities
+            echo "* Starting Docker VM"
+            "${vmrun}" start "${docker_vmx}" nogui
+        fi
 
-#export DOCKER_HOST=ssh://172.16.50.2
+        # TODO: make this faster
+        #   - look into /var/db/vmware/vmnet-dhcpd-vmnet{1,8}.leases
+        #   - cache found IP
+        docker_vm_ip="$("${vmrun}" getGuestIPAddress "${docker_vmx}" -wait)"
+
+        export DOCKER_HOST="ssh://docker@${docker_vm_ip}"
+    fi
+fi
 
 # vim: ft=bash
