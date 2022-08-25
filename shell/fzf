@@ -1,6 +1,11 @@
-if command -v rg 2>&1 >/dev/null; then
-    export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!{.git,node_modules}/*"'
-    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+if command -v fzf 2>&1 >/dev/null; then
+    if command -v fd 2>&1 >/dev/null; then
+        export FZF_DEFAULT_COMMAND='fd --no-ignore --hidden --follow --strip-cwd-prefix --exclude .git --exclude node_modules --exclude vendor'
+        export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    elif command -v rg 2>&1 >/dev/null; then
+        export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!{.git,node_modules,vendor}/*"'
+        export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    fi
 fi
 
 # vim: ft=bash
