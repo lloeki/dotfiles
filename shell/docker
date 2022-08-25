@@ -1,23 +1,47 @@
 if [[ "${OSTYPE}" == *darwin* ]]; then
-    vmrun='/Applications/VMware Fusion.app/Contents/Library/vmrun'
-    docker_vmx="${HOME}/Virtual Machines.localized/Docker.vmwarevm/Docker.vmx"
+    for app in 'VMware Fusion.app' 'VMware Fusion Tech Preview.app'; do
+        if [[ -f "/Applications/${app}/Contents/Library/vmrun" ]]; then
+            vmrun="/Applications/${app}/Contents/Library/vmrun"
+            break
+        fi
+    done
+    unset app
 
-    if [[ -f "${vmrun}" && -f "${docker_vmx}" ]]; then
-        if "${vmrun}" list | grep -q "${docker_vmx}"; then
+    for vm in Docker Gomeisa; do
+        if [[ -f "${HOME}/Virtual Machines.localized/${vm}.vmwarevm/${vm}.vmx" ]]; then
+            vmx="${HOME}/Virtual Machines.localized/${vm}.vmwarevm/${vm}.vmx"
+            break
+        fi
+    done
+    unset vm
+
+    if [[ -n "${vmrun:-}" && -n "${vmx:-}" ]]; then
+        if "${vmrun}" list | grep -q "${vmx}"; then
+            # vm started
             :
         else
             # TODO: user feedback facilities
             echo "* Starting Docker VM"
-            "${vmrun}" start "${docker_vmx}" nogui
+            "${vmrun}" start "${vmx}" nogui
         fi
+
+        # TODO: use 'docker' once Gomeisa is gone
+        user='root'
 
         # TODO: make this faster
         #   - look into /var/db/vmware/vmnet-dhcpd-vmnet{1,8}.leases
         #   - cache found IP
-        docker_vm_ip="$("${vmrun}" getGuestIPAddress "${docker_vmx}" -wait)"
+        ip="$("${vmrun}" getGuestIPAddress "${vmx}" -wait)"
 
-        export DOCKER_HOST="ssh://docker@${docker_vm_ip}"
+        export DOCKER_VM_IP="${ip}"
+        export DOCKER_VM_SSH="${user}@${DOCKER_VM_IP}"
+        export DOCKER_HOST="ssh://${DOCKER_VM_SSH}"
     fi
+
+    unset vmrun
+    unset vmx
+    unset ip
+    unset user
 fi
 
 # vim: ft=bash
