@@ -4,6 +4,9 @@
 
 #sudo tmutil disablelocal
 
+defaults write com.apple.screencapture disable-shadow -bool true
+killall SystemUIServer
+
 # disable rubberbanding, but not vanishing scrollbars
 #defaults write -g NSScrollViewRubberbanding -bool false
 #defaults write com.apple.iTunes disable-elastic-scroll -bool YES
