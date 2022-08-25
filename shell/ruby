@@ -32,10 +32,15 @@ unpack_gem() {
         return 1
     fi
 
+    if [[ ! -f "${gemname}" ]]; then
+        echo "error: not a .gem: '${gemname}'"
+        return 1
+    fi
+
     mkdir -p "${basename}/data"
     tar -C "${basename}" -xvf "${gemname}"
-    gunzip "${basename}/checksums.yaml.gz"
-    gunzip "${basename}/metadata.gz"
+    gunzip -f "${basename}/checksums.yaml.gz"
+    gunzip -f "${basename}/metadata.gz"
     tar -C "${basename}"/data -xvzf "${basename}"/data.tar.gz && rm -f "${basename}"/data.tar.gz
 }
 
@@ -48,6 +53,16 @@ pack_gem() {
     else
         local sha256sum=( sha256sum )
         local sha512sum=( sha512sum )
+    fi
+
+    if [[ ! -d "${dirname}/data" ]]; then
+        echo "error: missing data: '${dirname}'"
+        return 1
+    fi
+
+    if [[ ! -d "${dirname}/metadata" ]]; then
+        echo "error: missing metadata: '${dirname}'"
+        return 1
     fi
 
     tar --strip-components 2 --uid 0 --gid 0 -cvzf "${dirname}"/data.tar.gz "${dirname}"/data
