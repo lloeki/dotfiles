@@ -19,6 +19,10 @@ if command -v fzf 2>&1 >/dev/null; then
         fi
       done
     }
+
+    function fgit() {
+        git log --oneline --decorate --color | fzf --ansi --preview 'git show $(echo {} | cut -d" " -f1)'
+    }
 fi
 
 # vim: ft=bash
