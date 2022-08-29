@@ -1,0 +1,56 @@
+function ts() {
+    local hires
+    local format
+    local rel
+    local dif
+
+    hires=0
+    format='[%Y-%m-%d %H:%M:%S]'
+    rel=0
+    dif=0
+
+    while [[ "${#}" -gt 0 ]]; do
+        case "${1}" in
+            -h)
+                hires=1
+                format='[%Y-%m-%d %H:%M:%.S]'
+                ;;
+            -r)
+                rel=1
+                ;;
+            -d)
+                dif=1
+                ;;
+            *%.S*|*%.s*)
+                format="${1}"
+                hires=1
+                ;;
+            *)
+                format="${1}"
+                ;;
+        esac
+        shift
+    done
+
+    if [[ "${dif}" = 1 ]]; then
+        if [[ "${hires}" = 1 ]]; then
+            perl -pe 'use POSIX strftime; use Time::HiRes gettimeofday; $| = 1; select((select(STDERR), $| = 1)[0]); ($s, $ms) = gettimeofday(); $p_s ||= $s; $p_ms ||= $ms; $d_s = $s - $p_s; $d_ms = $ms - $p_ms; $d = $d_s + $d_ms / 1000000.0; printf "%.6f ", $d; $p_s = $s; $p_ms = $ms'
+        else
+            perl -pe 'use POSIX strftime; $| = 1; select((select(STDERR), $| = 1)[0]); $s = time; $p ||= $s; $b = $s - $p; print "$b "; $p = $s'
+        fi
+    elif [[ "${rel}" = 1 ]]; then
+        if [[ "${hires}" = 1 ]]; then
+            perl -pe 'use POSIX strftime; use Time::HiRes gettimeofday; $| = 1; select((select(STDERR), $| = 1)[0]); ($s, $ms) = gettimeofday(); $p_s ||= $s; $p_ms ||= $ms; $d_s = $s - $p_s; $d_ms = $ms - $p_ms; $d = $d_s + $d_ms / 1000000.0; printf "%.6f ", $d'
+        else
+            perl -pe 'use POSIX strftime; $| = 1; select((select(STDERR), $| = 1)[0]); $s = time; $p ||= $s; $b = $s - $p; print "$b "'
+        fi
+    else
+        if [[ "${hires}" = 1 ]]; then
+            perl -pe 'use POSIX strftime; use Time::HiRes gettimeofday; $| = 1; select((select(STDERR), $| = 1)[0]); ($s, $ms) = gettimeofday(); $v = sprintf("%06i", $ms); $f = "'"${format}"'"; $f =~ s/\%\.([Ss])/%$1.$v/g ; print strftime "$f ", localtime($s)'
+        else
+            perl -pe 'use POSIX strftime; $| = 1; select((select(STDERR), $| = 1)[0]); $f = "'"${format}"'"; print strftime "$f ", localtime'
+        fi
+    fi
+}
+
+# vim: ft=bash
