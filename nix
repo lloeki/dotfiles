@@ -17,3 +17,4 @@ jq
 bat
 ffmpeg
 fswatch
+ccache
