@@ -1,4 +1,10 @@
-if [[ "${OSTYPE}" == *darwin* ]]; then
+if [[ -f "${HOME}"/.config/dotfiles/docker ]]; then
+    source "${HOME}"/.config/dotfiles/docker
+
+    export DOCKER_VM_IP="${ip}"
+    export DOCKER_VM_SSH="${user}@${DOCKER_VM_IP}"
+    export DOCKER_HOST="ssh://${DOCKER_VM_SSH}"
+elif [[ "${OSTYPE}" == *darwin* ]]; then
     for app in 'VMware Fusion.app' 'VMware Fusion Tech Preview.app'; do
         if [[ -f "/Applications/${app}/Contents/Library/vmrun" ]]; then
             vmrun="/Applications/${app}/Contents/Library/vmrun"
@@ -16,28 +22,32 @@ if [[ "${OSTYPE}" == *darwin* ]]; then
     unset vm
 
     if [[ -n "${vmrun:-}" && -n "${vmx:-}" ]]; then
+        started=0
         if "${vmrun}" list | grep -q "${vmx}"; then
-            # vm started
-            :
+            started=1
         else
             # TODO: user feedback facilities
-            echo "* Starting Docker VM"
-            "${vmrun}" start "${vmx}" nogui
+            #echo "* Starting Docker VM"
+            #"${vmrun}" start "${vmx}" nogui
+            echo "* Docker VM not found"
         fi
 
-        # TODO: use 'docker' once Gomeisa is gone
-        user='root'
+        if [[ "${started}" = 1 ]]; then
+            # TODO: use 'docker' once Gomeisa is gone
+            user='root'
 
-        # TODO: make this faster
-        #   - look into /var/db/vmware/vmnet-dhcpd-vmnet{1,8}.leases
-        #   - cache found IP
-        ip="$("${vmrun}" getGuestIPAddress "${vmx}" -wait)"
+            # TODO: make this faster
+            #   - look into /var/db/vmware/vmnet-dhcpd-vmnet{1,8}.leases
+            #   - cache found IP
+            ip="$("${vmrun}" getGuestIPAddress "${vmx}" -wait)"
 
-        export DOCKER_VM_IP="${ip}"
-        export DOCKER_VM_SSH="${user}@${DOCKER_VM_IP}"
-        export DOCKER_HOST="ssh://${DOCKER_VM_SSH}"
+            export DOCKER_VM_IP="${ip}"
+            export DOCKER_VM_SSH="${user}@${DOCKER_VM_IP}"
+            export DOCKER_HOST="ssh://${DOCKER_VM_SSH}"
+        fi
     fi
 
+    unset started
     unset vmrun
     unset vmx
     unset ip
