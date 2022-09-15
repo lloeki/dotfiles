@@ -1,12 +1,19 @@
-_gem_home() {
-    GEM_HOME="${HOME}/.gem/ruby/system"
-    export GEM_HOME
-    PATH="${GEM_HOME}/bin:${PATH}"
-    export PATH
+_has-ruby() {
+    command -v ruby 2>&1 >/dev/null
+}
+
+_set_default_gem_home() {
+    if _has-ruby && [[ -z "${GEM_HOME}" ]]; then
+        RUBY_VERSION="$(ruby -e 'puts RUBY_VERSION.gsub(/\d+$/, "0")')"
+        GEM_HOME="${HOME}/.gem/ruby/${RUBY_VERSION}"
+        export GEM_HOME
+        PATH="${GEM_HOME}/bin:${PATH}"
+        export PATH
+    fi
 }
 
 if ! _has-chruby && ! _has-rbenv; then
-    _gem_home
+    _set_default_gem_home
 fi
 
 _auto-rubygems_gemdeps() {
