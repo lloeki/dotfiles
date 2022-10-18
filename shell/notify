@@ -1,0 +1,92 @@
+function notify() {
+    local title
+    local message
+    local subtitle
+    local sound
+    local command
+    local rc
+
+    command=()
+
+    while [[ "${#}" -gt 0 ]]; do
+        case "${1}" in
+            -t|--title)
+                title="${2}"
+                shift
+                ;;
+            -s|--subtitle)
+                subtitle="${2}"
+                shift
+                ;;
+            -m|--message)
+                message="${2}"
+                shift
+                ;;
+            -S|--sound)
+                if [[ -z "${2:-}" || "${2}" == '-*' ]]; then
+                    sound='1'
+                else
+                    sound="${2}"
+                    shift
+                fi
+                ;;
+            --)
+                shift
+                command=("${@}")
+                break
+                ;;
+            *)
+                command=("${@}")
+                break
+                ;;
+        esac
+
+        shift
+    done
+
+    if [[ "${#command[@]}" -gt 0 ]]; then
+        "${command[@]}"
+        rc="${?}"
+    fi
+
+    if [[ -z "${title}" && "${#command[@]}" -gt 0 ]]; then
+        title="${command[*]}"
+    fi
+
+    if [[ -z "${message}" && "${#command[@]}" -gt 0 ]]; then
+        message="exit ${rc}"
+    fi
+
+    if [[ -z "${message}" ]]; then
+        echo 'error: missing message' 1>&2
+        return 1
+    fi
+
+    if [[ -z "${title}" ]]; then
+        title="${0}"
+    fi
+
+    script='display notification "'"${message}"'"'
+
+    if [[ -n "${title}" || -n "${subtitle}" || -n "${sound}" ]]; then
+        script+=' with'
+    fi
+
+    if [[ -n "${title}" ]]; then
+        script+=' title "'"${title}"'"'
+    fi
+
+    if [[ -n "${subtitle}" ]]; then
+        script+=' subtitle "'"${subtitle}"'"'
+    fi
+
+    if [[ -n "${sound}" ]]; then
+        script+=' sound name "'"${sound}"'"'
+    fi
+
+    osascript -e "${script}"
+
+    return "${rc}"
+}
+
+# vim: ft=bash
