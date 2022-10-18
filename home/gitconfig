@@ -41,3 +41,5 @@
 	undo = reset HEAD~1 --mixed
 	backup = !git push origin/backup/$(whoami)/$(git branch)
 	lint = !git branch --merged | grep -v \"^\\s*master$\" | grep -v \"\\*\" | xargs -n 1 git branch -d
+	modified = !git status --porcelain | perl -ne '/^M  (.*)/ and print \"$1\\n\"'
+	conflicts = !git status --porcelain | perl -ne '/^UU (.*)/ and print \"$1\\n\"'
