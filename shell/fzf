@@ -22,7 +22,7 @@ function fzcd() {
 }
 
 function fzgit() {
-    git log --oneline --decorate --color | fzf --ansi --preview 'git show $(echo {} | cut -d" " -f1)'
+    git log --oneline --decorate --color "${@}" | fzf --ansi --preview 'git show $(echo {} | cut -d" " -f1)'
 }
 
 # vim: ft=bash
