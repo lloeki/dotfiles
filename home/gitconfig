@@ -36,7 +36,7 @@
 	changelog = !git log --oneline --no-merges ${1-$(git describe --abbrev=0)}..HEAD
 	upstream = !git log --oneline --no-merges HEAD..${1-$(git branch -lvv | perl -ne '/^\\*.*\\[(.*?)\\]/ and print "$1\n"')}
 	local = !git log --oneline --no-merges ${1-$(git branch -lvv | perl -ne '/^\\*.*\\[(.*?)\\]/ and print "$1\n"')}..HEAD
-	graph = log --oneline --graph --all --decorate --date=iso
+	graph = !git log --oneline --graph --decorate --date=iso "$@"
 	save = !git add -A && git commit -m 'SAVEPOINT'
 	undo = reset HEAD~1 --mixed
 	backup = !git push origin/backup/$(whoami)/$(git branch)
