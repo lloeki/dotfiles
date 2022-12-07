@@ -1,0 +1,20 @@
+function() vid2gif {
+    local src="$1"
+    local dst="$2"
+
+    local fps="25" # gif internal = delay in 1/100th s => fps in [100, 50, 33.3, 25, 20, ...]
+    local width="320" # height automatic
+    local loop="0" # -loop $loop : 0 = infinite, -1 = nope, > 0 = play twice or more (play=loop+1)
+    local skip="0" # -ss $skip
+    local length="-1" # -t $length
+
+    # palettegen=stats_mode=single (each frame) | =full (default, whole image) | =diff (moving parts)
+    # paletteuse=new=1 (one palette per frame)
+    # paletteuse=dither=bayer bayer_scale=[0,5] (default 2)
+    # https://ffmpeg.org/ffmpeg-filters.html#palettegen
+    # https://ffmpeg.org/ffmpeg-filters.html#paletteuse
+
+    ffmpeg -i "${src}" -vf "fps=25,scale=320:-1:flags=lanczos,split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse" -loop 0 "${dst}"
+}
+
+# vim: ft=bash
