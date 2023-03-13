@@ -1,4 +1,3 @@
-# cat nix | grep -v '^#' | while read -r drv; do nix-env -q "${drv%%_*}" || nix-env -iA nixpkgs."${drv}"; done
 bat
 borgbackup
 ccache
