@@ -15,7 +15,7 @@ fi
 # autoload keys if there's an agent
 if [[ -n "${SSH_AUTH_SOCK}" ]]; then
     if ! ssh-add -l > /dev/null; then
-        case "${OSTYPE}"; in
+        case "${OSTYPE}" in
             linux*)
                 # TODO: unsure yet
                 :
