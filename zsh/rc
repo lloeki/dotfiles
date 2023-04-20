@@ -23,8 +23,18 @@ GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
 
+zmodload zsh/datetime
+
 precmd() {
-    LAST_CMD_RC=$?
+    CMD_RC=$?
+
+    if [[ -n ${CMD_START} ]]; then
+        CMD_END="${EPOCHREALTIME}"
+        CMD_DURATION=$(( ${CMD_END} - ${CMD_START} ))
+        unset CMD_START
+        unset CMD_END
+    fi
+
     _direnv_hook
     psvar=()
     set_prompt
@@ -33,6 +43,7 @@ precmd() {
 
 preexec() {
     set_term_title
+    CMD_START="${EPOCHREALTIME}"
 }
 
 chpwd() {

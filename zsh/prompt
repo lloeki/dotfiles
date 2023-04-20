@@ -176,6 +176,18 @@ set_prompt() {
 
     buffer="${buffer}%f> "
     PROMPT="${buffer}"
+
+    local rbuffer=""
+
+    if [[ ${CMD_DURATION:-0} -gt 0 ]]; then
+        printf -v formatted_duration "%.3f" "${CMD_DURATION}"
+
+        rbuffer=" %F{yellow}${formatted_duration}s${rbuffer}"
+    fi
+
+    [[ ${CMD_RC} -ne 0 ]] && rbuffer=" %F{red}${CMD_RC}${rbuffer}"
+
+    RPROMPT="${rbuffer}%f"
 }
 
 # vim: ft=zsh
