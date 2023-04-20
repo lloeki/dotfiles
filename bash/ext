@@ -56,4 +56,52 @@ clear_incomplete_line() {
     fi
 }
 
+function sub_prompt_colors_unsized() {
+    sed \
+        -e 's#%F{black}#\\033[30m#g' \
+        -e 's#%F{red}#\\033[31m#g' \
+        -e 's#%F{green}#\\033[32m#g' \
+        -e 's#%F{yellow}#\\033[33m#g' \
+        -e 's#%F{blue}#\\033[34m#g' \
+        -e 's#%F{magenta}#\\033[35m#g' \
+        -e 's#%F{cyan}#\\033[36m#g' \
+        -e 's#%F{white}#\\033[37m#g' \
+        -e 's#%f#\\033[00m#g'
+}
+
+function sub_prompt_colors_sized() {
+    sed \
+        -e 's#%F{black}#\\[\\033[30m\\]#g' \
+        -e 's#%F{red}#\\[\\033[31m\\]#g' \
+        -e 's#%F{green}#\\[\\033[32m\\]#g' \
+        -e 's#%F{yellow}#\\[\\033[33m\\]#g' \
+        -e 's#%F{blue}#\\[\\033[34m\\]#g' \
+        -e 's#%F{magenta}#\\[\\033[35m\\]#g' \
+        -e 's#%F{cyan}#\\[\\033[36m\\]#g' \
+        -e 's#%F{white}#\\[\\033[37m\\]#g' \
+        -e 's#%f#\\[\\033[00m\\]#g'
+}
+
+function strip_prompt_colors() {
+    sed \
+        -e 's#%F{black}##g' \
+        -e 's#%F{red}##g' \
+        -e 's#%F{green}##g' \
+        -e 's#%F{yellow}##g' \
+        -e 's#%F{blue}##g' \
+        -e 's#%F{magenta}##g' \
+        -e 's#%F{cyan}##g' \
+        -e 's#%F{white}##g' \
+        -e 's#%f##g'
+}
+
+# right prompt support and PROMPT/RPROMPT vars
+function apply_prompt_rprompt() {
+    local rprompt=$(echo "${RPROMPT}" | sub_prompt_colors_unsized)
+    local prompt=$(echo "${PROMPT}" | sub_prompt_colors_sized)
+    #local rprompt=$(echo "${RPROMPT}" | strip_prompt_colors)
+    #local prompt=$(echo "${PROMPT}" | strip_prompt_colors)
+    PS1="$(printf "\[%*s\r\]%s" "${COLUMNS}" "${rprompt:-}" "${prompt:-}")"
+}
+
 # vim: ft=bash

@@ -19,12 +19,26 @@ GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUNTRACKEDFILES=1
 
 precmd() {
-    LAST_CMD_RC=$?
+    CMD_RC=$?
+
+    if [[ -n ${CMD_START} ]]; then
+        CMD_END="${EPOCHREALTIME}"
+        CMD_DURATION=$(bc <<<"${CMD_END} - ${CMD_START}")
+        unset CMD_START
+        unset CMD_END
+    fi
+
     _direnv_hook
     #clear_incomplete_line
     set_prompt
+    apply_prompt_rprompt
     update_terminal_cwd
     set_term_title
+}
+
+preexec() {
+    set_term_title
+    CMD_START="${EPOCHREALTIME}"
 }
 
 chpwd() {

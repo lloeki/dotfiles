@@ -52,30 +52,34 @@ function prompt_pwd() {
   fi
 }
 
-prompt_build_simple() {
+set_prompt() {
     __git_ps1_vars
 
+    local buffer=""
+
     if [[ -n $SSH_CLIENT ]]; then
-        echo -n "${HOSTNAME%.local} "
+        buffer="${buffer}${HOST%.local} "
     fi
 
     if [[ -n $STY ]]; then
         buffer="${buffer}screen "
     fi
 
-    # add venv info
-    set_color -p yellow
     if [[ -n "$VIRTUAL_ENV" ]]; then
-        echo -n "${VIRTUAL_ENV##*/} "
+        buffer="${buffer}%F{yellow}${VIRTUAL_ENV##*/} "
     fi
 
-    set_color -p green
-    prompt_pwd
+    local pwd
+    if [[ $PWD == $HOME ]]; then
+       pwd="~"
+    else
+      pwd="${PWD##*/}"
+    fi
+    buffer="${buffer}%F{green}${pwd}"
 
     # add git prompt info
     if [[ -n "$GIT_PS1_STATUS" ]]; then
-        set_color -p blue
-        echo -n " $GIT_PS1_BRANCH"
+        buffer="${buffer} %F{blue}$GIT_PS1_BRANCH"
 
         vcs_status=""
         contains h "$GIT_PS1_STATUS" && vcs_status="$vcs_status""⇱"
@@ -83,8 +87,7 @@ prompt_build_simple() {
         contains u "$GIT_PS1_STATUS" && vcs_status="$vcs_status""≠"
         contains s "$GIT_PS1_STATUS" && vcs_status="$vcs_status""±"
         contains n "$GIT_PS1_STATUS" && vcs_status="$vcs_status""∅"
-        set_color -p red
-        [[ -n "$vcs_status" ]] && echo -n " $vcs_status"
+        [[ -n "$vcs_status" ]] && buffer="${buffer} %F{red}$vcs_status"
 
         action=""
         contains R "$GIT_PS1_STATUS" && action="$action rebase"
@@ -92,20 +95,28 @@ prompt_build_simple() {
         contains A "$GIT_PS1_STATUS" && action="$action apply"
         contains M "$GIT_PS1_STATUS" && action="$action merge"
         contains B "$GIT_PS1_STATUS" && action="$action bisect"
-        set_color -p yellow
-        [[ -n "$action" ]] && echo -n "$action"
+        [[ -n "$action" ]] && buffer="${buffer} %F{yellow}$action"
     fi
 
-    set_color -p yellow
-    [[ -n "${IN_NIX_SHELL}" ]] && echo -n " nix"
+    [[ -n "${IN_NIX_SHELL}" ]] && buffer="${buffer} %F{yellow}nix"
 
-    # close prompt
-    set_color -p none
-    echo -n '> '
-}
+    buffer="${buffer}%f> "
+    PROMPT="${buffer}"
 
-set_prompt() {
-    PS1="$(prompt_build_simple)"
+    local rbuffer=""
+
+    CMD_DURATION=${CMD_DURATION:-0}
+    local duration="${CMD_DURATION%.*}"
+
+    if [[ ${duration:-0} -gt 0 ]]; then
+        printf -v formatted_duration "%.3f" "${CMD_DURATION}"
+
+        rbuffer=" %F{yellow}${formatted_duration}s${rbuffer}"
+    fi
+
+    [[ ${CMD_RC} -ne 0 ]] && rbuffer=" %F{red}${CMD_RC}${rbuffer}"
+
+    RPROMPT="${rbuffer}%f"
 }
 
 # vim: ft=bash
