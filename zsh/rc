@@ -17,6 +17,7 @@ source $DOTFILES_SHELL_DIR/direnv
 
 set -o ignoreeof
 unsetopt BEEP
+unsetopt NOMATCH
 
 source $DOTFILES_SHELL_DIR/git_prompt_info
 GIT_PS1_SHOWDIRTYSTATE=1
