@@ -1,0 +1,2 @@
+# restore GNU coreutils ls sanity
+export QUOTING_STYLE=literal
