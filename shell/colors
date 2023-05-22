@@ -1,7 +1,16 @@
-# add some color
+# add some color on grep match
 alias grep=grep --color=auto
-CLICOLOR=1;
-export CLICOLOR
+
+# ls colors
+# case "$OSTYPE" in
+#     *darwin*)
+#         export CLICOLOR=1
+#         alias ls="ls --color=auto"
+#         ;;
+#     *linux*)
+#         alias ls="ls --color"
+#         ;;
+# esac
 
 # gnome terminal knows colors
 [[ "$COLORTERM" == "gnome-terminal" ]] && export TERM=xterm-256color
