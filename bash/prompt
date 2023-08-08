@@ -116,7 +116,11 @@ set_prompt() {
 
     [[ ${CMD_RC} -ne 0 ]] && rbuffer=" %F{red}${CMD_RC}${rbuffer}"
 
-    RPROMPT="${rbuffer}%f"
+    if [[ -n "${rbuffer}" ]]; then
+      RPROMPT="${rbuffer}%f"
+    else
+      RPROMPT=""
+    fi
 }
 
 # vim: ft=bash

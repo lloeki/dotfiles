@@ -101,7 +101,11 @@ function apply_prompt_rprompt() {
     local prompt=$(echo "${PROMPT}" | sub_prompt_colors_sized)
     #local rprompt=$(echo "${RPROMPT}" | strip_prompt_colors)
     #local prompt=$(echo "${PROMPT}" | strip_prompt_colors)
-    PS1="$(printf "\[%*s\r\]%s" "${COLUMNS}" "${rprompt:-}" "${prompt:-}")"
+    if [[ -n "${RPROMPT}" ]]; then
+        PS1="$(printf "\[%*s\r\]%s" "${COLUMNS}" "${rprompt:-}" "${prompt:-}")"
+    else
+        PS1="${prompt:-}"
+    fi
 }
 
 # vim: ft=bash
