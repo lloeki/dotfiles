@@ -44,3 +44,5 @@
 	modified = !git status --porcelain | perl -ne '/^M  (.*)/ and print \"$1\\n\"'
 	conflicts = !git status --porcelain | perl -ne '/^UU (.*)/ and print \"$1\\n\"'
 	fetch-pr = !git fetch origin pull/${1}/head:pr/${1}
+[init]
+	defaultBranch = main
