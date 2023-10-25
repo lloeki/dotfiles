@@ -1,7 +1,11 @@
-if [[ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]]; then
+if [[ -z "NIX_PATH" && -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-elif [[ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]]; then
+elif [[ -z "NIX_PATH" && -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]]; then
   . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
 fi
+
+function nix-channel-version() {
+    nix-instantiate --eval -A 'lib.version' '<nixpkgs>'
+}
 
 # vim: ft=bash
