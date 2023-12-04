@@ -67,7 +67,7 @@ pack_gem() {
         return 1
     fi
 
-    if [[ ! -d "${dirname}/metadata" ]]; then
+    if [[ ! -f "${dirname}/metadata" ]]; then
         echo "error: missing metadata: '${dirname}'"
         return 1
     fi
