@@ -16,4 +16,10 @@ alias grep=grep --color=auto
 [[ "$COLORTERM" == "gnome-terminal" ]] && export TERM=xterm-256color
 [[ "$COLORTERM" == "xfce4-terminal" ]] && export TERM=xterm-256color
 
+function nocolor() { sed -e $'s/\x1b\[[0-9;]*m//g'; }
+
+function noescape() { perl -pe 's/\e\[[\x30-\x3f]*[\x20-\x2f]*[\x40-\x7e]//g;s/\e[PX^_].*?\e\\//g;s/\e\][^\a]*(?:\a|\e\\)//g;s/\e[\[\]A-Z\\^_@]//g;s/[\x00-\x1f\x7f-\x9f\xad]+//g;'; }
+
+function noescape() { sed -E $'s|\x1b\\[[0-\\?]*[ -/]*[@-~]||g;s|\x1b[PX^_][^\x1b]*\x1b\\\\||g;s:\x1b\\][^\x07]*(\x07|\x1b\\\\)::g;s|\x1b[@-_]||g'; }
+
 # vim: ft=bash
