@@ -4,3 +4,5 @@
 	signingkey = 971B4D9F125CD31E
 [commit]
 	gpgsign = true
+[core]
+	sshCommand = "ssh -i ~/.ssh/id_ed25519"
