@@ -114,16 +114,16 @@ set_prompt() {
 
     local rbuffer=""
 
-    CMD_DURATION=${CMD_DURATION:-0}
-    local duration="${CMD_DURATION%.*}"
+    # CMD_DURATION=${CMD_DURATION:-0}
+    # local duration="${CMD_DURATION%.*}"
 
-    if [[ ${duration:-0} -gt 0 ]]; then
-        printf -v formatted_duration "%.3f" "${CMD_DURATION}"
+    # if [[ ${duration:-0} -gt 0 ]]; then
+    #     printf -v formatted_duration "%.3f" "${CMD_DURATION}"
 
-        rbuffer=" %F{yellow}${formatted_duration}s${rbuffer}"
-    fi
+    #     rbuffer=" %F{yellow}${formatted_duration}s${rbuffer}"
+    # fi
 
-    [[ ${CMD_RC} -ne 0 ]] && rbuffer=" %F{red}${CMD_RC}${rbuffer}"
+    # [[ ${CMD_RC} -ne 0 ]] && rbuffer=" %F{red}${CMD_RC}${rbuffer}"
 
     if [[ -n "${rbuffer}" ]]; then
       RPROMPT="${rbuffer}%f"

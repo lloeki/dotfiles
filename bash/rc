@@ -21,12 +21,12 @@ GIT_PS1_SHOWUNTRACKEDFILES=1
 precmd() {
     CMD_RC=$?
 
-    if [[ -n ${CMD_START} ]]; then
-        CMD_END="${EPOCHREALTIME}"
-        CMD_DURATION=$(bc <<<"${CMD_END} - ${CMD_START}")
-        unset CMD_START
-        unset CMD_END
-    fi
+    # if [[ -n ${CMD_START} ]]; then
+    #     CMD_END="${EPOCHREALTIME}"
+    #     CMD_DURATION=$(bc <<<"${CMD_END} - ${CMD_START}")
+    #     unset CMD_START
+    #     unset CMD_END
+    # fi
 
     _direnv_hook
     #clear_incomplete_line
