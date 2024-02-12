@@ -57,8 +57,17 @@ set_prompt() {
 
     local buffer=""
 
+    local hostname=""
+    if [[ -n $HOST ]]; then
+        hostname="${HOST%.local}"
+    elif [[ -n $HOSTNAME ]]; then
+        hostname="${HOSTNAME}"
+    else
+        hostname="$(hostname -s)"
+    fi
+
     if [[ -n $SSH_CLIENT ]]; then
-        buffer="${buffer}${HOST%.local} "
+        buffer="${buffer}${hostname} "
     fi
 
     if [[ -n $STY ]]; then
