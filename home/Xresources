@@ -38,6 +38,10 @@ Xft.rgba:       rgb
 Xft.hinting:    true
 Xft.hintstyle:  hintslight
 
+!---- cursor ----
+Xcursor.size: 48
+Xcursor.theme: DMZ-Black
+
 
 !---- xterm ----
 
@@ -94,7 +98,7 @@ xterm*color15:     #ffffff
 
 !---- urxvt ----
 
-urxvt*geometry:           90x33
+urxvt*geometry:           80x24
 urxvt*font:               xft:Menlo:pixelsize=14,xft:AquaKana:pixelsize:14
 urxvt*letterSpace:        -2
 urxvt*saveLines:          10240
