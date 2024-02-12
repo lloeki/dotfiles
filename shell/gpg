@@ -2,4 +2,9 @@
 #export GPG_TTY
 #gpg-connect-agent updatestartuptty /bye >/dev/null
 
+if ps -u lloeki | grep -v grep | grep -q gpg-agent; then
+    :
+elif type pinentry-rofi /dev/null 2>&1; then
+    gpg-agent --homedir /home/lloeki/.gnupg --use-standard-socket --daemon --pinentry-program=/etc/profiles/per-user/lloeki/bin/pinentry-rofi
+fi
 # vim: ft=bash
