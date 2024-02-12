@@ -18,6 +18,11 @@ if [[ -n "${SSH_AUTH_SOCK}" ]]; then
         case "${OSTYPE}" in
             linux*)
                 # TODO: unsure yet
+                # maybe:
+                # ssh-add ~/.ssh/id_*[!.pub]
+                # or on demand:
+                # see ssh_config(5) AddKeysToAgent yes or ask
+                # see ssh(1) SSH_ASKPASS=/path/to/ask / SSH_ASKPASS_REQUIRE=prefer
                 :
                 ;;
             darwin*)
