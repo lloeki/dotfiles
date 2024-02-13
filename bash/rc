@@ -1,5 +1,9 @@
 ## bashrc, called for interactive shells
 
+if [[ $- != *i* ]]; then
+    return
+fi
+
 [[ -z "$DOTFILES_ROOT_DIR" ]] && source "$HOME/.dotfilesrc"
 
 source $DOTFILES_SHELL_DIR/aliases
