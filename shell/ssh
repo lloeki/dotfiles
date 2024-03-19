@@ -14,7 +14,7 @@ fi
 
 # autoload keys if there's an agent
 if [[ -n "${SSH_AUTH_SOCK}" ]]; then
-    if ! ssh-add -l > /dev/null; then
+    if ! command ssh-add -l > /dev/null; then
         case "${OSTYPE}" in
             linux*)
                 # TODO: unsure yet
@@ -33,6 +33,25 @@ if [[ -n "${SSH_AUTH_SOCK}" ]]; then
                 ;;
         esac
     fi
+
+    case "${OSTYPE}" in
+        linux*)
+            SSH_ASKPASS="${DOTFILES_BIN_DIR}/ssh-askpass-rofi"
+            SSH_ASKPASS_REQUIRE='prefer'
+            export SSH_ASKPASS SSH_ASKPASS_REQUIRE
+            ;;
+        *)
+            :
+            ;;
+    esac
 fi
+
+function ssh-add() {
+    if [[ $# -eq 0 ]]; then
+        command ssh-add ~/.ssh/id_*[!.pub]
+    else
+        command ssh-add "$@"
+    fi
+}
 
 # vim: ft=bash

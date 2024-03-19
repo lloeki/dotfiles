@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+arg="$*"
+
+key="$(echo "${arg}" | perl -ne "/'(.*)'/"' and print "$1\n"')"
+pub="${key}.pub"
+fingerprint="$(ssh-keygen -l -v -f "${pub}")"
+
+mesg="${arg}&#10;${fingerprint}&#10;"
+
+rofi -dmenu -disable-history -no-fixed-num-lines -l 1 -i -input /dev/null -password -p 'Passphrase' -mesg "${mesg}"
