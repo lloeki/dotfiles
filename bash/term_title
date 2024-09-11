@@ -1,4 +1,4 @@
-# Tell the terminal about the working directory at each prompt.
+# Tell Apple Terminal about the working directory at each prompt.
 if [ "$TERM_PROGRAM" == "Apple_Terminal" ] && [ -z "$INSIDE_EMACS" ]; then
     update_terminal_cwd() {
         # Identify the directory using a "file:" scheme URL,
@@ -14,15 +14,22 @@ else
 fi
 
 set_term_title() {
+    if [[ -n "${SSH_CLIENT}" ]]; then
+        local title="$USER@${HOSTNAME%%.*}:${PWD/#$HOME/\~}"
+    else
+        local title="${PWD/#$HOME/\~}"
+    fi
+
+    update_terminal_cwd
+
     case $TERM in
-     xterm*|rxvt*|alacritty)
-         local title="\033]2;$USER@${HOSTNAME%%.*}:${PWD/#$HOME/~}\a"
-         ;;
-     *)
-         local title=""
-         ;;
+        screen*|xterm*|rxvt*|alacritty)
+            printf "\e]2;%s\a" "${title}"
+            ;;
+        *)
+            : # NOOP
+            ;;
     esac
-    printf "$title"
 }
 
 # vim: ft=bash

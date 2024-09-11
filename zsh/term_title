@@ -1,28 +1,37 @@
+# Tell Apple Terminal about the working directory at each prompt.
+if [[ "$TERM_PROGRAM" == "Apple_Terminal" ]] && [[ -z "$INSIDE_EMACS" ]]; then
+    update_terminal_cwd() {
+        # Identify the directory using a "file:" scheme URL,
+        # including the host name to disambiguate local vs.
+        # remote connections. Percent-escape spaces.
+        local SEARCH=' '
+        local REPLACE='%20'
+        local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
+        printf '\e]7;%s\a' "$PWD_URL"
+    }
+else
+    update_terminal_cwd() { :; }
+fi
+
 # Set terminal title
 set_term_title() {
     [[ -o interactive ]] || return
-    # Bubble information up to the terminal
-    case $TERM_PROGRAM in
-        Apple_Terminal)
-            local SEARCH=' '
-            local REPLACE='%20'
-            local PWD_URL="file://$HOSTNAME${PWD//$SEARCH/$REPLACE}"
-            printf '\e]7;%s\a' "$PWD_URL"
-            ;;
-        *)
-            # NOOP
-            ;;
-    esac
+
+    if [[ -n "${SSH_CLIENT}" ]]; then
+        local title="$USER@${HOSTNAME%%.*}:${PWD/#$HOME/~}"
+    else
+        local title="${PWD/#$HOME/~}"
+    fi
+
+    update_terminal_cwd
+
     case $TERM in
-        screen*)
+        screen*|xterm*|rxvt*|alacritty)
             #print -Pn "\ek%n@%m: %~\e\\" #breaks tmux
-            print -Pn "\e]2;%n@%m: %~\a"
-            ;;
-        xterm*|*rxvt*)
-            print -Pn "\e]2;%n@%m: %~\a"
+            printf "\e]2;%s\a" "${title}"
             ;;
         *)
-            # NOOP
+            : # NOOP
             ;;
     esac
 }

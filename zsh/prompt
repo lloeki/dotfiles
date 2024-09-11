@@ -184,6 +184,7 @@ set_prompt() {
     [[ -n "${IN_NIX_SHELL}" ]] && buffer="${buffer} %F{yellow}nix"
 
     buffer="${buffer}%f> "
+
     PROMPT="${buffer}"
 
     local rbuffer=""
@@ -201,6 +202,31 @@ set_prompt() {
     else
         RPROMPT=""
     fi
+}
+
+mark_prompt() {
+    local mark_a=$'%{\e]133;A\a%}'
+    local mark_b=$'%{\e]133;B\a%}'
+
+    PROMPT="${mark_a}${PROMPT}${mark_b}"
+}
+
+mark_command_exec() {
+    if [[ $# -eq 0 ]]; then
+        local mark_c="\e]133;C\a"
+        printf "${mark_c}" "${command}"
+    else
+        local command="${1:-}"
+        local mark_c="\e]133;C;cmdline=%q\a"
+        printf "${mark_c}" "${command}"
+    fi
+}
+
+mark_command_exit() {
+    local rc="${1:-}"
+    local mark_d="\e]133;D${rc};\a"
+
+    printf "${mark_d}"
 }
 
 # vim: ft=zsh

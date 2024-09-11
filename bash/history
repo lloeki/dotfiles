@@ -1,16 +1,24 @@
 # ignore repeated, space-started, and casual commands
-export HISTIGNORE="&:[ ]*:l[sl]:[bf]g:exit:cd .."
+# export HISTIGNORE="&:[ ]*:l[sl]:[bf]g:exit:cd .."
+# ^ disabled until bash/ext preexec is fixed
+export HISTIGNORE=""
 
 # enable multiline historization as a single line
 shopt -s cmdhist
 
-# enable appending to histfile
+# enable appending to histfile on exit
 shopt -s histappend
 
 # ignore sequential duplicates
-export HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoredups
 
-# more!
-export HISTSIZE=10000
+# more! (live)
+export HISTSIZE=100000
+
+# all! (persisted)
+export HISTFILESIZE=1000000
+
+# share with zsh
+export HISTFILE=~/.history
 
 # vim: ft=bash

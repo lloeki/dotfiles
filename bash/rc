@@ -18,7 +18,7 @@ source $DOTFILES_SHELL_DIR/chruby
 source $DOTFILES_BASH_DIR/fzf
 source $DOTFILES_SHELL_DIR/direnv
 source $DOTFILES_SHELL_DIR/kd
-source $DOTFILES_BASH_DIR/kitty
+#source $DOTFILES_BASH_DIR/kitty
 
 source $DOTFILES_SHELL_DIR/git_prompt_info
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -27,6 +27,8 @@ GIT_PS1_SHOWUNTRACKEDFILES=1
 
 precmd() {
     CMD_RC=$?
+
+    mark_command_exit "${CMD_RC}"
 
     # if [[ -n ${CMD_START} ]]; then
     #     CMD_END="${EPOCHREALTIME}"
@@ -38,20 +40,21 @@ precmd() {
     _direnv_hook
     #clear_incomplete_line
     set_prompt
-    apply_prompt_rprompt
-    update_terminal_cwd
     set_term_title
+    mark_prompt
+    apply_prompt_rprompt
 }
 
 preexec() {
     set_term_title
     CMD_START="${EPOCHREALTIME}"
+    mark_command_exec "$1"
 }
 
 chpwd() {
     __git_ps1_gitdir
     _gopath
-    _auto-chruby
+    if _has-chruby; then _auto-chruby; fi
 }
 chpwd
 

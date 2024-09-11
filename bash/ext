@@ -66,8 +66,17 @@ __debug_invoke_preexec () {
 
     local this_command;
 
-    # TODO: hack: doesn't work when command is not added to history
-    this_command=`history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g"`;
+    [ -n "$COMP_LINE" ] && return  # completion
+    [ "$BASH_COMMAND" = "$PROMPT_COMMAND" ] && return  # precmd
+
+    # get current command by reading last history item
+    # contrary to zsh, the command needs to be inserted in the history
+    # so it may not work reliably depending on HISTCONTROL/HISTIGNORE
+    # - ignoredups is fine: last command stays the same
+    # - erasedups is fine: last command is inserted, older duplicates are removed
+    # - ignorespace is not fine (and therefore so is ignoreboth): never inserts
+    # - HISTIGNORE is not fine: never inserts
+    this_command="$(history 1 | sed -e "s/^[ ]*[0-9]*[ ]*//g")";
     preexec "$this_command"
 }
 
@@ -126,7 +135,7 @@ clear_incomplete_line() {
     fi
 }
 
-function sub_prompt_colors_unsized() {
+function sub_zprompt_unsized() {
     sed \
         -e 's#%F{black}#\\033[30m#g' \
         -e 's#%F{red}#\\033[31m#g' \
@@ -136,10 +145,11 @@ function sub_prompt_colors_unsized() {
         -e 's#%F{magenta}#\\033[35m#g' \
         -e 's#%F{cyan}#\\033[36m#g' \
         -e 's#%F{white}#\\033[37m#g' \
-        -e 's#%f#\\033[00m#g'
+        -e 's#%f#\\033[00m#g' \
+        -e 's#%{\(\([^%]\)*\)%}#\1#g'
 }
 
-function sub_prompt_colors_sized() {
+function sub_zprompt_sized() {
     sed \
         -e 's#%F{black}#\\[\\033[30m\\]#g' \
         -e 's#%F{red}#\\[\\033[31m\\]#g' \
@@ -149,10 +159,11 @@ function sub_prompt_colors_sized() {
         -e 's#%F{magenta}#\\[\\033[35m\\]#g' \
         -e 's#%F{cyan}#\\[\\033[36m\\]#g' \
         -e 's#%F{white}#\\[\\033[37m\\]#g' \
-        -e 's#%f#\\[\\033[00m\\]#g'
+        -e 's#%f#\\[\\033[00m\\]#g' \
+        -e 's#%{\(\([^%]\)*\)%}#\\[\1\\]#g'
 }
 
-function strip_prompt_colors() {
+function strip_zprompt() {
     sed \
         -e 's#%F{black}##g' \
         -e 's#%F{red}##g' \
@@ -162,15 +173,17 @@ function strip_prompt_colors() {
         -e 's#%F{magenta}##g' \
         -e 's#%F{cyan}##g' \
         -e 's#%F{white}##g' \
-        -e 's#%f##g'
+        -e 's#%f##g' \
+        -e 's#%{\(\([^%]\)*\)%}##g'
 }
 
 # right prompt support and PROMPT/RPROMPT vars
 function apply_prompt_rprompt() {
-    local rprompt=$(echo "${RPROMPT}" | sub_prompt_colors_unsized)
-    local prompt=$(echo "${PROMPT}" | sub_prompt_colors_sized)
-    #local rprompt=$(echo "${RPROMPT}" | strip_prompt_colors)
-    #local prompt=$(echo "${PROMPT}" | strip_prompt_colors)
+    local rprompt=$(echo "${RPROMPT}" | sub_zprompt_unsized)
+    local prompt=$(echo "${PROMPT}" | sub_zprompt_sized)
+    #local rprompt=$(echo "${RPROMPT}" | strip_zprompt)
+    #local prompt=$(echo "${PROMPT}" | strip_zprompt)
+
     if [[ -n "${RPROMPT}" ]]; then
         PS1="$(printf "\[%*s\r\]%s" "${COLUMNS}" "${rprompt:-}" "${prompt:-}")"
     else

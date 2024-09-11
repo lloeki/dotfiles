@@ -1,13 +1,29 @@
 # ignore sequential duplicates
 setopt hist_ignore_dups
+
+# ignore space-started
 setopt hist_ignore_space
 setopt hist_reduce_blanks
+
+# append on exit
 setopt append_history
+
+# perform history expansion
 setopt hist_verify
+
+# do not load from persistence on every invocation
 unsetopt share_history
 
-HISTSIZE=100000
-SAVEHIST=100000
+# more! (live)
+export HISTSIZE=100000
+
+# all! (persisted)
+export SAVEHIST=1000000
+
+# share with bash
+export HISTFILE=~/.history
+
+# ignore repeated, space-started, and casual commands
 HISTORY_IGNORE="(^ +|ls|bg|fg|pwd|exit|cd ..)"
 
 # vim: ft=zsh
