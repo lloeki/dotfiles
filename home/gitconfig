@@ -40,7 +40,7 @@
 	save = !git add -A && git commit -m 'SAVEPOINT'
 	undo = reset HEAD~1 --mixed
 	backup = !git push origin/backup/$(whoami)/$(git branch)
-	lint = !git branch --merged | grep -v \"^\\s*master$\" | grep -v \"\\*\" | xargs -n 1 git branch -d
+	lint = !git branch --merged ${1-} | grep -v -E -e '^[*]?[ ]*(main|master|[0-9]+[.]([0-9]+|x)-stable)$' -e '^[*][ ]+' | xargs -r -n 1 git branch -d
 	modified = !git status --porcelain | perl -ne '/^M  (.*)/ and print \"$1\\n\"'
 	conflicts = !git status --porcelain | perl -ne '/^UU (.*)/ and print \"$1\\n\"'
 	fetch-pr = !git fetch origin pull/${1}/head:pr/${1}
