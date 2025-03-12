@@ -16,6 +16,7 @@
 	ff = only
 [url "git@github.com:"]
 	pushInsteadOf = https://github.com/
+	insteadOf = https://github.com/
 [url "git@gitlab.com:"]
 	pushInsteadOf = https://gitlab.com/
 [url "git@gitlab.adhoc-gti.com:"]
