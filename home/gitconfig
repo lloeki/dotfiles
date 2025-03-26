@@ -1,5 +1,7 @@
 [push]
 	default = simple
+	autoSetupRemote = true
+	followTags = true
 [include]
 	path = ~/.gitconfig.lloeki
 [includeIf "gitdir:~/Source/github.com/sqreen/"]
@@ -12,8 +14,11 @@
 	path = ~/.gitconfig.datadog
 [core]
 	excludesfile = ~/.gitignore
+	fsmonitor = true
+	untrackedCache = true
 [pull]
 	ff = only
+	rebase = true
 [url "git@github.com:"]
 	pushInsteadOf = https://github.com/
 	insteadOf = https://github.com/
@@ -23,6 +28,10 @@
 	insteadOf = https://gitlab.adhoc-gti.com/
 [diff]
 	indentHeuristic = on
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
 [alias]
 	co = checkout
 	cm = !git add -A && git commit
@@ -47,3 +56,24 @@
 	fetch-pr = !git fetch origin pull/${1}/head:pr/${1}
 [init]
 	defaultBranch = main
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[commit]
+	verbose = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+[merge]
+	conflictstyle = zdiff3
